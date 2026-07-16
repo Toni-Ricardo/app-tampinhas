@@ -88,3 +88,4 @@ Se a tabela já existir sem a coluna `origem`, execute `supabase/migration_add_o
 - Edição e exclusão de tampinhas
 - Filtro por país
 - Visualização em detalhe
+ 
