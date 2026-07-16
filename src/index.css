@@ -18,23 +18,33 @@
   --color-tr-gold: #f59e0b;
 }
 
-/* No Tailwind v4, os estilos customizados de base devem ser estendidos usando @utility ou seletores nativos limpos */
 @layer base {
   html, body {
-    background-color: #0b0f19; /* Força o fundo escuro padrão usando a cor nativa */
+    background-color: #0b0f19;
     color: #f1f5f9;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    overflow-x: hidden; /* Evita rolagem lateral indesejada em telas pequenas */
   }
 
   ::selection {
     background-color: rgba(245, 158, 11, 0.2);
     color: #ffffff;
   }
+
+  /* Ajustes globais para telas menores */
+  @media (max-width: 768px) {
+    html {
+      font-size: 15px; /* Reduz levemente o tamanho base da fonte */
+    }
+    body {
+      padding: 0;
+    }
+  }
 }
 
-/* Customizações de componentes isoladas para não quebrar o layout global */
 @layer components {
   .modal-form {
     background-color: var(--color-tr-surface);
@@ -53,5 +63,20 @@
   .btn-salvar:hover {
     background-color: var(--color-tr-accent-hover);
     transform: translateY(-1px);
+  }
+
+  /* --- NOVAS REGRAS DE RESPONSIVIDADE --- */
+  /* Ajustes para botões, inputs e áreas de toque em celulares */
+  @media (max-width: 768px) {
+    button, input, select, textarea {
+      font-size: 1rem;
+      min-height: 44px; /* Tamanho mínimo recomendado para toque com dedo */
+    }
+
+    /* Espaçamento padrão para todo conteúdo em telas pequenas */
+    .app-container {
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
   }
 }
