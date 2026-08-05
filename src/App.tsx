@@ -127,73 +127,81 @@ export default function App() {
             </button>
           </div>
 
-          {/* ÁREA OCULTA: PESQUISA + FILTROS + ADICIONAR */}
-          <div 
-            className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
-              filtrosAbertos ? 'max-h-[420px] opacity-100 mt-1' : 'max-h-0 opacity-0'
-            }`}
-          >
-            {/* Barra de Pesquisa */}
-            <div className="w-full max-w-2xl mx-auto mb-3">
-              <SearchBar value={busca} onChange={setBusca} />
-            </div>
-
-            {/* Botões de Filtro */}
-            <div className="w-full max-w-2xl mx-auto">
-              <div className="grid grid-cols-3 gap-2">
+            {/* ÁREA OCULTA: PESQUISA + FILTROS + ADICIONAR */}
+            <div 
+              className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
+                filtrosAbertos ? 'max-h-[480px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+              }`}
+            >
+              {/* BARRA DE PESQUISA + BOTÃO ADICIONAR */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex-1">
+                  <SearchBar value={busca} onChange={setBusca} />
+                </div>
+                {/* ✅ BOTÃO ADICIONAR AGORA SÓ COM "+" */}
                 <button
                   type="button"
-                  onClick={() => setFiltroAtivo('Todas')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
-                    filtroAtivo === 'Todas' ? 'border-amber-500/60 text-amber-500 bg-tr-bg' : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
-                  }`}
+                  onClick={() => setModalAberto(true)}
+                  className="flex items-center justify-center rounded-xl border border-amber-500/60 bg-tr-bg h-11 w-11 text-amber-400 transition-all duration-200 active:scale-[0.97] hover:border-amber-500 hover:text-amber-300 flex-shrink-0"
                 >
-                  <span className="text-amber-500 text-base leading-none">+</span>
-                  Todas
-                  <span className="text-[11px] font-normal text-tr-muted">{totalTodas} UN.</span>
+                  <span className="text-xl font-bold">+</span>
                 </button>
+              </div>
 
+            {/* BOTÕES DE FILTRO */}
+            <div className="w-full max-w-2xl mx-auto">
+              {/* Linha 1: NACIONAL + INTERNACIONAL */}
+              <div className="grid grid-cols-2 gap-2 mb-2">
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
                   className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
-                    filtroAtivo === 'Nacional' ? 'border-amber-500/60 text-amber-500 bg-tr-bg' : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
+                    filtroAtivo === 'Nacional'
+                      ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
+                      : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <span className="text-amber-500 text-base leading-none">+</span>
+                  {/* ✅ Centralizado verticalmente e ajustado */}
+                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
                   Nacional
-                  <span className="text-[11px] font-normal text-tr-muted">{totalNacional} UN.</span>
+                  <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
                   className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
-                    filtroAtivo === 'Internacional' ? 'border-amber-500/60 text-amber-500 bg-tr-bg' : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
+                    filtroAtivo === 'Internacional'
+                      ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
+                      : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <span className="text-amber-500 text-base leading-none">+</span>
+                  {/* ✅ Centralizado verticalmente e ajustado */}
+                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
                   Internacional
-                  <span className="text-[11px] font-normal text-tr-muted">{totalInternacional} UN.</span>
+                  <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
               </div>
 
-              {/* Botão Adicionar */}
-              <div className="flex justify-center mt-4">
+              {/* Linha 2: TODAS */}
+              <div className="w-full mt-2">
                 <button
                   type="button"
-                  onClick={() => setModalAberto(true)}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-amber-500/60 bg-tr-bg h-11 px-8 text-xs font-bold uppercase tracking-wider text-amber-400 transition-all duration-200 active:scale-[0.97] hover:border-amber-500 hover:text-amber-300"
+                  onClick={() => setFiltroAtivo('Todas')}
+                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] w-full ${
+                    filtroAtivo === 'Todas'
+                      ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
+                      : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
+                  }`}
                 >
-                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                  </svg>
-                  ADICIONAR TAMPINHA
+                  {/* ✅ Centralizado verticalmente e ajustado */}
+                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
+                  Todas
+                  <span className="text-[11px] font-normal text-tr-muted normal-case">{totalTodas} un.</span>
                 </button>
               </div>
-            </div>
-          </div>        
-        </div>
+            </div>            </div>
+			</div>
       </header>
 
       {/* ✅ ADICIONEI ESPAÇO PARA O CONTEÚDO NÃO FICAR POR BAIXO DO CABEÇALHO FIXO */}
