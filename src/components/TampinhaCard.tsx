@@ -4,8 +4,7 @@ interface TampinhaCardProps {
 
 export function TampinhaCard({ tampinha }: TampinhaCardProps) {
   return (
-    <article className="group overflow-hidden rounded-xl border border-tr-border bg-tr-surface transition-all duration-300 hover:border-amber-500/40 hover:bg-tr-surface-elevated hover:shadow-md hover:shadow-amber-500/5">
-      
+    <article className="overflow-hidden rounded-xl border border-tr-border bg-tr-surface">      
       {/* Container da Imagem - Maior e com menos padding no celular */}
       <div className="aspect-square overflow-hidden flex items-center justify-center p-2 sm:p-3">
         <img

@@ -23,13 +23,13 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
         </svg>
       </div>
       
-      {/* Input de Busca */}
+      {/* Input de Busca - AJUSTADO: fundo igual ao site, sem sombra */}
       <input
         type="text"
         placeholder="Pesquisar..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full h-11 rounded-xl border border-tr-border bg-tr-surface/50 pl-9 pr-10 text-sm sm:text-base text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:bg-tr-surface-elevated focus:outline-none transition-all duration-200"
+        className="w-full h-11 rounded-xl border border-tr-border bg-tr-bg pl-9 pr-10 text-sm sm:text-base text-slate-200 placeholder-slate-500 focus:border-amber-500 focus:bg-tr-bg focus:outline-none transition-all duration-200"
       />
 
       {/* Botão de Limpar */}
