@@ -88,14 +88,14 @@ export default function App() {
   return (
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
-      {/* ✅ CABEÇALHO FIXO + EFEITO VIDRO RESTAURADO */}
+      {/* ✅ CABEÇALHO FIXO */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
-          {/* LINHA SUPERIOR: LOGO + TÍTULO + BOTÃO MENU */}
+          {/* ✅ LINHA SUPERIOR: LOGO + TÍTULO + BOTÃO ADICIONAR + BOTÃO MENU */}
           <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-tr-border/40 pb-3 pt-1">
             
-            {/* LADO ESQUERDO */}
+            {/* LADO ESQUERDO - LOGO E TÍTULO */}
             <div className="flex items-center gap-3">
               <div className="holographic-border float-effect flex-shrink-0 p-0.5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-tr-surface p-2">
@@ -113,100 +113,100 @@ export default function App() {
               </div>
             </div>
 
-            {/* BOTÃO DE MENU */}
-            <button
-              onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-              className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
-              title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
+            {/* ✅ LADO DIREITO: BOTÃO ADICIONAR + BOTÃO MENU */}
+            <div className="flex items-center gap-2">
+              {/* Botão Adicionar - igual estilo do botão Menu */}
+              <button
+                type="button"
+                onClick={() => setModalAberto(true)}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
+                title="Adicionar tampinha"
+              >
+                <span className="text-base">+</span>
+              </button>
+
+              {/* Botão de Menu */}
+              <button
+                onClick={() => setFiltrosAbertos(!filtrosAbertos)}
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
+                title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              </button>
+            </div>
           </div>
 
-            {/* ÁREA OCULTA: PESQUISA + FILTROS + ADICIONAR */}
-            <div 
-              className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
-                filtrosAbertos ? 'max-h-[480px] opacity-100 mt-1' : 'max-h-0 opacity-0'
-              }`}
-            >
-              {/* BARRA DE PESQUISA + BOTÃO ADICIONAR */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="flex-1">
-                  <SearchBar value={busca} onChange={setBusca} />
-                </div>
-                {/* ✅ BOTÃO ADICIONAR AGORA SÓ COM "+" */}
-                <button
-                  type="button"
-                  onClick={() => setModalAberto(true)}
-                  className="flex items-center justify-center rounded-xl border border-amber-500/60 bg-tr-bg h-11 w-11 text-amber-400 transition-all duration-200 active:scale-[0.97] hover:border-amber-500 hover:text-amber-300 flex-shrink-0"
-                >
-                  <span className="text-xl font-bold">+</span>
-                </button>
-              </div>
+          {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO NA MESMA LINHA */}
+          <div 
+            className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
+              filtrosAbertos ? 'max-h-[200px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+            }`}
+          >
+            {/* Barra de Pesquisa */}
+            <div className="w-full max-w-2xl mx-auto mb-3">
+              <SearchBar value={busca} onChange={setBusca} />
+            </div>
 
-            {/* BOTÕES DE FILTRO */}
+            {/* ✅ TRÊS BOTÕES NA MESMA LINHA - ÍCONES AUMENTADOS */}
             <div className="w-full max-w-2xl mx-auto">
-              {/* Linha 1: NACIONAL + INTERNACIONAL */}
-              <div className="grid grid-cols-2 gap-2 mb-2">
+              <div className="grid grid-cols-3 gap-2">
+                
+                {/* BOTÃO NACIONAL - BANDEIRA DO BRASIL (MAIOR) */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Nacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  {/* ✅ Centralizado verticalmente e ajustado */}
                   <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  Nacional
+                  {/* ✅ Bandeira aumentada */}
+                  <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
 
+                {/* BOTÃO INTERNACIONAL - IMAGEM MUNDO 32x32px */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Internacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  {/* ✅ Centralizado verticalmente e ajustado */}
                   <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  Internacional
+                  {/* ✅ Imagem mundo.png no tamanho exato 32×32px */}
+                  <img src="/mundo.png" alt="Internacional" className="w-8 h-8 object-contain" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
-              </div>
-
-              {/* Linha 2: TODAS */}
-              <div className="w-full mt-2">
+                {/* BOTÃO TODAS */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-11 px-3 font-bold uppercase tracking-wider text-xs transition-all duration-200 active:scale-[0.97] w-full ${
+                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Todas'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  {/* ✅ Centralizado verticalmente e ajustado */}
                   <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  Todas
+                  TODAS
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalTodas} un.</span>
                 </button>
               </div>
-            </div>            </div>
-			</div>
+            </div>          </div>        
+        </div>
       </header>
 
-      {/* ✅ ADICIONEI ESPAÇO PARA O CONTEÚDO NÃO FICAR POR BAIXO DO CABEÇALHO FIXO */}
-      <main className="mt-[140px] sm:mt-[150px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
-        {/* Conteúdo principal (TampinhaGrid, etc) continua aqui */}
+      {/* ✅ ESPAÇO PARA O CONTEÚDO NÃO FICAR POR BAIXO DO CABEÇALHO */}
+      <main className="mt-[140px] sm:mt-[130px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
         {erro && (
           <div className="mb-6 rounded-xl border border-red-500/40 bg-red-950/30 px-4 py-3 text-sm text-red-300">
             {erro}
@@ -218,6 +218,7 @@ export default function App() {
 
         <TampinhaGrid tampinhas={tampinhasFormatadasParaExibicao as any} loading={loading} />
       </main>
+
       <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
     </div>
   )
