@@ -8,9 +8,9 @@ interface NovaTampinhaModalProps {
   onSubmit: (dados: NovaTampinha) => Promise<void>
 }
 
-/* 🛠️ Estilização dos Inputs */
+/* 🛠️ Inputs: BORDA CONTÍNUA */
 const inputClass =
-  'w-full h-10 rounded-lg border border-dashed border-tr-border bg-[#1a1c23] px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50 hover:bg-[#1a1c23]'
+  'w-full h-10 rounded-lg border border-tr-border bg-tr-input px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50 hover:bg-tr-input'
 
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
@@ -25,7 +25,7 @@ function BotaoOrigem({ label, ativo, onClick }: { label: Origem; ativo: boolean;
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg border border-dashed border-tr-border bg-[#1a1c23] h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
+      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg border border-tr-border bg-tr-input h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
         ativo ? 'text-white border-amber-500' : 'text-tr-muted hover:text-slate-200'
       }`}
     >
@@ -109,26 +109,27 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
       <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/60" onClick={onClose} />
       <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-tr-border/50 bg-tr-surface/50 p-6 shadow-2xl shadow-black/80 backdrop-blur-xl">
         <div className="flex items-center gap-6 mb-10">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-tr-input shadow-[0_0_15px_rgba(245,158,11,0.15)]">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-tr-input">
             <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
           </div>
           <div>
-            <h2 className="font-ubuntu text-base font-bold uppercase tracking-wider text-white">Nova Tampinha</h2>
+            <h2 className="font-ubuntu text-base font-bold uppercase tracking-wider text-amber-500/100">Nova Tampinha</h2>
             <p className="text-xs text-tr-muted">Adicione uma nova tampinha a coleção.</p>
           </div>
         </div>		
         <form onSubmit={handleSubmit} className="space-y-5">
           <section>
             <SecaoLabel numero="1" titulo="Foto da Tampinha" />
+            {/* ✅ Área de upload com BORDA CONTÍNUA */}
             <button
               type="button"
               onClick={() => inputFotoRef.current?.click()}
-              className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-tr-border bg-[#1a1c23] transition-colors hover:border-amber-500/50 hover:bg-[#1a1c23]"
+              className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl border border-tr-border bg-tr-input transition-colors hover:border-amber-500/50 hover:bg-tr-input"
             >
               {preview ? (
                 <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain p-2" />
               ) : (
-                <span className="text-[11px] font-bold uppercase tracking-wider text-tr-muted group-hover:text-amber-500/70">Selecionar Arquivo</span>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-tr-muted group-hover:text-amber-500/70">Clique aqui</span>
               )}
             </button>
             <input ref={inputFotoRef} type="file" accept="image/*" className="hidden" onChange={(e) => setFoto(e.target.files?.[0] ?? null)} />
@@ -154,10 +155,24 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           </section>
           {erro && <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>}
           <div className="flex items-center gap-3 pt-4 mt-8">
-            <button type="button" onClick={onClose} className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-dashed border-tr-border bg-tr-surface-elevated text-xs font-bold uppercase text-tr-muted hover:border-tr-muted hover:text-slate-200">Cancelar</button>
-            <button type="submit" disabled={enviando} className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-dashed border-tr-border bg-tr-surface-elevated text-xs font-bold uppercase text-tr-muted hover:border-tr-muted hover:text-slate-200">{enviando ? 'Gravando...' : '+ Salvar'}</button>
+            {/* Botão Cancelar — mantido */}
+            <button 
+              type="button" 
+              onClick={onClose} 
+              className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-tr-border bg-[#050508] text-xs font-bold uppercase text-tr-muted hover:border-amber-500/50 hover:text-slate-200"
+            >
+              Cancelar
+            </button>
+            {/* ✅ Botão Salvar — texto em laranja */}
+            <button 
+              type="submit" 
+              disabled={enviando} 
+              className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-tr-border bg-[#050508] text-xs font-bold uppercase text-amber-500 hover:border-amber-500/50 hover:text-amber-400"
+            >
+              {enviando ? 'Gravando...' : '+ Salvar'}
+            </button>
           </div>
-        </form>
+		  </form>
       </div>
     </div>
   )

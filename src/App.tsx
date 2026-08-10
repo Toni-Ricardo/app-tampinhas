@@ -107,14 +107,14 @@ export default function App() {
                 <h1 className="font-ubuntu flex items-center gap-2 text-lg font-bold uppercase tracking-[0.12em] text-white sm:text-2xl">
                   TR <span className="text-amber-500 font-extrabold">Tampinhas</span>
                 </h1>
-                <p className="mt-0.5 text-sm tracking-wider text-tr-muted font-normal italic">
-                  "A cada tampinha, uma história"
+                <p className="mt-0.5 text-xs tracking-wider text-tr-muted font-normal italic">
+                  "A cada tampinha uma história"
                 </p>
               </div>
             </div>
 
             {/* ✅ LADO DIREITO: BOTÃO ADICIONAR + BOTÃO MENU */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-5 text-amber-500 text-2xl font-normal leading-none select-none -mt-1">
               {/* Botão Adicionar - igual estilo do botão Menu */}
               <button
                 type="button"
@@ -122,13 +122,13 @@ export default function App() {
                 className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
                 title="Adicionar tampinha"
               >
-                <span className="text-base">+</span>
+                <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
               </button>
 
-              {/* Botão de Menu */}
+              {/* ✅ Botão de Menu — ÍCONE LARANJA, BORDA INALTERADA */}
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-amber-400 transition-all duration-200 hover:border-amber-500/50 hover:text-amber-400 hover:bg-tr-surface"
                 title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -136,8 +136,7 @@ export default function App() {
                   <line x1="3" y1="12" x2="21" y2="12" />
                   <line x1="3" y1="18" x2="21" y2="18" />
                 </svg>
-              </button>
-            </div>
+              </button>            </div>
           </div>
 
           {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO NA MESMA LINHA */}
