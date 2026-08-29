@@ -92,8 +92,8 @@ export default function App() {
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
-          {/* ✅ LINHA SUPERIOR: LOGO + TÍTULO + BOTÃO ADICIONAR + BOTÃO MENU */}
-          <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-tr-border/40 pb-3 pt-1">
+          {/* ✅ LINHA SUPERIOR: BORDA IGUAL AOS CARDS */}
+          <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-[#678fcb]/60 pb-3 pt-1">
             
             {/* LADO ESQUERDO - LOGO E TÍTULO */}
             <div className="flex items-center gap-3">
@@ -114,8 +114,8 @@ export default function App() {
             </div>
 
             {/* ✅ LADO DIREITO: BOTÃO ADICIONAR + BOTÃO MENU */}
-            <div className="flex items-center gap-5 text-amber-500 text-2xl font-normal leading-none select-none -mt-1">
-              {/* Botão Adicionar - igual estilo do botão Menu */}
+            <div className="flex items-center gap-5">
+              {/* Botão Adicionar */}
               <button
                 type="button"
                 onClick={() => setModalAberto(true)}
@@ -125,7 +125,7 @@ export default function App() {
                 <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
               </button>
 
-              {/* ✅ Botão de Menu — ÍCONE LARANJA, BORDA INALTERADA */}
+              {/* ✅ Botão de Menu — ÍCONE LARANJA */}
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
                 className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-amber-400 transition-all duration-200 hover:border-amber-500/50 hover:text-amber-400 hover:bg-tr-surface"
@@ -136,25 +136,23 @@ export default function App() {
                   <line x1="3" y1="12" x2="21" y2="12" />
                   <line x1="3" y1="18" x2="21" y2="18" />
                 </svg>
-              </button>            </div>
+              </button>
+            </div>
           </div>
 
-          {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO NA MESMA LINHA */}
+          {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
               filtrosAbertos ? 'max-h-[200px] opacity-100 mt-1' : 'max-h-0 opacity-0'
             }`}
           >
-            {/* Barra de Pesquisa */}
             <div className="w-full max-w-2xl mx-auto mb-3">
               <SearchBar value={busca} onChange={setBusca} />
             </div>
 
-            {/* ✅ TRÊS BOTÕES NA MESMA LINHA - ÍCONES AUMENTADOS */}
             <div className="w-full max-w-2xl mx-auto">
               <div className="grid grid-cols-3 gap-2">
                 
-                {/* BOTÃO NACIONAL - BANDEIRA DO BRASIL (MAIOR) */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
@@ -165,12 +163,10 @@ export default function App() {
                   }`}
                 >
                   <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  {/* ✅ Bandeira aumentada */}
                   <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
 
-                {/* BOTÃO INTERNACIONAL - IMAGEM MUNDO 32x32px */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
@@ -181,11 +177,10 @@ export default function App() {
                   }`}
                 >
                   <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  {/* ✅ Imagem mundo.png no tamanho exato 32×32px */}
                   <img src="/mundo.png" alt="Internacional" className="w-8 h-8 object-contain" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
-                {/* BOTÃO TODAS */}
+
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
@@ -200,11 +195,12 @@ export default function App() {
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalTodas} un.</span>
                 </button>
               </div>
-            </div>          </div>        
+            </div>          
+          </div>        
         </div>
       </header>
 
-      {/* ✅ ESPAÇO PARA O CONTEÚDO NÃO FICAR POR BAIXO DO CABEÇALHO */}
+      {/* ✅ ESPAÇO PARA O CONTEÚDO */}
       <main className="mt-[140px] sm:mt-[130px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
         {erro && (
           <div className="mb-6 rounded-xl border border-red-500/40 bg-red-950/30 px-4 py-3 text-sm text-red-300">
