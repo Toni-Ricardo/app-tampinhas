@@ -6,7 +6,7 @@ export function TampinhaCard({ tampinha }: TampinhaCardProps) {
   return (
     <article className="neon-border-cyan float-effect overflow-hidden p-0.5">      
       <div className="aspect-square overflow-hidden flex items-center justify-center p-2 sm:p-3 relative">
-  {/* Fundo preto absoluto só para a área da imagem da tampinha */}
+  {/* Fundo para a área da imagem da tampinha */}
   <div className="absolute inset-0 bg-[#0b0f19]"></div>
 
   <img

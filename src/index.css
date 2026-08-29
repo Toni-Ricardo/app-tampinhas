@@ -4,7 +4,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-ubuntu: "Ubuntu", sans-serif;
   
-  /* --- PALETA COM CIANO NEON --- */
+  /* --- PALETA COM NOVA COR NEON --- */
   --color-tr-bg: #000000;
   --color-tr-surface: #131a26;
   --color-tr-surface-elevated: #1c2536;
@@ -13,11 +13,11 @@
   --color-tr-input: #0b0f19;
   --color-tr-accent: #f59e0b;
   --color-tr-accent-hover: #eab308;
-  --color-tr-cyan: #00e5ff;       /* ✅ CIANO NEON */
+  --color-tr-neon: #678fcb;       /* ✅ COR AZUL ACINZENTADO */
 }
 
-/* ✨ ANIMAÇÃO BORDA NEON — OTIMIZADA PARA GPU */
-@keyframes neon-border-cyan {
+/* ✨ ANIMAÇÃO BORDA NEON */
+@keyframes neon-border-orange {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
@@ -36,14 +36,14 @@
 }
 
 @layer components {
-  /* ✅ BORDA NEON CIANO — ACELERADA POR GPU */
+  /* ✅ BORDA NEON — COR #678fcb */
   .neon-border-cyan {
     position: relative;
     background: var(--color-tr-surface);
     border-radius: 0.75rem;
     overflow: hidden;
-    transform: translateZ(0); /* ✅ ACELERAÇÃO GPU */
-    will-change: background-position; /* ✅ OTIMIZAÇÃO DE PERFORMANCE */
+    transform: translateZ(0);
+    will-change: background-position;
   }
 
   .neon-border-cyan::before {
@@ -52,15 +52,16 @@
     inset: -2px;
     background: linear-gradient(
       90deg,
-      rgba(0, 229, 255, 0.3),
-      rgba(0, 229, 255, 0.8),
-      rgba(0, 229, 255, 0.3)
+      rgba(103, 143, 203, 0.3),
+      rgba(103, 143, 203, 0.9),
+      rgba(103, 143, 203, 0.3)
     );
     background-size: 200% 100%;
-    animation: neon-border-cyan 4s linear infinite;
+    animation: neon-border-orange 4s linear infinite;
     z-index: -1;
     border-radius: 0.875rem;
-    transform: translateZ(0); /* ✅ ACELERAÇÃO GPU */
+    transform: translateZ(0);
+    filter: drop-shadow(0 0 6px rgba(103, 143, 203, 0.6)); /* ✅ BRILHO NA NOVA COR */
   }
 
   .neon-border-cyan::after {
@@ -75,12 +76,12 @@
   .glass-panel {
     background: linear-gradient(135deg, rgba(19, 26, 38, 0.7), rgba(28, 37, 54, 0.5));
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 229, 255, 0.25);
+    border: 1px solid rgba(103, 143, 203, 0.25);
     transition: all 0.3s ease;
   }
 
   .glass-panel:hover {
-    border-color: rgba(0, 229, 255, 0.5);
-    box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
+    border-color: rgba(103, 143, 203, 0.5);
+    box-shadow: 0 0 15px rgba(103, 143, 203, 0.15);
   }
 }
