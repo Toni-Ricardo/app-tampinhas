@@ -92,10 +92,10 @@ export default function App() {
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
-          {/* ✅ LINHA SUPERIOR — BOTÃO DE CADASTRO REMOVIDO */}
+          {/* ✅ LINHA SUPERIOR */}
           <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-[#678fcb]/60 pb-3 pt-1">
             
-            {/* ✅ LOGOTIPO — CLICÁVEL PARA ABRIR CADASTRO (ESTILO PRESERVADO) */}
+            {/* ✅ LOGOTIPO CLICÁVEL PARA CADASTRAR */}
             <button
               type="button"
               onClick={() => setModalAberto(true)}
@@ -117,7 +117,7 @@ export default function App() {
               </div>
             </button>
 
-            {/* ✅ LADO DIREITO — SOMENTE BOTÃO DE MENU */}
+            {/* ✅ BOTÃO DE MENU */}
             <div className="flex items-center gap-5">
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
@@ -133,7 +133,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* ✅ ÁREA DE FILTROS */}
+          {/* ✅ ÁREA DE FILTROS COM SINAIS ENTRE OS BOTÕES */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
               filtrosAbertos ? 'max-h-[200px] opacity-100 mt-1' : 'max-h-0 opacity-0'
@@ -143,13 +143,14 @@ export default function App() {
               <SearchBar value={busca} onChange={setBusca} />
             </div>
             <div className="w-full max-w-2xl mx-auto">
-              <div className="grid grid-cols-3 gap-2">
+              {/* ✅ LAYOUT COM SINAIS ENTRE OS CONTADORES */}
+              <div className="flex items-center gap-2">
                 
-                {/* ✅ NACIONAL — SEM SINAL "+" */}
+                {/* ✅ NACIONAL */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
-                  className={`flex items-center justify-center gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-xl border h-10 px-2 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Nacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
@@ -159,11 +160,14 @@ export default function App() {
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
 
-                {/* ✅ INTERNACIONAL — SEM SINAL "+" */}
+                {/* ✅ SINAL "+" ENTRE NACIONAL E INTERNACIONAL */}
+                <span className="text-amber-500 text-lg font-bold flex-shrink-0">+</span>
+
+                {/* ✅ INTERNACIONAL */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
-                  className={`flex items-center justify-center gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-xl border h-10 px-2 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Internacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
@@ -173,19 +177,20 @@ export default function App() {
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
 
-                {/* ✅ TODAS — MANTÉM SINAL "+" */}
+                {/* ✅ SINAL "=" ENTRE INTERNACIONAL E TOTAL */}
+                <span className="text-amber-500 text-lg font-bold flex-shrink-0">=</span>
+
+                {/* ✅ TOTAL — SEM TEXTO "TODAS" E SEM SINAL "+" */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex-1 flex items-center justify-center rounded-xl border h-10 px-2 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Todas'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
-                  TODAS
-                  <span className="text-[11px] font-normal text-tr-muted normal-case">{totalTodas} un.</span>
+                  <span className="text-[11px] font-normal normal-case">{totalTodas} un.</span>
                 </button>
               </div>
             </div>          
