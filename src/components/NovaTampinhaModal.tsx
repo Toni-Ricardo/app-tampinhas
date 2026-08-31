@@ -8,13 +8,13 @@ interface NovaTampinhaModalProps {
   onSubmit: (dados: NovaTampinha) => Promise<void>
 }
 
-/* 🛠️ Inputs: BORDA CONTÍNUA */
+/* 🛠️ Inputs: BORDA NEON PADRONIZADA */
 const inputClass =
-  'w-full h-10 rounded-lg border border-tr-border bg-tr-input px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50 hover:bg-tr-input'
+  'w-full h-10 rounded-lg neon-border-cyan bg-tr-input px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50 hover:bg-tr-input'
 
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
-    <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.15em] text-tr-muted">
+    <p className="mb-2 text-[11px] font-normal uppercase tracking-[0.15em] text-tr-muted">
       {numero}. {titulo}
     </p>
   )
@@ -25,7 +25,7 @@ function BotaoOrigem({ label, ativo, onClick }: { label: Origem; ativo: boolean;
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg border border-tr-border bg-tr-input h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
+      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg neon-border-cyan bg-tr-input h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
         ativo ? 'text-white border-amber-500' : 'text-tr-muted hover:text-slate-200'
       }`}
     >
@@ -86,7 +86,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
     if (!pais.trim()) { setErro('O país é obrigatório.'); return }
     if (!cidade.trim()) { setErro('A cidade é obrigatória.'); return }
     if (!origem) { setErro('Selecione o tipo de coleção.'); return }
-
     setEnviando(true)
     try {
       await onSubmit({ 
@@ -107,72 +106,84 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md">
       <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-tr-border/50 bg-tr-surface/50 p-6 shadow-2xl shadow-black/80 backdrop-blur-xl">
-        <div className="flex items-center gap-6 mb-10">
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-tr-input">
-            <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
-          </div>
-          <div>
-            <h2 className="font-ubuntu text-base font-bold uppercase tracking-wider text-amber-500/100">Nova Tampinha</h2>
-            <p className="text-xs text-tr-muted">Adicione uma nova tampinha a coleção.</p>
-          </div>
-        </div>		
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <section>
-            <SecaoLabel numero="1" titulo="Foto da Tampinha" />
-            {/* ✅ Área de upload com BORDA CONTÍNUA */}
-            <button
-              type="button"
-              onClick={() => inputFotoRef.current?.click()}
-              className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl border border-tr-border bg-tr-input transition-colors hover:border-amber-500/50 hover:bg-tr-input"
-            >
-              {preview ? (
-                <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain p-2" />
-              ) : (
-                <span className="text-[11px] font-bold uppercase tracking-wider text-tr-muted group-hover:text-amber-500/70">Clique aqui</span>
-              )}
-            </button>
-            <input ref={inputFotoRef} type="file" accept="image/*" className="hidden" onChange={(e) => setFoto(e.target.files?.[0] ?? null)} />
-          </section>
-          <section>
-            <SecaoLabel numero="2" titulo="Nome da Cerveja" />
-            <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} className={inputClass} />
-          </section>
-          <section>
-            <SecaoLabel numero="3" titulo="País" />
-            <input id="pais" type="text" value={pais} onChange={(e) => setPais(e.target.value)} className={inputClass} />
-          </section>
-          <section>
-            <SecaoLabel numero="4" titulo="Cidade" />
-            <input id="cidade" type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} className={inputClass} />
-          </section>
-          <section>
-            <SecaoLabel numero="5" titulo="Tipo de Coleção" />
-            <div className="flex gap-3">
-              <BotaoOrigem label="Nacional" ativo={origem === 'Nacional'} onClick={() => setOrigem('Nacional')} />
-              <BotaoOrigem label="Internacional" ativo={origem === 'Internacional'} onClick={() => setOrigem('Internacional')} />
+      
+      {/* ✅ MODAL COM BORDA NEON PRINCIPAL */}
+      <div className="relative z-10 w-full max-w-md neon-border-cyan float-effect p-0.5 rounded-2xl">
+        <div className="h-full w-full rounded-2xl bg-tr-surface p-6 shadow-2xl shadow-black/80 backdrop-blur-xl overflow-hidden">
+          
+          <div className="flex items-center gap-6 mb-10">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-tr-input">
+              <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
             </div>
-          </section>
-          {erro && <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>}
-          <div className="flex items-center gap-3 pt-4 mt-8">
-            {/* Botão Cancelar — mantido */}
-            <button 
-              type="button" 
-              onClick={onClose} 
-              className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-tr-border bg-[#050508] text-xs font-bold uppercase text-tr-muted hover:border-amber-500/50 hover:text-slate-200"
-            >
-              Cancelar
-            </button>
-            {/* ✅ Botão Salvar — texto em laranja */}
-            <button 
-              type="submit" 
-              disabled={enviando} 
-              className="flex-1 h-10 inline-flex items-center justify-center rounded-lg border border-tr-border bg-[#050508] text-xs font-bold uppercase text-amber-500 hover:border-amber-500/50 hover:text-amber-400"
-            >
-              {enviando ? 'Gravando...' : '+ Salvar'}
-            </button>
-          </div>
+            <div>
+              <h2 className="font-ubuntu text-base font-bold uppercase tracking-wider text-amber-500/100">Nova Tampinha</h2>
+              <p className="text-xs text-tr-muted">Adicione uma nova tampinha a coleção.</p>
+            </div>
+          </div>		
+          
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <section>
+              <SecaoLabel numero="1" titulo="Foto da Tampinha" />
+              {/* ✅ ÁREA DE UPLOAD COM BORDA NEON */}
+              <button
+                type="button"
+                onClick={() => inputFotoRef.current?.click()}
+                className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl neon-border-cyan bg-tr-input transition-colors hover:border-amber-500/50 hover:bg-tr-input"
+              >
+                {preview ? (
+                  <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain p-2" />
+                ) : (
+                  <span className="text-[11px] font-normal uppercase tracking-wider text-tr-muted group-hover:text-amber-500/70">Clique aqui</span>
+                )}
+              </button>
+              <input ref={inputFotoRef} type="file" accept="image/*" className="hidden" onChange={(e) => setFoto(e.target.files?.[0] ?? null)} />
+            </section>
+
+            <section>
+              <SecaoLabel numero="2" titulo="Nome da Cerveja" />
+              <input id="nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} className={inputClass} />
+            </section>
+
+            <section>
+              <SecaoLabel numero="3" titulo="País" />
+              <input id="pais" type="text" value={pais} onChange={(e) => setPais(e.target.value)} className={inputClass} />
+            </section>
+
+            <section>
+              <SecaoLabel numero="4" titulo="Cidade" />
+              <input id="cidade" type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} className={inputClass} />
+            </section>
+
+            <section>
+              <SecaoLabel numero="5" titulo="Tipo de Coleção" />
+              <div className="flex gap-3">
+                <BotaoOrigem label="Nacional" ativo={origem === 'Nacional'} onClick={() => setOrigem('Nacional')} />
+                <BotaoOrigem label="Internacional" ativo={origem === 'Internacional'} onClick={() => setOrigem('Internacional')} />
+              </div>
+            </section>
+
+            {erro && <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>}
+            
+            <div className="flex items-center gap-3 pt-4 mt-8">
+              {/* ✅ BOTÃO CANCELAR COM BORDA NEON */}
+              <button 
+                type="button" 
+                onClick={onClose} 
+                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#050508] text-xs font-normal uppercase text-tr-muted hover:border-amber-500/50 hover:text-slate-200"
+              >
+                Cancelar
+              </button>
+              {/* ✅ BOTÃO SALVAR COM BORDA NEON */}
+              <button 
+                type="submit" 
+                disabled={enviando} 
+                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#050508] text-xs font-normal uppercase text-amber-500 hover:border-amber-500/50 hover:text-amber-400"
+              >
+                {enviando ? 'Gravando...' : '+ Salvar'}
+              </button>
+            </div>
 		  </form>
+        </div>
       </div>
     </div>
   )
