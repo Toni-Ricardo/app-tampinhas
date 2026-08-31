@@ -5,7 +5,6 @@ import { TampinhaGrid } from './components/TampinhaGrid'
 import { cadastrarTampinha, contarPorOrigem, filtrarTampinhas, listarTampinhas } from './lib/tampinhas'
 import { getSupabaseErrorMessage, logSupabaseError } from './lib/supabaseError'
 import type { NovaTampinha, Origem, Tampinha } from './types/tampinha'
-
 const MAPA_BANDEIRAS: Record<string, string> = {
     'brasil': 'br', 'argentina': 'ar', 'uruguai': 'uy', 'paraguai': 'py',
     'chile': 'cl', 'colômbia': 'co', 'colombia': 'co', 'peru': 'pe',
@@ -24,7 +23,6 @@ const MAPA_BANDEIRAS: Record<string, string> = {
     'nova zelândia': 'nz', 'nova zelandia': 'nz', 'áfrica do sul': 'za',
     'africa do sul': 'za', 'egito': 'eg', 'marrocos': 'ma',
 }
-
 export default function App() {
   const [tampinhas, setTampinhas] = useState<Tampinha[]>([])
   const [busca, setBusca] = useState('')
@@ -35,7 +33,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [modalAberto, setModalAberto] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
-
   const carregar = useCallback(async () => {
     setLoading(true)
     setErro(null)
@@ -49,11 +46,9 @@ export default function App() {
       setLoading(false)
     }
   }, [])
-
   useEffect(() => {
     carregar()
   }, [carregar])
-
   const totalTodas = tampinhas.length
   const totalNacional = useMemo(() => contarPorOrigem(tampinhas, 'Nacional'), [tampinhas])
   const totalInternacional = useMemo(() => contarPorOrigem(tampinhas, 'Internacional'), [tampinhas])
@@ -63,11 +58,9 @@ export default function App() {
     if (filtroAtivo === 'Internacional') return 'Internacional'
     return null 
   }, [filtroAtivo])
-
   const tampinhasFiltradas = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
-
   const tampinhasFormatadasParaExibicao = useMemo(() => {
     return tampinhasFiltradas.map((tampinha) => {
       const nomePais = tampinha.pais?.toLowerCase().trim() || ''
@@ -79,12 +72,10 @@ export default function App() {
       }
     })
   }, [tampinhasFiltradas])
-
   async function handleCadastro(dados: NovaTampinha) {
     await cadastrarTampinha(dados)
     await carregar()
   }
-
   return (
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
@@ -97,12 +88,12 @@ export default function App() {
             
             {/* LADO ESQUERDO - LOGO E TÍTULO */}
             <div className="flex items-center gap-3">
-              <div className="holographic-border float-effect flex-shrink-0 p-0.5">
+              {/* ✅ BORDA NEON IGUAL AOS CARDS APLICADA */}
+              <div className="neon-border-cyan float-effect flex-shrink-0 p-0.5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-tr-surface p-2">
                   <img src="/logo.png" alt="Logo" className="h-full w-full object-contain brightness-110" />
                 </div>
               </div>
-
               <div className="text-left">
                 <h1 className="font-ubuntu flex items-center gap-2 text-lg font-bold uppercase tracking-[0.12em] text-white sm:text-2xl">
                   TR <span className="text-amber-500 font-extrabold">Tampinhas</span>
@@ -112,7 +103,6 @@ export default function App() {
                 </p>
               </div>
             </div>
-
             {/* ✅ LADO DIREITO: BOTÃO ADICIONAR + BOTÃO MENU */}
             <div className="flex items-center gap-5">
               {/* Botão Adicionar */}
@@ -124,7 +114,6 @@ export default function App() {
               >
                 <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
               </button>
-
               {/* ✅ Botão de Menu — ÍCONE LARANJA */}
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
@@ -139,7 +128,6 @@ export default function App() {
               </button>
             </div>
           </div>
-
           {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
@@ -149,7 +137,6 @@ export default function App() {
             <div className="w-full max-w-2xl mx-auto mb-3">
               <SearchBar value={busca} onChange={setBusca} />
             </div>
-
             <div className="w-full max-w-2xl mx-auto">
               <div className="grid grid-cols-3 gap-2">
                 
@@ -166,7 +153,6 @@ export default function App() {
                   <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
-
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
@@ -180,7 +166,6 @@ export default function App() {
                   <img src="/mundo.png" alt="Internacional" className="w-8 h-8 object-contain" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
-
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
@@ -199,7 +184,6 @@ export default function App() {
           </div>        
         </div>
       </header>
-
       {/* ✅ ESPAÇO PARA O CONTEÚDO */}
       <main className="mt-[140px] sm:mt-[130px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
         {erro && (
@@ -210,10 +194,8 @@ export default function App() {
             </button>
           </div>
         )}
-
         <TampinhaGrid tampinhas={tampinhasFormatadasParaExibicao as any} loading={loading} />
       </main>
-
       <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
     </div>
   )
