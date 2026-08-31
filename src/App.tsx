@@ -5,6 +5,7 @@ import { TampinhaGrid } from './components/TampinhaGrid'
 import { cadastrarTampinha, contarPorOrigem, filtrarTampinhas, listarTampinhas } from './lib/tampinhas'
 import { getSupabaseErrorMessage, logSupabaseError } from './lib/supabaseError'
 import type { NovaTampinha, Origem, Tampinha } from './types/tampinha'
+
 const MAPA_BANDEIRAS: Record<string, string> = {
     'brasil': 'br', 'argentina': 'ar', 'uruguai': 'uy', 'paraguai': 'py',
     'chile': 'cl', 'colômbia': 'co', 'colombia': 'co', 'peru': 'pe',
@@ -23,6 +24,7 @@ const MAPA_BANDEIRAS: Record<string, string> = {
     'nova zelândia': 'nz', 'nova zelandia': 'nz', 'áfrica do sul': 'za',
     'africa do sul': 'za', 'egito': 'eg', 'marrocos': 'ma',
 }
+
 export default function App() {
   const [tampinhas, setTampinhas] = useState<Tampinha[]>([])
   const [busca, setBusca] = useState('')
@@ -33,6 +35,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [modalAberto, setModalAberto] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
+
   const carregar = useCallback(async () => {
     setLoading(true)
     setErro(null)
@@ -46,9 +49,11 @@ export default function App() {
       setLoading(false)
     }
   }, [])
+
   useEffect(() => {
     carregar()
   }, [carregar])
+
   const totalTodas = tampinhas.length
   const totalNacional = useMemo(() => contarPorOrigem(tampinhas, 'Nacional'), [tampinhas])
   const totalInternacional = useMemo(() => contarPorOrigem(tampinhas, 'Internacional'), [tampinhas])
@@ -58,9 +63,11 @@ export default function App() {
     if (filtroAtivo === 'Internacional') return 'Internacional'
     return null 
   }, [filtroAtivo])
+
   const tampinhasFiltradas = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
+
   const tampinhasFormatadasParaExibicao = useMemo(() => {
     return tampinhasFiltradas.map((tampinha) => {
       const nomePais = tampinha.pais?.toLowerCase().trim() || ''
@@ -72,10 +79,12 @@ export default function App() {
       }
     })
   }, [tampinhasFiltradas])
+
   async function handleCadastro(dados: NovaTampinha) {
     await cadastrarTampinha(dados)
     await carregar()
   }
+
   return (
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
@@ -83,18 +92,22 @@ export default function App() {
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
-          {/* ✅ LINHA SUPERIOR: BORDA IGUAL AOS CARDS */}
+          {/* ✅ LINHA SUPERIOR — BOTÃO DE CADASTRO REMOVIDO */}
           <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-[#678fcb]/60 pb-3 pt-1">
             
-            {/* LADO ESQUERDO - LOGO E TÍTULO */}
-            <div className="flex items-center gap-3">
-              {/* ✅ BORDA NEON IGUAL AOS CARDS APLICADA */}
+            {/* ✅ LOGOTIPO — CLICÁVEL PARA ABRIR CADASTRO (ESTILO PRESERVADO) */}
+            <button
+              type="button"
+              onClick={() => setModalAberto(true)}
+              className="flex items-center gap-3 text-left focus:outline-none"
+              title="Cadastrar nova tampinha"
+            >
               <div className="neon-border-cyan float-effect flex-shrink-0 p-0.5">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-tr-surface p-2">
                   <img src="/logo.png" alt="Logo" className="h-full w-full object-contain brightness-110" />
                 </div>
               </div>
-              <div className="text-left">
+              <div>
                 <h1 className="font-ubuntu flex items-center gap-2 text-lg font-bold uppercase tracking-[0.12em] text-white sm:text-2xl">
                   TR <span className="text-amber-500 font-extrabold">Tampinhas</span>
                 </h1>
@@ -102,19 +115,10 @@ export default function App() {
                   "A cada tampinha uma história"
                 </p>
               </div>
-            </div>
-            {/* ✅ LADO DIREITO: BOTÃO ADICIONAR + BOTÃO MENU */}
+            </button>
+
+            {/* ✅ LADO DIREITO — SOMENTE BOTÃO DE MENU */}
             <div className="flex items-center gap-5">
-              {/* Botão Adicionar */}
-              <button
-                type="button"
-                onClick={() => setModalAberto(true)}
-                className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-tr-muted transition-all duration-200 hover:border-amber-500/50 hover:text-amber-500 hover:bg-tr-surface"
-                title="Adicionar tampinha"
-              >
-                <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
-              </button>
-              {/* ✅ Botão de Menu — ÍCONE LARANJA */}
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
                 className="flex h-11 w-11 items-center justify-center rounded-xl border border-tr-border/70 text-amber-400 transition-all duration-200 hover:border-amber-500/50 hover:text-amber-400 hover:bg-tr-surface"
@@ -128,7 +132,8 @@ export default function App() {
               </button>
             </div>
           </div>
-          {/* ✅ ÁREA OCULTA: PESQUISA + BOTÕES DE FILTRO */}
+
+          {/* ✅ ÁREA DE FILTROS */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
               filtrosAbertos ? 'max-h-[200px] opacity-100 mt-1' : 'max-h-0 opacity-0'
@@ -140,32 +145,35 @@ export default function App() {
             <div className="w-full max-w-2xl mx-auto">
               <div className="grid grid-cols-3 gap-2">
                 
+                {/* ✅ NACIONAL — SEM SINAL "+" */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex items-center justify-center gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Nacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
                   <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
+
+                {/* ✅ INTERNACIONAL — SEM SINAL "+" */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
-                  className={`flex items-center justify-between gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
+                  className={`flex items-center justify-center gap-1.5 rounded-xl border h-10 px-3 font-bold tracking-wider text-xs transition-all duration-200 active:scale-[0.97] ${
                     filtroAtivo === 'Internacional'
                       ? 'border-amber-500/60 text-amber-500 bg-tr-bg'
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <span className="flex items-center justify-center text-amber-500 text-base leading-none h-full">+</span>
                   <img src="/mundo.png" alt="Internacional" className="w-8 h-8 object-contain" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
+
+                {/* ✅ TODAS — MANTÉM SINAL "+" */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
@@ -184,6 +192,7 @@ export default function App() {
           </div>        
         </div>
       </header>
+
       {/* ✅ ESPAÇO PARA O CONTEÚDO */}
       <main className="mt-[140px] sm:mt-[130px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
         {erro && (
@@ -196,6 +205,7 @@ export default function App() {
         )}
         <TampinhaGrid tampinhas={tampinhasFormatadasParaExibicao as any} loading={loading} />
       </main>
+
       <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
     </div>
   )
