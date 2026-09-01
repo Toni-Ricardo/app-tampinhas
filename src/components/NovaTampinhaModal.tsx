@@ -8,13 +8,14 @@ interface NovaTampinhaModalProps {
   onSubmit: (dados: NovaTampinha) => Promise<void>
 }
 
-/* 🛠️ Inputs: BORDA NEON PADRONIZADA */
+/* 🛠️ Inputs: BORDA NEON + FUNDO SÓLIDO (sem transparência) */
 const inputClass =
-  'w-full h-10 rounded-lg neon-border-cyan bg-tr-input px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50 hover:bg-tr-input'
+  'w-full h-10 rounded-lg neon-border-cyan bg-[#0b0f19] px-4 text-sm text-slate-100 outline-none transition-all placeholder:text-tr-muted/50 focus:border-amber-500 focus:ring-1 focus:ring-amber-500/30 uppercase tracking-wide hover:border-amber-500/50'
 
+/* ✅ RÓTULOS: COR LARANJA + SEM NEGRITO */
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
-    <p className="mb-2 text-[11px] font-normal uppercase tracking-[0.15em] text-tr-muted">
+    <p className="mb-2 text-[11px] font-normal uppercase tracking-[0.15em] text-amber-500">
       {numero}. {titulo}
     </p>
   )
@@ -25,7 +26,7 @@ function BotaoOrigem({ label, ativo, onClick }: { label: Origem; ativo: boolean;
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg neon-border-cyan bg-tr-input h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
+      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg neon-border-cyan bg-[#0b0f19] h-10 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] hover:border-amber-500/50 ${
         ativo ? 'text-white border-amber-500' : 'text-tr-muted hover:text-slate-200'
       }`}
     >
@@ -107,12 +108,12 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-md">
       <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/60" onClick={onClose} />
       
-      {/* ✅ MODAL COM BORDA NEON PRINCIPAL */}
+      {/* ✅ MODAL COM EFEITO GLASS — FUNDO TRANSPARENTE E DESFOCADO */}
       <div className="relative z-10 w-full max-w-md neon-border-cyan float-effect p-0.5 rounded-2xl">
-        <div className="h-full w-full rounded-2xl bg-tr-surface p-6 shadow-2xl shadow-black/80 backdrop-blur-xl overflow-hidden">
+        <div className="h-full w-full rounded-2xl bg-white/5 backdrop-blur-xl p-6 shadow-2xl shadow-black/80 overflow-hidden">
           
           <div className="flex items-center gap-6 mb-10">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-tr-input">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-[#0b0f19]">
               <span className="text-amber-500 text-2xl font-normal leading-none select-none -mt-1">+</span>
             </div>
             <div>
@@ -124,11 +125,11 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           <form onSubmit={handleSubmit} className="space-y-5">
             <section>
               <SecaoLabel numero="1" titulo="Foto da Tampinha" />
-              {/* ✅ ÁREA DE UPLOAD COM BORDA NEON */}
+              {/* ✅ ÁREA DE UPLOAD — FUNDO SÓLIDO IGUAL AOS CAMPOS */}
               <button
                 type="button"
                 onClick={() => inputFotoRef.current?.click()}
-                className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl neon-border-cyan bg-tr-input transition-colors hover:border-amber-500/50 hover:bg-tr-input"
+                className="group flex w-full h-32 flex-col items-center justify-center gap-2 rounded-xl neon-border-cyan bg-[#0b0f19] transition-all duration-300 hover:border-amber-500/50"
               >
                 {preview ? (
                   <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain p-2" />
@@ -165,19 +166,19 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
             {erro && <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>}
             
             <div className="flex items-center gap-3 pt-4 mt-8">
-              {/* ✅ BOTÃO CANCELAR COM BORDA NEON */}
+              {/* ✅ BOTÃO CANCELAR — FUNDO SÓLIDO */}
               <button 
                 type="button" 
                 onClick={onClose} 
-                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#050508] text-xs font-normal uppercase text-tr-muted hover:border-amber-500/50 hover:text-slate-200"
+                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#0b0f19] text-xs font-normal uppercase text-tr-muted hover:border-amber-500/50 hover:text-slate-200"
               >
                 Cancelar
               </button>
-              {/* ✅ BOTÃO SALVAR COM BORDA NEON */}
+              {/* ✅ BOTÃO SALVAR — FUNDO SÓLIDO */}
               <button 
                 type="submit" 
                 disabled={enviando} 
-                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#050508] text-xs font-normal uppercase text-amber-500 hover:border-amber-500/50 hover:text-amber-400"
+                className="flex-1 h-10 inline-flex items-center justify-center rounded-lg neon-border-cyan bg-[#0b0f19] text-xs font-normal uppercase text-amber-500 hover:border-amber-500/50 hover:text-amber-400"
               >
                 {enviando ? 'Gravando...' : '+ Salvar'}
               </button>

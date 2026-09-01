@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-ubuntu: "Ubuntu", sans-serif;
@@ -15,7 +14,6 @@
   --color-tr-accent-hover: #eab308;
   --color-tr-neon: #678fcb;
 }
-
 @layer base {
   html, body {
     background-color: #000000;
@@ -27,25 +25,24 @@
     overflow-x: hidden;
   }
 }
-
 @layer components {
-  /* ✅ BORDA FIXA — CANTOS ARREDONDADOS SEM FALHAS */
-.neon-border-cyan {
-  position: relative;
-  background: var(--color-tr-surface);
-  border-radius: 0.75rem;
-  border: 1px solid #678fcb;
-  overflow: hidden; /* ✅ FUNDAMENTAL — corta tudo nos cantos */
-}
+  /* ✅ BORDA NEON — SEM BRILHO, SEM HOVER LARANJA */
+  .neon-border-cyan {
+    position: relative;
+    background: transparent;
+    border-radius: 0.75rem;
+    border: 1px solid #678fcb;
+    overflow: hidden;
+  }
 
+  /* ✅ EFEITO GLASS — MAIS TRANSPARENTE */
   .glass-panel {
-    background: linear-gradient(135deg, rgba(19, 26, 38, 0.7), rgba(28, 37, 54, 0.5));
+    background: linear-gradient(135deg, rgba(19, 26, 38, 0.35), rgba(28, 37, 54, 0.25));
     backdrop-filter: blur(12px);
     border: 1px solid rgba(103, 143, 203, 0.4);
     transition: all 0.3s ease;
   }
-
   .glass-panel:hover {
-    border-color: rgba(103, 143, 203, 0.7);
+    border-color: rgba(103, 143, 203, 0.6);
   }
 }
