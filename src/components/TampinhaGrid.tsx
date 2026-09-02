@@ -4,16 +4,21 @@ import { TampinhaCard } from './TampinhaCard'
 interface TampinhaGridProps {
   tampinhas: Tampinha[]
   loading: boolean
+  onSelect?: (tampinha: any) => void
+  onSelectTampinha?: (tampinha: any) => void
 }
 
-export function TampinhaGrid({ tampinhas, loading }: TampinhaGridProps) {
+export function TampinhaGrid({ tampinhas, loading, onSelect, onSelectTampinha }: TampinhaGridProps) {
+  // Unifica qualquer um dos dois nomes de propriedade que o App.tsx usar
+  const handleSelect = onSelect || onSelectTampinha
+
   if (loading) {
     return (
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
-            className="animate-pulse overflow-hidden rounded-xl border border-tr-border bg-tr-surface"
+            className="animate-pulse overflow-hidden rounded-2xl border border-tr-border bg-slate-900/80"
           >
             <div className="aspect-square bg-tr-border/40" />
             <div className="space-y-2 p-3">
@@ -37,7 +42,11 @@ export function TampinhaGrid({ tampinhas, loading }: TampinhaGridProps) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {tampinhas.map((tampinha) => (
-        <TampinhaCard key={tampinha.id} tampinha={tampinha} />
+        <TampinhaCard
+          key={tampinha.id}
+          tampinha={tampinha}
+          onClick={handleSelect ? () => handleSelect(tampinha) : undefined}
+        />
       ))}
     </div>
   )
