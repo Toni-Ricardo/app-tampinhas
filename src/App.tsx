@@ -22,7 +22,6 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [modalAberto, setModalAberto] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
-
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
 
   const carregar = useCallback(async () => {
@@ -61,7 +60,8 @@ export default function App() {
     return tampinhasFiltradas.map((tampinha) => {
       return {
         ...tampinha,
-        bandeira_url: bandeiraUrl(tampinha.pais),
+        // ✅ CORREÇÃO PRINCIPAL: se for null, usa "" (texto vazio)
+        bandeira_url: bandeiraUrl(tampinha.pais) ?? "",
         origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
       }
     })
@@ -75,7 +75,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
-      {/* CABEÇALHO FIXOSS */}
+      {/* CABEÇALHO FIXO */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-cyan-500/20 bg-slate-950/80 backdrop-blur-lg">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
@@ -100,7 +100,6 @@ export default function App() {
                 </p>
               </div>
             </button>
-
             <div className="flex items-center gap-5">
               <button
                 onClick={() => setFiltrosAbertos(!filtrosAbertos)}
@@ -115,7 +114,6 @@ export default function App() {
               </button>
             </div>
           </div>
-
           {/* ÁREA DE FILTROS */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
@@ -139,9 +137,7 @@ export default function App() {
                   <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
-
                 <span className="text-amber-500 text-lg font-bold flex-shrink-0">+</span>
-
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
@@ -154,9 +150,7 @@ export default function App() {
                   <img src="/mundo.png" alt="Internacional" className="w-8 h-8 object-contain" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalInternacional} un.</span>
                 </button>
-
                 <span className="text-amber-500 text-lg font-bold flex-shrink-0">=</span>
-
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
@@ -184,9 +178,8 @@ export default function App() {
             </button>
           </div>
         )}
-
         <TampinhaGrid 
-          tampinhas={tampinhasFormatadasParaExibicao as any} 
+          tampinhas={tampinhasFormatadasParaExibicao} 
           loading={loading}
           onSelectTampinha={(tampinha: TampinhaFormatada) => setTampinhaZoom(tampinha)}
         />
@@ -207,13 +200,12 @@ export default function App() {
             {/* Brilhos de Fundo */}
             <div className="absolute -left-16 -top-16 h-32 w-32 rounded-full bg-cyan-500/20 blur-2xl pointer-events-none" />
             <div className="absolute -right-16 -bottom-16 h-32 w-32 rounded-full bg-amber-500/20 blur-2xl pointer-events-none" />
-
+            
             {/* Topo do Pop-up */}
             <div className="flex items-center justify-between pb-2">
               <span className="font-mono text-xs font-bold tracking-widest text-cyan-400">
                 ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
               </span>
-
               <button
                 type="button"
                 onClick={() => setTampinhaZoom(null)}
@@ -235,18 +227,18 @@ export default function App() {
               />
             </div>
 
-            {/* 🔴 LINHA DIVISÓRIA FUTURISTA (SEPARA A FOTO DOS DADOS) */}
+            {/* Linha Divisória */}
             <div className="relative my-5 flex items-center justify-center">
               <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
               <div className="absolute h-1 w-16 rounded-full bg-cyan-400/40 blur-sm pointer-events-none" />
             </div>
 
-            {/* Dados do Cadastro: Nome */}
+            {/* Nome */}
             <h2 className="text-center font-ubuntu text-2xl font-black uppercase tracking-wider text-white mb-4">
               {tampinhaZoom.nome}
             </h2>
 
-            {/* Dados do Cadastro: Pílulas (País / Origem) */}
+            {/* País / Origem */}
             <div className="flex items-center justify-center gap-3 mb-3">
               <div className="flex items-center gap-2 rounded-xl bg-slate-800/80 border border-slate-700/60 px-3.5 py-1.5 shadow-inner">
                 {tampinhaZoom.bandeira_url && (
@@ -256,7 +248,6 @@ export default function App() {
                   {tampinhaZoom.pais}
                 </span>
               </div>
-
               <div className="rounded-xl bg-slate-800/80 border border-slate-700/60 px-3.5 py-1.5 shadow-inner">
                 <span className="font-bold text-slate-300 text-xs tracking-wider uppercase">
                   {tampinhaZoom.origem_formatada}
@@ -264,7 +255,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Dados do Cadastro: Cidade / Localização */}
+            {/* Cidade / Localização */}
             <p className="text-center font-mono text-xs font-semibold tracking-widest text-slate-400 uppercase">
               {tampinhaZoom.cidade ? `${tampinhaZoom.cidade}` : 'ORIGEM NÃO INFORMADA'}
             </p>
