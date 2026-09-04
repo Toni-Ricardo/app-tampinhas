@@ -75,7 +75,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
-      {/* CABEÇALHO FIXO */}
+      {/* CABEÇALHO FIXOSS */}
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-cyan-500/20 bg-slate-950/80 backdrop-blur-lg">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
