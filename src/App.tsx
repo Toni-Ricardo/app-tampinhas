@@ -141,7 +141,7 @@ export default function App() {
                       : 'border-tr-border text-slate-300 hover:border-amber-500/40 hover:text-white bg-tr-bg'
                   }`}
                 >
-                  <img src="https://flagcdn.com/w40/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
+                  <img src="https://flagcdn.com/w160/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
                   <span className="text-[11px] font-normal text-tr-muted normal-case">{totalNacional} un.</span>
                 </button>
                 <span className="text-amber-500 text-lg font-bold flex-shrink-0">+</span>

@@ -4,8 +4,8 @@ import { TampinhaCard } from './TampinhaCard'
 interface TampinhaGridProps {
   tampinhas: Tampinha[]
   loading: boolean
-  onSelect?: (tampinha: any) => void
-  onSelectTampinha?: (tampinha: any) => void
+  onSelect?: (tampinha: Tampinha) => void
+  onSelectTampinha?: (tampinha: Tampinha) => void
 }
 
 export function TampinhaGrid({ tampinhas, loading, onSelect, onSelectTampinha }: TampinhaGridProps) {

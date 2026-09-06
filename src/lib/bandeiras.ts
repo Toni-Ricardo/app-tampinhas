@@ -62,8 +62,20 @@ export const MAPA_BANDEIRAS: Record<string, string> = {
   marrocos: 'ma',
 }
 
-export function bandeiraUrl(pais: string | null | undefined): string | null {
-  const nomePais = pais?.toLowerCase().trim() || ''
-  const codigoIso = MAPA_BANDEIRAS[nomePais] || null
-  return codigoIso ? `https://flagcdn.com/w20/${codigoIso}.png` : null
+// ✅ BANDEIRA DO BRASIL — Arquivo local
+export function bandeiraUrl(codigoPais: string | undefined): string | null {
+  if (!codigoPais) return null
+  
+  const codigo = String(codigoPais).trim().toLowerCase().slice(0, 2)
+  if (!codigo) return null
+
+  // 🇧🇷 Brasil usa arquivo local
+if (codigo === 'br') return '/bandeiras/brasil.png'
+if (codigo === 'us') return '/bandeiras/eua.png'
+if (codigo === 'ar') return '/bandeiras/argentina.png'
+
+
+  // ← Para os outros países, mantenha o que já usava ou deixe como preferir
+  // return `https://flagcdn.com/w160/${codigo}.png`
+  return null // ou mantenha a FlagCDN para os demais
 }

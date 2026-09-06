@@ -33,10 +33,10 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       onClick={onClick}
       onKeyDown={
         clicavel
-          ? (event) => {
+          ? (event: React.KeyboardEvent) => {
               if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault()
-                onClick()
+                onClick?.()
               }
             }
           : undefined
@@ -75,29 +75,28 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         )}
       </div>
 
-      {/* LINHA DIVISÓRIA SUTIL */}
-      <div className="mx-4 my-1 h-[1px] border-t border-[#2385bb]/50" />
-
-      {/* 📋 ÁREA INFERIOR */}
-      <div className="flex flex-col items-center px-4 pb-3 pt-2 text-center
+      
+      {/* 📋 ÁREA INFERIOR — Mais compacta */}
+      <div className="flex flex-col items-center px-3 pb-2 pt-1 text-center
         bg-slate-950/90 rounded-b-2xl border-t border-[#2385bb]/50">
-
-        {/* Nome da tampinha */}
+        
+        {/* Nome da tampinha — espaçamento reduzido */}
         <h3
-          className={`font-ubuntu w-full truncate text-base font-bold uppercase tracking-wide mb-2 ${
+          className={`font-ubuntu w-full truncate text-base font-bold uppercase tracking-wide mb-1 ${
             tampinha.nome ? 'text-white' : 'text-slate-600'
           }`}
         >
           {tampinha.nome || 'Nome da cerveja'}
         </h3>
 
-        {/* 🌍 Bandeira + País — Aumentado e centralizado */}
-        <span className="inline-flex items-center justify-center gap-2.5 px-5 py-2 rounded-md bg-slate-900/80 border border-slate-700/50">
+        {/* 🌍 Bandeira + País — Altura reduzida */}
+        <span className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-md bg-slate-900/80 border border-slate-700/50">
           {tampinha.bandeira_url && (
             <img
               src={tampinha.bandeira_url}
               alt=""
-              className="h-5 w-7 flex-shrink-0 rounded-sm object-cover"
+              className="h-5 w-[1.5rem] flex-shrink-0 rounded-sm object-contain"
+              style={{ imageRendering: 'auto' }}
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
@@ -108,12 +107,13 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           </span>
         </span>
 
-        {/* 📍 Cidade — reduzido */}
+        {/* 📍 Cidade — ainda mais compacta */}
         {local && (
-          <span className="mt-1.5 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400 leading-tight">
+          <span className="mt-2 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400 leading-tight">
             {local}
           </span>
         )}
-      </div>    </article>
+      </div>
+    </article>
   )
 }
