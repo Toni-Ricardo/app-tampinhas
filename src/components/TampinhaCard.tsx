@@ -23,9 +23,6 @@ function localRodape(tampinha: any): string | null {
 }
 
 export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
-  const categoria =
-    tampinha.origem_formatada ||
-    (String(tampinha.origem ?? '').toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.')
   const local = localRodape(tampinha)
   const clicavel = typeof onClick === 'function'
 
@@ -45,12 +42,12 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           : undefined
       }
       className={`group relative rounded-2xl
-        border border-[#134e6f]
+        border border-[#2385bb]
         bg-slate-900/95
-        shadow-[0_0_18px_rgba(19,78,111,0.4)]
+        shadow-[0_0_15px_rgba(35,133,187,0.35)]
         transition-all duration-300
         hover:-translate-y-1
-        hover:shadow-[0_0_28px_rgba(19,78,111,0.6)]
+        hover:shadow-[0_0_22px_rgba(35,133,187,0.55)]
         ${clicavel ? 'cursor-pointer' : ''}`}
     >
       {/* ID no canto superior */}
@@ -79,45 +76,41 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       </div>
 
       {/* LINHA DIVISÓRIA SUTIL */}
-      <div className="mx-4 my-1 h-[1px] border-t border-[#134e6f]/50" />
+      <div className="mx-4 my-1 h-[1px] border-t border-[#2385bb]/50" />
 
-      {/* 📋 ÁREA INFERIOR REFORMULADA */}
-      <div className="flex flex-col items-center px-3 pb-3 pt-2 text-center
-        bg-slate-950/90 rounded-b-2xl border-t border-[#134e6f]/50">
+      {/* 📋 ÁREA INFERIOR */}
+      <div className="flex flex-col items-center px-4 pb-4 pt-3 text-center
+        bg-slate-950/90 rounded-b-2xl border-t border-[#2385bb]/50">
 
         {/* Nome da tampinha */}
         <h3
-          className={`font-ubuntu w-full truncate text-sm font-bold uppercase tracking-wide ${
+          className={`font-ubuntu w-full truncate text-base font-bold uppercase tracking-wide mb-3 ${
             tampinha.nome ? 'text-white' : 'text-slate-600'
           }`}
         >
           {tampinha.nome || 'Nome da cerveja'}
         </h3>
 
-        {/* Bandeira + País | Categoria */}
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
-          <span className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-slate-900/80 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-amber-500 border border-slate-700/50">
-            {tampinha.bandeira_url && (
-              <img
-                src={tampinha.bandeira_url}
-                alt=""
-                className="h-3.5 w-5 flex-shrink-0 rounded-sm object-cover"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-            )}
-            <span className="truncate">{tampinha.pais || 'Desconhecido'}</span>
+        {/* 🌍 Bandeira + País — Centralizado */}
+        <span className="inline-flex items-center justify-center gap-2.5 px-5 py-2 rounded-md bg-slate-900/80 border border-slate-700/50">
+          {tampinha.bandeira_url && (
+            <img
+              src={tampinha.bandeira_url}
+              alt=""
+              className="h-5 w-7 flex-shrink-0 rounded-sm object-cover"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          )}
+          <span className="truncate text-amber-500 font-bold text-sm uppercase tracking-wider">
+            {tampinha.pais || 'Desconhecido'}
           </span>
+        </span>
 
-          <span className="rounded-md bg-slate-900/80 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-300 border border-slate-700/50">
-            {categoria}
-          </span>
-        </div>
-
-        {/* Cidade / Localização */}
+        {/* 📍 Cidade / Localização */}
         {local && (
-          <span className="mt-2 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">
+          <span className="mt-3 w-full truncate text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-400">
             {local}
           </span>
         )}
