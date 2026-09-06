@@ -60,7 +60,6 @@ export default function App() {
     return tampinhasFiltradas.map((tampinha) => {
       return {
         ...tampinha,
-        // ✅ CORREÇÃO PRINCIPAL: se for null, usa "" (texto vazio)
         bandeira_url: bandeiraUrl(tampinha.pais) ?? "",
         origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
       }
@@ -76,7 +75,7 @@ export default function App() {
     <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
       
       {/* CABEÇALHO FIXO */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-cyan-500/20 bg-slate-950/80 backdrop-blur-lg">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-[#2385bb]/30 bg-slate-950/80 backdrop-blur-lg">
         <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
           
           <div className="flex w-full flex-row items-center justify-between gap-3 border-b border-[#678fcb]/60 pb-3 pt-1">
@@ -86,11 +85,18 @@ export default function App() {
               className="flex items-center gap-3 text-left focus:outline-none group"
               title="Cadastrar nova tampinha"
             >
-              <div className="neon-border-cyan float-effect flex-shrink-0 p-0.5 group-hover:scale-105 transition-transform">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-tr-surface p-2">
-                  <img src="/logo.png" alt="Logo" className="h-full w-full object-contain brightness-110" />
-                </div>
+              {/* ✅ AUMENTADO SOMENTE O TAMANHO DA IMAGEM */}
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-slate-900 overflow-hidden">
+                <img 
+                  src="/logo.png" 
+                  alt="Logo" 
+                  className="h-[150%] w-[150%] object-contain brightness-110"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
               </div>
+
               <div>
                 <h1 className="font-ubuntu flex items-center gap-2 text-lg font-bold uppercase tracking-[0.12em] text-white sm:text-2xl">
                   TR <span className="text-amber-500 font-extrabold">Tampinhas</span>
@@ -114,6 +120,7 @@ export default function App() {
               </button>
             </div>
           </div>
+
           {/* ÁREA DE FILTROS */}
           <div 
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
@@ -194,7 +201,7 @@ export default function App() {
           onClick={() => setTampinhaZoom(null)}
         >
           <div 
-            className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-cyan-500/50 bg-slate-900/90 p-6 shadow-[0_0_50px_rgba(6,182,212,0.3)] backdrop-blur-2xl transition-transform duration-300 scale-100"
+            className="relative w-full max-w-sm overflow-hidden rounded-3xl border border-[#2385bb]/50 bg-slate-900/90 p-6 shadow-[0_0_15px_rgba(35,133,187,0.35)] backdrop-blur-2xl transition-transform duration-300 scale-100"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Brilhos de Fundo */}
@@ -203,13 +210,13 @@ export default function App() {
             
             {/* Topo do Pop-up */}
             <div className="flex items-center justify-between pb-2">
-              <span className="font-mono text-xs font-bold tracking-widest text-cyan-400">
+              <span className="font-mono text-xs font-bold tracking-widest text-[#7dd3fc]">
                 ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
               </span>
               <button
                 type="button"
                 onClick={() => setTampinhaZoom(null)}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-400/80 bg-cyan-950/40 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.4)] transition-all hover:bg-cyan-500 hover:text-slate-950"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#7dd3fc]/80 bg-cyan-950/40 text-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.3)] transition-all hover:bg-cyan-500 hover:text-slate-950"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -229,8 +236,8 @@ export default function App() {
 
             {/* Linha Divisória */}
             <div className="relative my-5 flex items-center justify-center">
-              <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
-              <div className="absolute h-1 w-16 rounded-full bg-cyan-400/40 blur-sm pointer-events-none" />
+              <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#2385bb]/60 to-transparent" />
+              <div className="absolute h-1 w-16 rounded-full bg-[#2385bb]/40 blur-sm pointer-events-none" />
             </div>
 
             {/* Nome */}
