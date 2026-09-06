@@ -11,7 +11,7 @@ interface NovaTampinhaModalProps {
 }
 
 const inputClass =
-  'w-full h-11 rounded-lg border border-slate-800 bg-slate-900 px-4 text-sm text-slate-100 outline-none transition-colors placeholder:text-slate-500 uppercase tracking-wide focus:border-cyan-500'
+  'w-full h-11 rounded-lg border border-slate-800 bg-slate-900 px-4 text-sm text-slate-100 outline-none transition-colors placeholder:text-slate-500 uppercase tracking-wide focus:border-[#134e6f]'
 
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
@@ -28,14 +28,14 @@ function BotaoOrigem({ label, ativo, onClick }: { label: Origem; ativo: boolean;
       onClick={onClick}
       className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg border h-11 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] ${
         ativo
-          ? 'border-cyan-500 bg-slate-900 text-white'
-          : 'border-slate-800 bg-slate-900 text-tr-muted hover:border-cyan-500/50 hover:text-slate-200'
+          ? 'border-[#134e6f] bg-slate-900 text-white shadow-[0_0_10px_rgba(19,78,111,0.3)]'
+          : 'border-slate-800 bg-slate-900 text-tr-muted hover:border-[#134e6f]/50 hover:text-slate-200'
       }`}
     >
       <span
         className={`h-3 w-3 rounded-full transition-all duration-300 ${
           ativo
-            ? 'bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.6)]'
+            ? 'bg-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.5)]'
             : 'border-2 border-tr-muted/50 bg-transparent group-hover:border-tr-muted'
         }`}
       />
@@ -94,7 +94,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
       origem: origem ?? 'Nacional',
       origem_formatada: origem === 'Internacional' ? 'INT.' : origem === 'Nacional' ? 'NAC.' : 'NAC./INT.',
       foto_url: preview ?? '',
-      bandeira_url: bandeiraUrl(pais),
+      bandeira_url: bandeiraUrl(pais) ?? '',
       created_at: new Date().toISOString(),
     }),
     [nome, pais, cidade, origem, preview],
@@ -161,8 +161,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 backdrop-blur-md sm:p-6">
       <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/60" onClick={onClose} />
-
-      <div className="relative z-10 flex max-h-[min(92vh,920px)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-cyan-400/40 bg-slate-950/80 shadow-2xl shadow-black/80 backdrop-blur-xl">
+      <div className="relative z-10 flex max-h-[min(92vh,920px)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-[#134e6f]/60 bg-slate-950/90 shadow-2xl shadow-black/80 backdrop-blur-xl">
         <div className="flex items-center gap-4 border-b border-slate-800 px-5 py-4 sm:px-6">
           <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-slate-900">
             <span className="select-none text-2xl font-normal leading-none text-amber-500 -mt-1">+</span>
@@ -172,7 +171,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
             <p className="text-xs text-tr-muted">Cadastre à esquerda e veja a carta publicada à direita.</p>
           </div>
         </div>
-
         <form onSubmit={handleSubmit} className="grid min-h-0 flex-1 overflow-y-auto md:grid-cols-2 md:overflow-hidden">
           <div className="space-y-5 border-b border-slate-800 p-5 md:overflow-y-auto md:border-b-0 md:border-r sm:p-6">
             <section>
@@ -192,15 +190,15 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 onDrop={handleDrop}
                 className={`group flex w-full min-h-36 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-slate-900 px-4 py-6 transition-colors ${
                   arrastando
-                    ? 'border-cyan-400 text-cyan-300'
-                    : 'border-slate-800 text-tr-muted hover:border-cyan-500/60'
+                    ? 'border-[#7dd3fc] text-[#7dd3fc]'
+                    : 'border-slate-800 text-tr-muted hover:border-[#134e6f]/60'
                 }`}
               >
                 {preview ? (
                   <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain" />
                 ) : (
                   <>
-                    <span className="text-[11px] font-normal uppercase tracking-wider group-hover:text-cyan-400/80">
+                    <span className="text-[11px] font-normal uppercase tracking-wider group-hover:text-[#7dd3fc]/80">
                       Arraste o PNG aqui ou clique para enviar
                     </span>
                     <span className="text-[10px] uppercase tracking-wide text-slate-500">
@@ -217,7 +215,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 onChange={(e) => aplicarArquivo(e.target.files?.[0] ?? null)}
               />
             </section>
-
             <section>
               <SecaoLabel numero="2" titulo="Nome da Cerveja / Tampinha" />
               <input
@@ -229,7 +226,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 placeholder="Ex.: Brahma"
               />
             </section>
-
             <section>
               <SecaoLabel numero="3" titulo="País" />
               <input
@@ -241,7 +237,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 placeholder="Ex.: Brasil"
               />
             </section>
-
             <section>
               <SecaoLabel numero="4" titulo="Cidade" />
               <input
@@ -253,7 +248,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 placeholder="Ex.: São Paulo"
               />
             </section>
-
             <section>
               <SecaoLabel numero="5" titulo="Categoria" />
               <div className="flex gap-3">
@@ -266,7 +260,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               </div>
             </section>
           </div>
-
           <div className="flex flex-col items-center justify-center gap-4 bg-slate-950/40 p-5 md:overflow-y-auto sm:p-8">
             <p className="text-[11px] font-normal uppercase tracking-[0.15em] text-amber-500">Preview da carta</p>
             <div className="w-full max-w-[260px]">
@@ -276,7 +269,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               Atualiza em tempo real. O arquivo PNG só vai para o bucket ao gravar.
             </p>
           </div>
-
           <div className="col-span-full space-y-3 border-t border-slate-800 px-5 py-4 sm:px-6">
             {erro && (
               <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>
@@ -286,14 +278,14 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 type="button"
                 onClick={onClose}
                 disabled={enviando}
-                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-xs font-normal uppercase text-tr-muted hover:border-cyan-500/50 hover:text-slate-200 disabled:opacity-50"
+                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-xs font-normal uppercase text-tr-muted hover:border-[#134e6f]/50 hover:text-slate-200 disabled:opacity-50"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={enviando}
-                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-cyan-500/60 bg-slate-900 text-xs font-normal uppercase text-cyan-400 hover:border-cyan-400 hover:text-cyan-300 disabled:opacity-50"
+                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-[#134e6f]/60 bg-slate-900 text-xs font-normal uppercase text-[#7dd3fc] hover:border-[#7dd3fc] hover:text-[#bae6fd] disabled:opacity-50"
               >
                 {enviando ? 'Gravando...' : '+ Salvar'}
               </button>

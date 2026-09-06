@@ -44,74 +44,83 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
             }
           : undefined
       }
-      className={`group relative rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-500 to-amber-500 p-[1px] shadow-[0_0_12px_rgba(103,143,203,0.28)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_24px_rgba(103,143,203,0.55),0_0_18px_rgba(245,158,11,0.35)] ${
-        clicavel ? 'cursor-pointer' : ''
-      }`}
+      className={`group relative rounded-2xl
+        border border-[#134e6f]
+        bg-slate-900/95
+        shadow-[0_0_18px_rgba(19,78,111,0.4)]
+        transition-all duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_0_28px_rgba(19,78,111,0.6)]
+        ${clicavel ? 'cursor-pointer' : ''}`}
     >
-      <div className="relative flex h-full flex-col overflow-hidden rounded-2xl bg-slate-900/80 backdrop-blur-md">
-        <span className="absolute left-3 top-2 z-20 font-mono text-[10px] tracking-[0.14em] text-slate-200/90">
-          ID #{formatHudId(tampinha.id)}
-        </span>
+      {/* ID no canto superior */}
+      <span className="absolute left-3 top-2.5 z-20 font-mono text-[10px] tracking-[0.14em] text-[#7dd3fc]">
+        ID #{formatHudId(tampinha.id)}
+      </span>
 
-        {/* ÁREA DA IMAGEM */}
-        <div className="relative mt-6 flex aspect-square items-center justify-center px-4 pb-1">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute bottom-5 left-1/2 h-7 w-[62%] -translate-x-1/2 rounded-[100%] bg-black/55 blur-md"
+      {/* ÁREA DA IMAGEM */}
+      <div className="relative mt-6 flex aspect-square items-center justify-center px-4 pb-1">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-5 left-1/2 h-7 w-[62%] -translate-x-1/2 rounded-[100%] bg-black/55 blur-md"
+        />
+        {tampinha.foto_url ? (
+          <img
+            src={tampinha.foto_url}
+            alt={tampinha.nome}
+            className="relative z-10 h-full w-full object-contain drop-shadow-[0_16px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
           />
-          {tampinha.foto_url ? (
-            <img
-              src={tampinha.foto_url}
-              alt={tampinha.nome}
-              className="relative z-10 h-full w-full object-contain drop-shadow-[0_16px_18px_rgba(0,0,0,0.55)] transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            <div className="relative z-10 flex h-[70%] w-[70%] items-center justify-center rounded-full border border-dashed border-slate-600/80 bg-slate-950/50 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
-              PNG
-            </div>
-          )}
-        </div>
-
-        {/* 🔴 LINHA DIVISÓRIA SUTIL ENTRE FOTO E DADOS NO CARD */}
-        <div className="mx-4 my-1 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/40 to-transparent" />
-
-        {/* DADOS DO CADASTRO */}
-        <div className="flex flex-col items-center px-3 pb-3 pt-1 text-center">
-          <h3
-            className={`font-ubuntu w-full truncate text-sm font-bold uppercase tracking-wide ${
-              tampinha.nome ? 'text-white' : 'text-slate-600'
-            }`}
-          >
-            {tampinha.nome || 'Nome da cerveja'}
-          </h3>
-
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-1.5">
-            <span className="inline-flex max-w-full items-center gap-1 rounded-md bg-slate-950/70 px-2 py-1.5 text-[11px] font-medium uppercase tracking-wide text-amber-400">
-              {tampinha.bandeira_url && (
-                <img
-                  src={tampinha.bandeira_url}
-                  alt=""
-                  className="h-3.5 w-5 flex-shrink-0 rounded-sm object-cover brightness-95 shadow-sm"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none'
-                  }}
-                />
-              )}
-              <span className="truncate">{tampinha.pais || 'Desconhecido'}</span>
-            </span>
-
-            <span className="rounded-md bg-slate-950/70 px-2 py-1.5 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-              {categoria}
-            </span>
+        ) : (
+          <div className="relative z-10 flex h-[70%] w-[70%] items-center justify-center rounded-full border border-dashed border-slate-600/80 bg-slate-950/50 text-[10px] font-medium uppercase tracking-[0.2em] text-slate-500">
+            PNG
           </div>
+        )}
+      </div>
 
-          {local && (
-            <span className="mt-2 w-full truncate text-[10px] font-medium uppercase tracking-wide text-slate-400">
-              {local}
-            </span>
-          )}
+      {/* LINHA DIVISÓRIA SUTIL */}
+      <div className="mx-4 my-1 h-[1px] border-t border-[#134e6f]/50" />
+
+      {/* 📋 ÁREA INFERIOR REFORMULADA */}
+      <div className="flex flex-col items-center px-3 pb-3 pt-2 text-center
+        bg-slate-950/90 rounded-b-2xl border-t border-[#134e6f]/50">
+
+        {/* Nome da tampinha */}
+        <h3
+          className={`font-ubuntu w-full truncate text-sm font-bold uppercase tracking-wide ${
+            tampinha.nome ? 'text-white' : 'text-slate-600'
+          }`}
+        >
+          {tampinha.nome || 'Nome da cerveja'}
+        </h3>
+
+        {/* Bandeira + País | Categoria */}
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+          <span className="inline-flex max-w-full items-center gap-1.5 rounded-md bg-slate-900/80 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-amber-500 border border-slate-700/50">
+            {tampinha.bandeira_url && (
+              <img
+                src={tampinha.bandeira_url}
+                alt=""
+                className="h-3.5 w-5 flex-shrink-0 rounded-sm object-cover"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            )}
+            <span className="truncate">{tampinha.pais || 'Desconhecido'}</span>
+          </span>
+
+          <span className="rounded-md bg-slate-900/80 px-2.5 py-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-300 border border-slate-700/50">
+            {categoria}
+          </span>
         </div>
+
+        {/* Cidade / Localização */}
+        {local && (
+          <span className="mt-2 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400">
+            {local}
+          </span>
+        )}
       </div>
     </article>
   )
