@@ -79,19 +79,19 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       <div className="mx-4 my-1 h-[1px] border-t border-[#2385bb]/50" />
 
       {/* 📋 ÁREA INFERIOR */}
-      <div className="flex flex-col items-center px-4 pb-4 pt-3 text-center
+      <div className="flex flex-col items-center px-4 pb-3 pt-2 text-center
         bg-slate-950/90 rounded-b-2xl border-t border-[#2385bb]/50">
 
         {/* Nome da tampinha */}
         <h3
-          className={`font-ubuntu w-full truncate text-base font-bold uppercase tracking-wide mb-3 ${
+          className={`font-ubuntu w-full truncate text-base font-bold uppercase tracking-wide mb-2 ${
             tampinha.nome ? 'text-white' : 'text-slate-600'
           }`}
         >
           {tampinha.nome || 'Nome da cerveja'}
         </h3>
 
-        {/* 🌍 Bandeira + País — Centralizado */}
+        {/* 🌍 Bandeira + País — Aumentado e centralizado */}
         <span className="inline-flex items-center justify-center gap-2.5 px-5 py-2 rounded-md bg-slate-900/80 border border-slate-700/50">
           {tampinha.bandeira_url && (
             <img
@@ -108,13 +108,12 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           </span>
         </span>
 
-        {/* 📍 Cidade / Localização */}
+        {/* 📍 Cidade — reduzido */}
         {local && (
-          <span className="mt-3 w-full truncate text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-400">
+          <span className="mt-1.5 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400 leading-tight">
             {local}
           </span>
         )}
-      </div>
-    </article>
+      </div>    </article>
   )
 }
