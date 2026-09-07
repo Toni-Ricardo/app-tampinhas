@@ -188,7 +188,7 @@ export default function App() {
         <TampinhaGrid 
           tampinhas={tampinhasFormatadasParaExibicao} 
           loading={loading}
-          onSelectTampinha={(tampinha: TampinhaFormatada) => setTampinhaZoom(tampinha)}
+          onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha as TampinhaFormatada)}
         />
       </main>
 
