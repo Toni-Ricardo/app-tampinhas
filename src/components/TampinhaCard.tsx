@@ -91,7 +91,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </h3>
 
         {/* 🌍 Bandeira + País — Altura reduzida */}
-        <span className="inline-flex items-center justify-center gap-1 px-3 py-0 rounded-md border border-[#2385bb]/70">
+        <span className="inline-flex items-center justify-center gap-1 px-4 py-1 rounded-md border border-[#2385bb]/70">
           {tampinha.bandeira_url && (
             <img
               src={tampinha.bandeira_url}
