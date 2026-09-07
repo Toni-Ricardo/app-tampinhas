@@ -62,20 +62,35 @@ export const MAPA_BANDEIRAS: Record<string, string> = {
   marrocos: 'ma',
 }
 
-// ✅ BANDEIRA DO BRASIL — Arquivo local
+// ✅ BANDEIRAS — Arquivos locais (com reconhecimento correto pelo nome)
 export function bandeiraUrl(codigoPais: string | undefined): string | null {
   if (!codigoPais) return null
-  
-  const codigo = String(codigoPais).trim().toLowerCase().slice(0, 2)
+
+  const nomePais = String(codigoPais).trim().toLowerCase()
+
+  // 🔍 Primeiro busca no MAPA para reconhecer o país corretamente
+  let codigo = MAPA_BANDEIRAS[nomePais]
+
+  // ↓ Se não encontrou no mapa, usa os 2 primeiros caracteres como reserva
+  if (!codigo) {
+    codigo = nomePais.slice(0, 2)
+  }
+
   if (!codigo) return null
 
-  // 🇧🇷 Brasil usa arquivo local
-if (codigo === 'br') return '/bandeiras/brasil.png'
-if (codigo === 'us') return '/bandeiras/eua.png'
-if (codigo === 'ar') return '/bandeiras/argentina.png'
+  // 📁 BANDEIRAS LOCAIS — todas que você já tem na pasta
+  if (codigo === 'br') return '/bandeiras/brasil.png'
+  if (codigo === 'us') return '/bandeiras/eua.png'
+  if (codigo === 'pt') return '/bandeiras/portugal.png'
+  if (codigo === 'ar') return '/bandeiras/argentina.png'
+  if (codigo === 'bo') return '/bandeiras/bolivia.png'
+  if (codigo === 'uy') return '/bandeiras/uruguai.png'
+  if (codigo === 'py') return '/bandeiras/paraguai.png'
+  if (codigo === 'cl') return '/bandeiras/chile.png'
+  if (codigo === 'co') return '/bandeiras/colombia.png'
+  if (codigo === 'ec') return '/bandeiras/equador.png'
+  if (codigo === 'be') return '/bandeiras/belgica.png'
 
-
-  // ← Para os outros países, mantenha o que já usava ou deixe como preferir
-  // return `https://flagcdn.com/w160/${codigo}.png`
-  return null // ou mantenha a FlagCDN para os demais
+  // ⏳ Ainda sem imagem local
+  return null
 }

@@ -56,7 +56,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       </span>
 
       {/* ÁREA DA IMAGEM */}
-      <div className="relative mt-6 flex aspect-square items-center justify-center px-4 pb-1">
+      <div className="relative mt-2 flex aspect-square items-center justify-center px-4 pb-1">
         <div
           aria-hidden
           className="pointer-events-none absolute bottom-5 left-1/2 h-7 w-[62%] -translate-x-1/2 rounded-[100%] bg-black/55 blur-md"
@@ -76,6 +76,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       </div>
 
       
+
       {/* 📋 ÁREA INFERIOR — Mais compacta */}
       <div className="flex flex-col items-center px-3 pb-2 pt-1 text-center
         bg-slate-950/90 rounded-b-2xl border-t border-[#2385bb]/50">
@@ -90,12 +91,12 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </h3>
 
         {/* 🌍 Bandeira + País — Altura reduzida */}
-        <span className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-md bg-slate-900/80 border border-slate-700/50">
+        <span className="inline-flex items-center justify-center gap-1 px-3 py-0 rounded-md border border-[#2385bb]/70">
           {tampinha.bandeira_url && (
             <img
               src={tampinha.bandeira_url}
               alt=""
-              className="h-5 w-[1.5rem] flex-shrink-0 rounded-sm object-contain"
+              className="h-6 w-[1.5rem] flex-shrink-0 rounded-sm object-contain"
               style={{ imageRendering: 'auto' }}
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
@@ -109,7 +110,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
 
         {/* 📍 Cidade — ainda mais compacta */}
         {local && (
-          <span className="mt-2 w-full truncate text-[10px] font-mono font-semibold uppercase tracking-widest text-slate-400 leading-tight">
+          <span className="mt-3 w-full truncate text-[11px] font-mono font-semibold uppercase tracking-widest text-slate-300">
             {local}
           </span>
         )}
