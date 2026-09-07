@@ -60,7 +60,7 @@ export default function App() {
     return tampinhasFiltradas.map((tampinha) => {
       return {
         ...tampinha,
-        bandeira_url: bandeiraUrl(tampinha.pais) ?? "",
+        bandeira_url: bandeiraUrl(tampinha.pais) ?? '', // ✅ CORRIGIDO: converte null para string vazia
         origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
       }
     })
