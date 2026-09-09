@@ -10,43 +10,39 @@ interface NovaTampinhaModalProps {
   onSubmit: (dados: NovaTampinha) => Promise<void>
 }
 
-const inputClass =
-  'w-full h-11 rounded-lg border border-slate-800 bg-slate-900 px-4 text-sm text-slate-100 outline-none transition-colors placeholder:text-slate-500 uppercase tracking-wide focus:border-[#2385bb]'
+function arquivoImagemValido(file: File): boolean {
+  if (file.type.startsWith('image/')) return true
+  return /\.(png|jpe?g|webp|gif)$/i.test(file.name)
+}
 
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
-    <p className="mb-2 text-[11px] font-normal uppercase tracking-[0.15em] text-amber-500">
-      {numero}. {titulo}
-    </p>
+    <div className="cyber-section-label">
+      <span className="num">{numero}</span>
+      <span>{titulo}</span>
+    </div>
   )
 }
 
-function BotaoOrigem({ label, ativo, onClick }: { label: Origem; ativo: boolean; onClick: () => void }) {
+function BotaoOrigem({ 
+  label, 
+  ativo, 
+  onClick 
+}: { 
+  label: Origem; 
+  ativo: boolean; 
+  onClick: () => void 
+}) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`group flex flex-1 items-center justify-center gap-2.5 rounded-lg border h-11 text-[13px] font-semibold tracking-wide transition-all duration-200 active:scale-[0.98] ${
-        ativo
-          ? 'border-[#2385bb] bg-slate-900 text-white shadow-[0_0_15px_rgba(35,133,187,0.35)]'
-          : 'border-slate-800 bg-slate-900 text-tr-muted hover:border-[#2385bb]/50 hover:text-slate-200'
-      }`}
+      className={`cyber-origem-btn ${ativo ? 'active' : ''}`}
     >
-      <span
-        className={`h-3 w-3 rounded-full transition-all duration-300 ${
-          ativo
-            ? 'bg-[#7dd3fc] shadow-[0_0_10px_rgba(125,211,252,0.4)]'
-            : 'border-2 border-tr-muted/50 bg-transparent group-hover:border-tr-muted'
-        }`}
-      />
+      <span className="dot-indicator" />
       {label}
     </button>
   )
-}
-
-function arquivoImagemValido(file: File): boolean {
-  if (file.type.startsWith('image/')) return true
-  return /\.(png|jpe?g|webp|gif)$/i.test(file.name)
 }
 
 export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModalProps) {
@@ -159,30 +155,44 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-3 backdrop-blur-md sm:p-6">
-      <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative z-10 flex max-h-[min(92vh,920px)] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-[#2385bb]/60 bg-slate-950/90 shadow-[0_0_15px_rgba(35,133,187,0.35)] shadow-2xl shadow-black/80 backdrop-blur-xl">
-        <div className="flex items-center gap-4 border-b border-slate-800 px-5 py-4 sm:px-6">
-          {/* ✅ LOGOTIPO no lugar do "+" */}
-          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-slate-900 overflow-hidden">
+    <div className="cyber-cadastro-overlay">
+      <button 
+        type="button" 
+        aria-label="Fechar" 
+        className="absolute inset-0 bg-black/40" 
+        onClick={onClose} 
+      />
+      
+      <div className="cyber-cadastro-container">
+        {/* Cantos em L */}
+        <div className="cyber-corner-tl"></div>
+        <div className="cyber-corner-br"></div>
+
+        {/* Cabeçalho */}
+        <div className="cyber-cadastro-header">
+          <div className="cyber-logo-frame h-10 w-10 flex-shrink-0">
             <img 
               src="/logo.png" 
               alt="Logo" 
-              className="h-full w-full object-contain brightness-110"
+              className="h-full w-full object-contain brightness-110 relative z-10"
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
             />
           </div>
-          
-          <div>
-            <h2 className="font-ubuntu text-base font-bold uppercase tracking-wider text-amber-500">Nova Tampinha</h2>
-            <p className="text-xs text-tr-muted">Cadastre à esquerda e veja a carta publicada à direita.</p>
+          <div className="flex-1">
+            <h2 className="cyber-cadastro-title">Nova Tampinha</h2>
+            <p className="cyber-cadastro-subtitle">
+              Cadastre à esquerda e veja a carta publicada à direita.
+            </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit} className="grid min-h-0 flex-1 overflow-y-auto md:grid-cols-2 md:overflow-hidden">
-          <div className="space-y-5 border-b border-slate-800 p-5 md:overflow-y-auto md:border-b-0 md:border-r sm:p-6">
-            <section>
+
+        <form onSubmit={handleSubmit} className="cyber-cadastro-grid">
+          {/* COLUNA ESQUERDA: FORMULÁRIO */}
+          <div className="cyber-cadastro-form">
+            {/* Seção 1: Foto */}
+            <section className="cyber-section">
               <SecaoLabel numero="1" titulo="Foto da Tampinha (PNG)" />
               <button
                 type="button"
@@ -197,20 +207,16 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 }}
                 onDragLeave={() => setArrastando(false)}
                 onDrop={handleDrop}
-                className={`group flex w-full min-h-36 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-slate-900 px-4 py-6 transition-colors ${
-                  arrastando
-                    ? 'border-[#7dd3fc] text-[#7dd3fc]'
-                    : 'border-slate-800 text-tr-muted hover:border-[#2385bb]/60'
-                }`}
+                className={`cyber-upload w-full ${arrastando ? 'dragging' : ''}`}
               >
                 {preview ? (
-                  <img src={preview} alt="Preview" className="max-h-28 w-full rounded-lg object-contain" />
+                  <img src={preview} alt="Preview" />
                 ) : (
                   <>
-                    <span className="text-[11px] font-normal uppercase tracking-wider group-hover:text-[#7dd3fc]/80">
+                    <span className="cyber-upload-text">
                       Arraste o PNG aqui ou clique para enviar
                     </span>
-                    <span className="text-[10px] uppercase tracking-wide text-slate-500">
+                    <span className="cyber-upload-hint">
                       Upload para o Storage ao salvar
                     </span>
                   </>
@@ -224,81 +230,99 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 onChange={(e) => aplicarArquivo(e.target.files?.[0] ?? null)}
               />
             </section>
-            <section>
+
+            {/* Seção 2: Nome */}
+            <section className="cyber-section">
               <SecaoLabel numero="2" titulo="Nome da Cerveja / Tampinha" />
               <input
                 id="nome"
                 type="text"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
-                className={inputClass}
+                className="cyber-input"
                 placeholder="Ex.: Brahma"
               />
             </section>
-            <section>
+
+            {/* Seção 3: País */}
+            <section className="cyber-section">
               <SecaoLabel numero="3" titulo="País" />
               <input
                 id="pais"
                 type="text"
                 value={pais}
                 onChange={(e) => setPais(e.target.value)}
-                className={inputClass}
+                className="cyber-input"
                 placeholder="Ex.: Brasil"
               />
             </section>
-            <section>
+
+            {/* Seção 4: Cidade */}
+            <section className="cyber-section">
               <SecaoLabel numero="4" titulo="Cidade" />
               <input
                 id="cidade"
                 type="text"
                 value={cidade}
                 onChange={(e) => setCidade(e.target.value)}
-                className={inputClass}
+                className="cyber-input"
                 placeholder="Ex.: São Paulo"
               />
             </section>
-            <section>
+
+            {/* Seção 5: Categoria */}
+            <section className="cyber-section">
               <SecaoLabel numero="5" titulo="Categoria" />
               <div className="flex gap-3">
-                <BotaoOrigem label="Nacional" ativo={origem === 'Nacional'} onClick={() => setOrigem('Nacional')} />
-                <BotaoOrigem
-                  label="Internacional"
-                  ativo={origem === 'Internacional'}
-                  onClick={() => setOrigem('Internacional')}
+                <BotaoOrigem 
+                  label="Nacional" 
+                  ativo={origem === 'Nacional'} 
+                  onClick={() => setOrigem('Nacional')} 
+                />
+                <BotaoOrigem 
+                  label="Internacional" 
+                  ativo={origem === 'Internacional'} 
+                  onClick={() => setOrigem('Internacional')} 
                 />
               </div>
             </section>
+
+            {/* Erro */}
+            {erro && (
+              <div className="cyber-error mb-4">
+                {erro}
+              </div>
+            )}
           </div>
-          <div className="flex flex-col items-center justify-center gap-4 bg-slate-950/40 p-5 md:overflow-y-auto sm:p-8">
-            <p className="text-[11px] font-normal uppercase tracking-[0.15em] text-amber-500">Preview da carta</p>
-            <div className="w-full max-w-[260px]">
+
+          {/* COLUNA DIREITA: PREVIEW */}
+          <div className="cyber-cadastro-preview">
+            <span className="cyber-preview-label">Preview da Carta</span>
+            <div style={{ width: '100%', maxWidth: '260px' }}>
               <TampinhaCard tampinha={tampinhaPreview} />
             </div>
-            <p className="max-w-xs text-center text-[11px] text-slate-500">
+            <p className="cyber-preview-hint">
               Atualiza em tempo real. O arquivo PNG só vai para o bucket ao gravar.
             </p>
           </div>
-          <div className="col-span-full space-y-3 border-t border-slate-800 px-5 py-4 sm:px-6">
-            {erro && (
-              <p className="rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2 text-xs text-red-400">{erro}</p>
-            )}
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                disabled={enviando}
-                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-xs font-normal uppercase text-tr-muted hover:border-[#2385bb]/50 hover:text-slate-200 disabled:opacity-50"
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                disabled={enviando}
-                className="flex-1 h-11 inline-flex items-center justify-center rounded-lg border border-[#2385bb]/60 bg-slate-900 text-xs font-normal uppercase text-[#7dd3fc] hover:border-[#7dd3fc] hover:text-[#bae6fd] disabled:opacity-50"
-              >
-                {enviando ? 'Gravando...' : '+ Salvar'}
-              </button>
-            </div>
+
+          {/* BARRA DE AÇÕES */}
+          <div className="cyber-action-bar col-span-full">
+            <button
+              type="button"
+              onClick={onClose}
+              disabled={enviando}
+              className="cyber-btn"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={enviando}
+              className="cyber-btn primary"
+            >
+              {enviando ? 'Gravando...' : '+ Salvar'}
+            </button>
           </div>
         </form>
       </div>

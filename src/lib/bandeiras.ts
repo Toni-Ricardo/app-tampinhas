@@ -90,7 +90,9 @@ export function bandeiraUrl(codigoPais: string | undefined): string | null {
   if (codigo === 'co') return '/bandeiras/colombia.png'
   if (codigo === 'ec') return '/bandeiras/equador.png'
   if (codigo === 'be') return '/bandeiras/belgica.png'
-
+  if (codigo === 'es') return '/bandeiras/espanha.png'
+  
+  
   // ⏳ Ainda sem imagem local
   return null
 }
