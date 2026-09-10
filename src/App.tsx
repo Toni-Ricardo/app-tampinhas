@@ -186,7 +186,7 @@ export default function App() {
                   className={`cyber-filter-btn flex-1 ${filtroAtivo === 'Nacional' ? 'active' : ''}`}
                 >
                   <img src="https://flagcdn.com/w160/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
-                  <span>NACIONAL</span>
+                  <span>NAC.</span>
                   <span className="cyber-filter-count">{totalNacional} un.</span>
                 </button>
                 
@@ -209,7 +209,7 @@ export default function App() {
                   onClick={() => setFiltroAtivo('Todas')}
                   className={`cyber-filter-btn flex-1 ${filtroAtivo === 'Todas' ? 'active' : ''}`}
                 >
-                  <span>TODAS</span>
+                  <span></span>
                   <span className="cyber-filter-count">{totalTodas} un.</span>
                 </button>
               </div>
