@@ -59,7 +59,7 @@
 }
 
 /* ===================================================== */
-/* ✅ ESTILOS CYBERPUNK CARD - TR TAMPINHAS              */
+/* ✅ CARD CYBERPUNK — BORDAS ARREDONDADAS               */
 /* ===================================================== */
 
 @layer components {
@@ -67,18 +67,16 @@
     position: relative;
     width: 100%;
     background: var(--cyber-card);
-    border: 1px solid var(--cyber-accent);
-    padding: 16px 14px 14px;
-    clip-path: polygon(
-      0 10px, 10px 0,
-      calc(100% - 20px) 0, 100% 20px,
-      100% calc(100% - 10px), calc(100% - 10px) 100%,
-      20px 100%, 0 calc(100% - 20px)
-    );
-    transition: border-color 0.3s ease;
+    border: 1px solid var(--cyber-accent); /* ✅ Cor laranja mantida */
+    border-radius: 16px; /* ✅ BORDAS ARREDONDADAS */
+    padding: 14px 12px 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     font-family: var(--font-chakra);
     color: var(--cyber-text);
+    overflow: hidden; /* ✅ Garante que nada ultrapasse as bordas */
   }
+  
+  /* Efeito de padrão de pontos sutil no fundo */
   .cyber-card::before {
     content: '';
     position: absolute;
@@ -87,37 +85,20 @@
     background-size: 10px 10px;
     opacity: 0.05;
     pointer-events: none;
-    clip-path: polygon(
-      0 10px, 10px 0,
-      calc(100% - 20px) 0, 100% 20px,
-      100% calc(100% - 10px), calc(100% - 10px) 100%,
-      20px 100%, 0 calc(100% - 20px)
-    );
+    border-radius: 16px; /* ✅ Mesmo raio do card */
   }
+  
+  /* Efeito hover: brilho suave + leve elevação */
   .cyber-card:hover {
     border-color: var(--cyber-accent-light);
+    box-shadow: 0 0 20px rgba(255, 107, 26, 0.18);
+    transform: translateY(-2px);
   }
 
-  /* Cantos em L */
-  .cyber-card .cyber-corner-tl,
-  .cyber-card .cyber-corner-br {
-    position: absolute;
-    width: 20px; height: 20px;
-    z-index: 5;
-  }
-  .cyber-card .cyber-corner-tl {
-    top: 0; left: 0;
-    border-top: 2px solid var(--cyber-accent);
-    border-left: 2px solid var(--cyber-accent);
-  }
-  .cyber-card .cyber-corner-br {
-    bottom: 0; right: 0;
-    border-bottom: 2px solid var(--cyber-accent);
-    border-right: 2px solid var(--cyber-accent);
-  }
+  /* ❌ REMOVIDOS: cantos em L, clip-path e tudo que era cyberpunk nas bordas */
 
-  /* Ícone piscante */
-  .cyber-card .cyber-header-dot {
+  /* Ícone piscante (mantido se precisar em outro lugar) */
+  .cyber-header-dot {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -127,7 +108,7 @@
     background: var(--cyber-accent-soft);
     border-radius: 2px;
   }
-  .cyber-card .cyber-blink {
+  .cyber-blink {
     width: 7px; height: 7px;
     background: var(--cyber-accent);
     border-radius: 50%;
@@ -138,6 +119,7 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.3; }
   }
+
 
   /* Label ID */
   .cyber-card .cyber-label {

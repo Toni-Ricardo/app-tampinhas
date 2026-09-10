@@ -26,15 +26,12 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       }
       className={`cyber-card ${clicavel ? 'cursor-pointer' : ''}`}
       style={{
-        padding: '14px 12px 12px',
         fontFamily: "'Cuprum', sans-serif"
       }}
     >
-      {/* Cantos externos — mantidos para identidade cyberpunk */}
-      <div className="cyber-corner-tl"></div>
-      <div className="cyber-corner-br"></div>
+      {/* ✅ NÃO HÁ MAIS CANTOS EM L AQUI */}
 
-      {/* ✅ IMAGEM DA TAMPINHA — AUMENTADA PARA DESTAQUE MÁXIMO */}
+      {/* IMAGEM DA TAMPINHA — BORDAS ARREDONDADAS */}
       <div style={{
         position: 'relative',
         width: '100%',
@@ -45,14 +42,14 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        clipPath: 'polygon(0 8px, 8px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 16px 100%, 0 calc(100% - 16px))',
+        borderRadius: '12px', /* ✅ Arredondado */
         overflow: 'hidden'
       }}>
-        {/* Cantos internos brancos */}
+        {/* Cantos internos brancos — mantidos para charme */}
         <div style={{
           position: 'absolute',
-          top: '4px',
-          left: '4px',
+          top: '6px',
+          left: '6px',
           width: '12px',
           height: '12px',
           borderTop: '1px solid #ffffff',
@@ -61,8 +58,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         }}></div>
         <div style={{
           position: 'absolute',
-          bottom: '4px',
-          right: '4px',
+          bottom: '6px',
+          right: '6px',
           width: '12px',
           height: '12px',
           borderBottom: '1px solid #ffffff',
@@ -76,8 +73,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
             alt={tampinha.nome}
             loading="lazy"
             style={{
-              width: '88%',
-              height: '88%',
+              width: '100%',
+              height: '100%',
               objectFit: 'contain',
               transition: 'transform 0.4s ease'
             }}
@@ -105,14 +102,14 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         )}
       </div>
 
-      {/* ✅ NOME DA CERVEJA — TEXTO SOLTO, SEM BORDAS NEM ELEMENTOS */}
+      {/* NOME DA CERVEJA — TEXTO SOLTO */}
       <h3 style={{
-        fontSize: '13px',
+        fontSize: '14px',
         fontWeight: 700,
         textTransform: 'uppercase',
         color: '#ffffff',
         letterSpacing: '0.10em',
-        margin: '0 0 10px 0',
+        margin: '0 0 4px 0',
         textAlign: 'center',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -123,7 +120,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         {tampinha.nome}
       </h3>
 
-      {/* ✅ BANDEIRA — COM BORDA FINA LARANJA SOFT NA CÉLULA TODA */}
+      {/* BANDEIRA — COM BORDA LARANJA SOFT ARREDONDADA */}
       {bandeira && (
         <div style={{
           display: 'flex',
@@ -131,18 +128,18 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           alignItems: 'center',
           position: 'relative',
           zIndex: 1,
-          marginBottom: '8px',
-          padding: '4px 8px',
+          marginBottom: '1px',
+          padding: '4px 10px',
           border: '1px solid var(--cyber-accent-soft)',
-          clipPath: 'polygon(0 4px, 4px 0, calc(100% - 8px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 8px 100%, 0 calc(100% - 4px))'
+          borderRadius: '4px' /* ✅ Arredondado */
         }}>
           <img
             src={bandeira}
             alt={tampinha.pais}
             style={{
-              height: '14px',
-              width: '20px',
-              borderRadius: '2px',
+              height: '18px',
+              width: '24px',
+              borderRadius: '1px',
               objectFit: 'cover'
             }}
             onError={(e) => {
@@ -152,15 +149,15 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </div>
       )}
 
-      {/* ✅ NOME DO PAÍS — SEM FUNDO, SEM CONTORNOS, TEXTO SOLTO */}
+      {/* NOME DO PAÍS — TEXTO SOLTO */}
       <div style={{
         position: 'relative',
         zIndex: 1,
-        marginBottom: '8px',
+        marginBottom: '4px',
         textAlign: 'center'
       }}>
         <span style={{
-          fontSize: '11px',
+          fontSize: '16px',
           color: 'var(--cyber-accent)',
           fontWeight: 700,
           letterSpacing: '0.1em'
@@ -168,7 +165,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           ::
         </span>
         <span style={{
-          fontSize: '11px',
+          fontSize: '16px',
           color: 'var(--cyber-accent)',
           fontWeight: 700,
           textTransform: 'uppercase',
@@ -178,7 +175,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           {tampinha.pais}
         </span>
         <span style={{
-          fontSize: '11px',
+          fontSize: '16px',
           color: 'var(--cyber-accent)',
           fontWeight: 700,
           letterSpacing: '0.1em'
@@ -187,18 +184,18 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </span>
       </div>
 
-      {/* Linha pontilhada — mantida como separador sutil */}
+      {/* Linha pontilhada */}
       <div style={{
         position: 'relative',
         zIndex: 1,
         width: '100%',
         height: '1px',
-        backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 1px)',
-        backgroundSize: '5px 1px',
-        marginBottom: '8px'
+        backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 2px)',
+        backgroundSize: '5px 2px',
+        marginBottom: '4px'
       }}></div>
 
-      {/* ✅ NOME DA CIDADE — SEM OS "+" */}
+      {/* NOME DA CIDADE */}
       <div style={{
         position: 'relative',
         zIndex: 1,
@@ -206,8 +203,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         textAlign: 'center'
       }}>
         <span style={{
-          fontSize: '10px',
-          color: '#ffffff',
+          fontSize: '12px',
+          color: '#ffff99',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.10em'
