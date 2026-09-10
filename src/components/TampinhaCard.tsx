@@ -36,9 +36,9 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         position: 'relative',
         width: '100%',
         aspectRatio: '1 / 1',
-        margin: '0 auto 12px',
-        border: '1px solid var(--cyber-border)',
-        background: '#000000',
+        margin: '0 auto 6px',
+        border: '2px solid var(--cyber-border)',
+        background: '#04090f',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -120,32 +120,41 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         {tampinha.nome}
       </h3>
 
-      {/* BANDEIRA — COM BORDA LARANJA SOFT ARREDONDADA */}
+      {/* BANDEIRA — CENTRALIZADA + LARGURA AJUSTÁVEL */}
       {bandeira && (
         <div style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: 'center',   // ✅ Centraliza HORIZONTALMENTE
+          alignItems: 'center',       // ✅ Centraliza VERTICALMENTE
+          width: '100%',              // ✅ Ocupa toda a largura do card
           position: 'relative',
           zIndex: 1,
-          marginBottom: '1px',
-          padding: '4px 10px',
-          border: '1px solid var(--cyber-accent-soft)',
-          borderRadius: '4px' /* ✅ Arredondado */
+          marginBottom: '8px',
         }}>
-          <img
-            src={bandeira}
-            alt={tampinha.pais}
-            style={{
-              height: '18px',
-              width: '24px',
-              borderRadius: '1px',
-              objectFit: 'cover'
-            }}
-            onError={(e) => {
-              e.currentTarget.style.display = 'none'
-            }}
-          />
+          {/* Célula da bandeira — com LARGURA FIXA e CENTRALIZADA */}
+          <div style={{
+            width: '150px',             // ✅ AJUSTE A LARGURA AQUI (60px, 80px, 100px...)
+            padding: '4px 10px',
+            border: '2px solid var(--cyber-accent-soft)',
+            borderRadius: '4px',
+            display: 'flex',
+            justifyContent: 'center',  // ✅ Centraliza a bandeira DENTRO da célula
+            alignItems: 'center',
+          }}>
+            <img
+              src={bandeira}
+              alt={tampinha.pais}
+              style={{
+                height: '18px',
+                width: '24px',
+                borderRadius: '1px',
+                objectFit: 'cover'
+              }}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+              }}
+            />
+          </div>
         </div>
       )}
 
@@ -158,7 +167,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       }}>
         <span style={{
           fontSize: '16px',
-          color: 'var(--cyber-accent)',
+          color: '#ffffff',
           fontWeight: 700,
           letterSpacing: '0.1em'
         }}>
@@ -176,7 +185,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </span>
         <span style={{
           fontSize: '16px',
-          color: 'var(--cyber-accent)',
+          color: '#ffffff',
           fontWeight: 700,
           letterSpacing: '0.1em'
         }}>
@@ -204,7 +213,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       }}>
         <span style={{
           fontSize: '12px',
-          color: '#ffff99',
+          color: '#ffff55',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.10em'
