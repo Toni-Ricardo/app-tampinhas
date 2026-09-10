@@ -5,69 +5,9 @@ interface TampinhaCardProps {
   onClick?: () => void
 }
 
-function formatHudId(id: unknown): string {
-  const raw = String(id ?? '')
-  const digits = raw.replace(/\D/g, '')
-  if (digits.length > 0) {
-    return digits.slice(-4).padStart(4, '0')
-  }
-  const compact = raw.replace(/-/g, '').slice(-4).toUpperCase()
-  return (compact || '0000').padStart(4, '0')
-}
-
-function gerarPadraoBarcode(id: unknown): Array<{ width: number; shade: number }> {
-  const seed = String(id ?? '0000').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  const bars: Array<{ width: number; shade: number }> = []
-  let s = seed
-  for (let i = 0; i < 52; i++) {
-    s = (s * 1103515245 + 12345) & 0x7fffffff
-    const width = 1 + (s % 5)
-    const shade = s % 3
-    bars.push({ width, shade })
-    s = s >> 1
-  }
-  return bars
-}
-
-function BarcodeSVG({ id }: { id: unknown }) {
-  const bars = gerarPadraoBarcode(id)
-  let x = 2
-  const totalWidth = bars.reduce((acc, b) => acc + b.width + 1, 0) + 4
-  const shades = [
-    'rgba(255,255,255,0.50)',
-    'rgba(255,255,255,0.35)',
-    'rgba(255,255,255,0.20)'
-  ]
-
-  return (
-    <svg
-      width="100%"
-      height="28"
-      viewBox={`0 0 ${totalWidth} 28`}
-      preserveAspectRatio="none"
-      style={{ display: 'block' }}
-    >
-      {bars.map((bar, i) => {
-        const rect = (
-          <rect
-            key={i}
-            x={x}
-            y="0"
-            width={bar.width}
-            height="28"
-            fill={shades[bar.shade]}
-          />
-        )
-        x += bar.width + 1
-        return rect
-      })}
-    </svg>
-  )
-}
-
 export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
   const clicavel = typeof onClick === 'function'
-  const hudId = formatHudId(tampinha.id)
+  const bandeira = (tampinha as Tampinha & { bandeira_url?: string }).bandeira_url
 
   return (
     <article
@@ -86,57 +26,20 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       }
       className={`cyber-card ${clicavel ? 'cursor-pointer' : ''}`}
       style={{
-        padding: '18px 16px 14px',
+        padding: '14px 12px 12px',
         fontFamily: "'Cuprum', sans-serif"
       }}
     >
-      {/* Cantos externos */}
+      {/* Cantos externos — mantidos para identidade cyberpunk */}
       <div className="cyber-corner-tl"></div>
       <div className="cyber-corner-br"></div>
 
-      {/* Cabeçalho: CÓDIGO + ID */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'relative',
-        zIndex: 1,
-        marginBottom: '12px'
-      }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px'
-        }}>
-          <span className="cyber-header-dot">
-            <span className="cyber-blink"></span>
-          </span>
-          <div style={{
-            fontSize: '10px',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: 'var(--cyber-accent)',
-            fontWeight: 700
-          }}>
-            Código
-          </div>
-        </div>
-        <div style={{
-          fontSize: '10px',
-          letterSpacing: '0.18em',
-          color: '#ffffff',
-          fontWeight: 700
-        }}>
-          ID #{hudId}
-        </div>
-      </div>
-
-      {/* Moldura da tampinha */}
+      {/* ✅ IMAGEM DA TAMPINHA — AUMENTADA PARA DESTAQUE MÁXIMO */}
       <div style={{
         position: 'relative',
         width: '100%',
         aspectRatio: '1 / 1',
-        margin: '0 auto 14px',
+        margin: '0 auto 12px',
         border: '1px solid var(--cyber-border)',
         background: '#000000',
         display: 'flex',
@@ -150,8 +53,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           position: 'absolute',
           top: '4px',
           left: '4px',
-          width: '14px',
-          height: '14px',
+          width: '12px',
+          height: '12px',
           borderTop: '1px solid #ffffff',
           borderLeft: '1px solid #ffffff',
           zIndex: 2
@@ -160,8 +63,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           position: 'absolute',
           bottom: '4px',
           right: '4px',
-          width: '14px',
-          height: '14px',
+          width: '12px',
+          height: '12px',
           borderBottom: '1px solid #ffffff',
           borderRight: '1px solid #ffffff',
           zIndex: 2
@@ -173,8 +76,8 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
             alt={tampinha.nome}
             loading="lazy"
             style={{
-              width: '78%',
-              height: '78%',
+              width: '88%',
+              height: '88%',
               objectFit: 'contain',
               transition: 'transform 0.4s ease'
             }}
@@ -202,206 +105,115 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         )}
       </div>
 
-      {/* Nome da cerveja — borda laranja + cantos */}
-      <div style={{
+      {/* ✅ NOME DA CERVEJA — TEXTO SOLTO, SEM BORDAS NEM ELEMENTOS */}
+      <h3 style={{
+        fontSize: '13px',
+        fontWeight: 700,
+        textTransform: 'uppercase',
+        color: '#ffffff',
+        letterSpacing: '0.10em',
+        margin: '0 0 10px 0',
+        textAlign: 'center',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
         position: 'relative',
-        zIndex: 1,
-        marginBottom: '10px',
-        padding: '0 4px'
-      }}>
+        zIndex: 1
+      }} title={tampinha.nome}>
+        {tampinha.nome}
+      </h3>
+
+      {/* ✅ BANDEIRA — COM BORDA FINA LARANJA SOFT NA CÉLULA TODA */}
+      {bandeira && (
         <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           position: 'relative',
-          width: '100%',
-          height: '34px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          zIndex: 1,
+          marginBottom: '8px',
+          padding: '4px 8px',
           border: '1px solid var(--cyber-accent-soft)',
-          background: 'transparent',
-          clipPath: 'polygon(0 6px, 6px 0, calc(100% - 12px) 0, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 12px 100%, 0 calc(100% - 6px))'
+          clipPath: 'polygon(0 4px, 4px 0, calc(100% - 8px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 8px 100%, 0 calc(100% - 4px))'
         }}>
-          {/* Cantos na cor laranja */}
-          <div style={{
-            position: 'absolute',
-            top: 3,
-            left: 3,
-            width: '18px',
-            height: '18px',
-            borderTop: '1px solid var(--cyber-accent)',
-            borderLeft: '1px solid var(--cyber-accent)'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            top: 3,
-            right: 3,
-            width: '18px',
-            height: '18px',
-            borderTop: '1px solid var(--cyber-accent)',
-            borderRight: '1px solid var(--cyber-accent)'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            bottom: 3,
-            left: 3,
-            width: '18px',
-            height: '18px',
-            borderBottom: '1px solid var(--cyber-accent)',
-            borderLeft: '1px solid var(--cyber-accent)'
-          }}></div>
-          <div style={{
-            position: 'absolute',
-            bottom: 3,
-            right: 3,
-            width: '18px',
-            height: '18px',
-            borderBottom: '1px solid var(--cyber-accent)',
-            borderRight: '1px solid var(--cyber-accent)'
-          }}></div>
-
-          <h3 style={{
-            fontSize: '15px',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            color: '#ffffff',
-            letterSpacing: '0.12em',
-            margin: 0,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            padding: '0 22px'
-          }} title={tampinha.nome}>
-            {tampinha.nome}
-          </h3>
+          <img
+            src={bandeira}
+            alt={tampinha.pais}
+            style={{
+              height: '14px',
+              width: '20px',
+              borderRadius: '2px',
+              objectFit: 'cover'
+            }}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
         </div>
-      </div>
+      )}
 
-{/* Bandeira do país */}
-{(tampinha as Tampinha & { bandeira_url?: string }).bandeira_url && (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    position: 'relative',
-    zIndex: 1,
-    marginBottom: '8px'
-  }}>
-    <img
-      src={(tampinha as Tampinha & { bandeira_url?: string }).bandeira_url}
-      alt={tampinha.pais}
-      style={{
-        height: '18px',
-        width: '26px',
-        borderRadius: '2px',
-        objectFit: 'cover'
-      }}
-      onError={(e) => {
-        e.currentTarget.style.display = 'none'
-      }}
-    />
-  </div>
-)}      {/* Nome do país — retângulo borda laranja + fundo preto + fonte aumentada */}
+      {/* ✅ NOME DO PAÍS — SEM FUNDO, SEM CONTORNOS, TEXTO SOLTO */}
       <div style={{
         position: 'relative',
         zIndex: 1,
-        marginBottom: '10px'
+        marginBottom: '8px',
+        textAlign: 'center'
       }}>
-        <div style={{
-          width: '100%',
-          height: '34px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '16px',
-          border: '1px solid var(--cyber-accent-soft)',
-          background: '#000000',
-          clipPath: 'polygon(0 5px, 5px 0, calc(100% - 10px) 0, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 10px 100%, 0 calc(100% - 5px))'
+        <span style={{
+          fontSize: '11px',
+          color: 'var(--cyber-accent)',
+          fontWeight: 700,
+          letterSpacing: '0.1em'
         }}>
-          <span style={{
-            fontSize: '13px',
-            color: 'var(--cyber-accent)',
-            fontWeight: 700,
-            letterSpacing: '0.1em'
-          }}>
-            : :
-          </span>
-          <span style={{
-            fontSize: '14px',
-            color: 'var(--cyber-accent)',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em'
-          }} title={tampinha.pais}>
-            {tampinha.pais}
-          </span>
-          <span style={{
-            fontSize: '13px',
-            color: 'var(--cyber-accent)',
-            fontWeight: 700,
-            letterSpacing: '0.1em'
-          }}>
-            : :
-          </span>
-        </div>
+          ::
+        </span>
+        <span style={{
+          fontSize: '11px',
+          color: 'var(--cyber-accent)',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          letterSpacing: '0.10em',
+          margin: '0 8px'
+        }} title={tampinha.pais}>
+          {tampinha.pais}
+        </span>
+        <span style={{
+          fontSize: '11px',
+          color: 'var(--cyber-accent)',
+          fontWeight: 700,
+          letterSpacing: '0.1em'
+        }}>
+          ::
+        </span>
       </div>
 
-      {/* Linha pontilhada */}
+      {/* Linha pontilhada — mantida como separador sutil */}
       <div style={{
         position: 'relative',
         zIndex: 1,
         width: '100%',
-        height: '2px',
-        backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 2px)',
-        backgroundSize: '6px 1px',
-        marginBottom: '10px'
+        height: '1px',
+        backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 1px)',
+        backgroundSize: '5px 1px',
+        marginBottom: '8px'
       }}></div>
 
-      {/* Nome da cidade */}
+      {/* ✅ NOME DA CIDADE — SEM OS "+" */}
       <div style={{
         position: 'relative',
         zIndex: 1,
-        marginBottom: '12px'
+        marginBottom: '4px',
+        textAlign: 'center'
       }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '10px'
-        }}>
-          <span style={{
-            fontSize: '12px',
-            color: '#ffffff',
-            fontWeight: 700
-          }}>
-            +
-          </span>
-          <span style={{
-            fontSize: '11px',
-            color: '#ffffff',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.12em'
-          }} title={tampinha.cidade}>
-            {tampinha.cidade}
-          </span>
-          <span style={{
-            fontSize: '12px',
-            color: '#ffffff',
-            fontWeight: 700
-          }}>
-            +
-          </span>
-        </div>
-      </div>
-
-      {/* Código de barras 50% transparente */}
-      <div style={{
-        position: 'relative',
-        zIndex: 1,
-        padding: '8px 14px 8px',
-        border: '1px solid var(--cyber-border)',
-        background: 'rgba(0,0,0,0.25)',
-        clipPath: 'polygon(0 6px, 6px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 6px), calc(100% - 6px) 100%, 12px 100%, 0 calc(100% - 12px))'
-      }}>
-        <BarcodeSVG id={tampinha.id} />
+        <span style={{
+          fontSize: '10px',
+          color: '#ffffff',
+          fontWeight: 700,
+          textTransform: 'uppercase',
+          letterSpacing: '0.10em'
+        }} title={tampinha.cidade}>
+          {tampinha.cidade}
+        </span>
       </div>
     </article>
   )
