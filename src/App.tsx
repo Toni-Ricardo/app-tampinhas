@@ -11,42 +11,6 @@ type TampinhaFormatada = Tampinha & {
   bandeira_url: string
   origem_formatada: string
 }
-/**
- * Componente de código de barras para o modal (mesmo algoritmo do card)
- */
-function BarcodeModalSVG({ id }: { id: unknown }) {
-  const seed = String(id ?? '0000').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0)
-  const bars: Array<{ width: number; shade: number }> = []
-  let s = seed
-  for (let i = 0; i < 52; i++) {
-    s = (s * 1103515245 + 12345) & 0x7fffffff
-    const width = 1 + (s % 5)
-    const shade = s % 3
-    bars.push({ width, shade })
-    s = s >> 1
-  }
-  
-  const shades = [
-    'rgba(255,107,26,0.35)',
-    'rgba(255,154,60,0.55)',
-    '#ff6b1a'
-  ]
-  
-  let x = 2
-  const totalWidth = bars.reduce((acc, b) => acc + b.width + 1, 0) + 4
-  
-  return (
-    <svg width="100%" height="40" viewBox={`0 0 ${totalWidth} 40`} preserveAspectRatio="none" style={{ display: 'block' }}>
-      {bars.map((bar, i) => {
-        const rect = (
-          <rect key={i} x={x} y="2" width={bar.width} height="36" fill={shades[bar.shade]} />
-        )
-        x += bar.width + 1
-        return rect
-      })}
-    </svg>
-  )
-}
 
 export default function App() {
   const [tampinhas, setTampinhas] = useState<Tampinha[]>([])
@@ -96,7 +60,7 @@ export default function App() {
     return tampinhasFiltradas.map((tampinha) => {
       return {
         ...tampinha,
-        bandeira_url: bandeiraUrl(tampinha.pais) ?? '', // ✅ CORRIGIDO: converte null para string vazia
+        bandeira_url: bandeiraUrl(tampinha.pais) ?? '',
         origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
       }
     })
@@ -108,45 +72,168 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-tr-bg text-slate-100 selection:bg-amber-500/20">
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--cyber-bg)',
+      fontFamily: "'Cuprum', sans-serif",
+      color: 'var(--cyber-text)'
+    }}>
       
-      {/* CABEÇALHO FIXO */}
-      {/* CABEÇALHO FIXO CYBERPUNK */}
-      <header className="cyber-header fixed top-0 left-0 right-0 z-50">
-        <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-3 px-3 py-3 sm:px-4 sm:py-4">
+      {/* ✅ CABEÇALHO — EFEITO GLASS AUMENTADO */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: 'rgba(10, 14, 23, 0.40)', /* ✅ Mais transparência */
+        backdropFilter: 'blur(20px) saturate(180%)', /* ✅ Mais desfoque e saturação */
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)', /* ✅ Compatibilidade Safari */
+        borderBottom: '1px solid rgba(255, 107, 26, 0.12)', /* ✅ Borda sutil laranja */
+        borderBottomLeftRadius: '16px',
+        borderBottomRightRadius: '16px',
+        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)' /* ✅ Brilho sutil topo */
+      }}>
+        <div style={{
+          maxWidth: '64rem',
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '12px',
+          padding: '12px',
+          position: 'relative'
+        }}
+        className="sm:px-4 sm:py-4">
           
-          <div className="flex w-full flex-row items-center justify-between gap-3 pb-3 pt-1">
+          <div style={{
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px',
+            paddingBottom: '12px',
+            paddingTop: '4px'
+          }}>
             <button
               type="button"
               onClick={() => setModalAberto(true)}
-              className="flex items-center gap-3 text-left focus:outline-none group"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                textAlign: 'left',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                outline: 'none',
+                padding: 0
+              }}
               title="Cadastrar nova tampinha"
             >
-              {/* Moldura do logo com cantos recortados */}
-              <div className="cyber-logo-frame h-14 w-14 flex-shrink-0">
+              {/* MOLDURA DO LOGO */}
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '56px',
+                height: '56px',
+                flexShrink: 0,
+                border: '1px solid rgba(255, 107, 26, 0.20)',
+                background: 'rgba(0, 0, 0, 0.25)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                transition: 'border-color 0.3s ease, background 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.25)'
+              }}
+              >
                 <img 
                   src="/logo.png" 
                   alt="Logo" 
-                  className="h-[75%] w-[75%] object-contain brightness-110 relative z-10"
+                  style={{
+                    height: '75%',
+                    width: '75%',
+                    objectFit: 'contain',
+                    filter: 'brightness(1.1)',
+                    position: 'relative',
+                    zIndex: 10
+                  }}
                   onError={(e) => {
                     e.currentTarget.style.display = 'none'
                   }}
                 />
               </div>
               <div>
-                <h1 className="cyber-title flex items-center gap-2 text-lg font-bold uppercase text-white sm:text-2xl">
-                  TR <span className="cyber-title-accent font-extrabold">Tampinhas</span>
+                <h1 style={{
+                  fontFamily: 'var(--font-chakra)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '18px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.15em',
+                  color: '#ffffff',
+                  margin: 0,
+                  textShadow: '0 0 8px rgba(255, 255, 255, 0.15)'
+                }}
+                className="sm:text-2xl">
+                  TR <span style={{
+                    color: 'var(--cyber-accent)',
+                    fontWeight: 800,
+                    textShadow: '0 0 14px rgba(255, 107, 26, 0.35)'
+                  }}>Tampinhas</span>
                 </h1>
-                <p className="cyber-tagline mt-0.5">
+                <p style={{
+                  fontFamily: 'var(--font-chakra)',
+                  fontSize: '10px',
+                  letterSpacing: '0.15em',
+                  color: 'rgba(148, 163, 184, 0.80)',
+                  fontStyle: 'italic',
+                  marginTop: '2px',
+                  marginBottom: 0
+                }}>
                   "A cada tampinha uma história"
                 </p>
               </div>
             </button>
             
-            {/* Botão menu cyberpunk */}
+            {/* BOTÃO DO MENU */}
             <button
               onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-              className="cyber-menu-btn h-11 w-11"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                border: '1px solid rgba(255, 107, 26, 0.20)',
+                background: 'rgba(0, 0, 0, 0.20)',
+                color: 'var(--cyber-accent)',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+                e.currentTarget.style.color = 'var(--cyber-accent-light)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+                e.currentTarget.style.color = 'var(--cyber-accent)'
+              }}
               title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
@@ -157,19 +244,58 @@ export default function App() {
             </button>
           </div>
 
-          {/* Divisor estilizado */}
-          <div className="cyber-divider-header w-full"></div>
+          {/* DIVISOR — GRADIENTE */}
+          <div style={{
+            width: '100%',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)',
+            borderRadius: '1px'
+          }}></div>
 
           {/* ÁREA DE FILTROS */}
           <div 
-            className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
-              filtrosAbertos ? 'max-h-[220px] opacity-100 mt-2' : 'max-h-0 opacity-0'
-            }`}
+            style={{
+              width: '100%',
+              overflow: 'hidden',
+              transition: 'all 0.3s ease-in-out',
+              maxHeight: filtrosAbertos ? '220px' : '0',
+              opacity: filtrosAbertos ? 1 : 0,
+              marginTop: filtrosAbertos ? '8px' : '0'
+            }}
           >
-            {/* Barra de pesquisa cyberpunk */}
-            <div className="w-full max-w-2xl mx-auto mb-3">
-              <div className="cyber-search">
-                <svg className="cyber-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            {/* BARRA DE PESQUISA */}
+            <div style={{
+              width: '100%',
+              maxWidth: '42rem',
+              margin: '0 auto 12px'
+            }}>
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                height: '42px',
+                border: '1px solid rgba(255, 107, 26, 0.18)',
+                background: 'rgba(0, 0, 0, 0.20)',
+                padding: '0 14px',
+                borderRadius: '10px',
+                transition: 'border-color 0.25s ease, background 0.25s ease'
+              }}
+              onFocusIn={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.06)'
+              }}
+              onFocusOut={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+              }}
+              >
+                <svg 
+                  style={{
+                    color: 'var(--cyber-accent)',
+                    marginRight: '10px',
+                    flexShrink: 0
+                  }} 
+                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
@@ -177,40 +303,202 @@ export default function App() {
               </div>
             </div>
 
-            {/* Botões de filtro cyberpunk */}
-            <div className="w-full max-w-2xl mx-auto">
-              <div className="flex items-center gap-2">
+            {/* BOTÕES DE FILTRO */}
+            <div style={{
+              width: '100%',
+              maxWidth: '42rem',
+              margin: '0 auto'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                {/* Botão Nacional */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
-                  className={`cyber-filter-btn flex-1 ${filtroAtivo === 'Nacional' ? 'active' : ''}`}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    height: '40px',
+                    padding: '0 10px',
+                    border: `1px solid ${filtroAtivo === 'Nacional' ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
+                    background: filtroAtivo === 'Nacional' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: filtroAtivo === 'Nacional' ? 'var(--cyber-accent-light)' : 'rgba(148, 163, 184, 0.80)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    boxShadow: filtroAtivo === 'Nacional' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (filtroAtivo !== 'Nacional') {
+                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
+                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+                      e.currentTarget.style.color = '#ffffff'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (filtroAtivo !== 'Nacional') {
+                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
+                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
+                    }
+                  }}
                 >
-                  <img src="https://flagcdn.com/w160/br.png" alt="Brasil" className="h-5 w-7 rounded-sm object-cover" />
+                  <img 
+                    src="https://flagcdn.com/w160/br.png" 
+                    alt="Brasil" 
+                    style={{
+                      height: '20px',
+                      width: '28px',
+                      borderRadius: '2px',
+                      objectFit: 'cover'
+                    }} 
+                  />
                   <span>NAC.</span>
-                  <span className="cyber-filter-count">{totalNacional} un.</span>
+                  <span style={{
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: 'rgba(148, 163, 184, 0.70)',
+                    letterSpacing: '0.05em',
+                    textTransform: 'none'
+                  }}>{totalNacional} un.</span>
                 </button>
                 
-                <span className="cyber-filter-sep">+</span>
+                <span style={{
+                  color: 'var(--cyber-accent)',
+                  fontFamily: 'var(--font-chakra)',
+                  fontWeight: 700,
+                  fontSize: '16px',
+                  flexShrink: 0,
+                  opacity: 0.7
+                }}>+</span>
                 
+                {/* Botão Internacional */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
-                  className={`cyber-filter-btn flex-1 ${filtroAtivo === 'Internacional' ? 'active' : ''}`}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    height: '40px',
+                    padding: '0 10px',
+                    border: `1px solid ${filtroAtivo === 'Internacional' ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
+                    background: filtroAtivo === 'Internacional' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: filtroAtivo === 'Internacional' ? 'var(--cyber-accent-light)' : 'rgba(148, 163, 184, 0.80)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    boxShadow: filtroAtivo === 'Internacional' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (filtroAtivo !== 'Internacional') {
+                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
+                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+                      e.currentTarget.style.color = '#ffffff'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (filtroAtivo !== 'Internacional') {
+                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
+                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
+                    }
+                  }}
                 >
-                  <img src="/mundo.png" alt="Internacional" className="w-7 h-7 object-contain" />
+                  <img 
+                    src="/mundo.png" 
+                    alt="Internacional" 
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      objectFit: 'contain'
+                    }} 
+                  />
                   <span>INT.</span>
-                  <span className="cyber-filter-count">{totalInternacional} un.</span>
+                  <span style={{
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: 'rgba(148, 163, 184, 0.70)',
+                    letterSpacing: '0.05em',
+                    textTransform: 'none'
+                  }}>{totalInternacional} un.</span>
                 </button>
                 
-                <span className="cyber-filter-sep">=</span>
+                <span style={{
+                  color: 'var(--cyber-accent)',
+                  fontFamily: 'var(--font-chakra)',
+                  fontWeight: 700,
+                  fontSize: '16px',
+                  flexShrink: 0,
+                  opacity: 0.7
+                }}>=</span>
                 
+                {/* Botão Todas */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
-                  className={`cyber-filter-btn flex-1 ${filtroAtivo === 'Todas' ? 'active' : ''}`}
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    height: '40px',
+                    padding: '0 10px',
+                    border: `1px solid ${filtroAtivo === 'Todas' ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
+                    background: filtroAtivo === 'Todas' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '10px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: filtroAtivo === 'Todas' ? 'var(--cyber-accent-light)' : 'rgba(148, 163, 184, 0.80)',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    boxShadow: filtroAtivo === 'Todas' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (filtroAtivo !== 'Todas') {
+                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
+                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+                      e.currentTarget.style.color = '#ffffff'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (filtroAtivo !== 'Todas') {
+                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
+                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
+                    }
+                  }}
                 >
-                  <span></span>
-                  <span className="cyber-filter-count">{totalTodas} un.</span>
+                  <span>TODAS</span>
+                  <span style={{
+                    fontSize: '12px',
+                    fontWeight: 400,
+                    color: 'rgba(148, 163, 184, 0.70)',
+                    letterSpacing: '0.05em',
+                    textTransform: 'none'
+                  }}>{totalTodas} un.</span>
                 </button>
               </div>
             </div>          
@@ -219,11 +507,40 @@ export default function App() {
       </header>
 
       {/* MAIN CONTENT */}
-      <main className="mt-[140px] sm:mt-[130px] mx-auto max-w-5xl px-3 pb-16 sm:px-6">
+      <main style={{
+        marginTop: '140px',
+        maxWidth: '64rem',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingLeft: '12px',
+        paddingRight: '12px',
+        paddingBottom: '64px'
+      }}
+      className="sm:mt-[130px] sm:px-6">
         {erro && (
-          <div className="mb-6 rounded-xl border border-red-500/40 bg-red-950/30 px-4 py-3 text-sm text-red-300">
+          <div style={{
+            marginBottom: '24px',
+            padding: '12px 16px',
+            borderRadius: '12px',
+            border: '1px solid rgba(239, 68, 68, 0.4)',
+            background: 'rgba(127, 29, 29, 0.25)',
+            fontSize: '13px',
+            color: 'rgba(252, 165, 165, 0.95)'
+          }}>
             {erro}
-            <button type="button" onClick={carregar} className="ml-2 font-bold text-amber-500 underline hover:text-amber-400">
+            <button 
+              type="button" 
+              onClick={carregar} 
+              style={{
+                marginLeft: '8px',
+                fontWeight: 700,
+                color: 'var(--cyber-accent)',
+                textDecoration: 'underline',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer'
+              }}
+            >
               Tentar novamente
             </button>
           </div>
@@ -237,149 +554,272 @@ export default function App() {
 
       <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
 
-      {/* POP-UP HUD ZOOM MODAL */}
-      {/* POP-UP HUD ZOOM MODAL CYBERPUNK */}
+      {/* MODAL DE ZOOM */}
       {tampinhaZoom && (
         <div 
-          className="cyber-modal-overlay"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px',
+            background: 'rgba(5, 8, 14, 0.92)',
+            backdropFilter: 'blur(8px)'
+          }}
           onClick={() => setTampinhaZoom(null)}
         >
           <div 
-            className="cyber-modal"
+            style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '420px',
+              background: 'var(--cyber-card)',
+              border: '1px solid var(--cyber-accent)',
+              borderRadius: '16px',
+              padding: '20px 16px 16px',
+              fontFamily: "'Cuprum', sans-serif",
+              color: 'var(--cyber-text)',
+              maxHeight: '92vh',
+              overflowY: 'auto',
+              overflowX: 'hidden'
+            }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Cantos em L */}
-            <div className="cyber-corner-tl"></div>
-            <div className="cyber-corner-br"></div>
+            {/* Padrão de pontos sutil no fundo */}
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 1px)',
+              backgroundSize: '10px 10px',
+              opacity: 0.05,
+              pointerEvents: 'none',
+              borderRadius: '16px'
+            }}></div>
 
-            {/* Topo: ID + Fechar */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
-              <span style={{
-                fontFamily: "'Courier New', monospace",
-                fontSize: '11px',
-                fontWeight: 700,
-                letterSpacing: '0.15em',
-                color: 'var(--cyber-accent-light)'
-              }}>
-                ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
-              </span>
-              <button
-                type="button"
-                onClick={() => setTampinhaZoom(null)}
-                className="cyber-modal-close"
-                aria-label="Fechar"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
+            {/* Botão Fechar */}
+            <button
+              type="button"
+              onClick={() => setTampinhaZoom(null)}
+              aria-label="Fechar"
+              style={{
+                position: 'absolute',
+                top: '12px',
+                right: '12px',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid var(--cyber-border-light)',
+                background: 'var(--cyber-accent-soft)',
+                color: 'var(--cyber-accent)',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease',
+                zIndex: 10
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'var(--cyber-accent)'
+                e.currentTarget.style.color = 'var(--cyber-bg)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-border-light)'
+                e.currentTarget.style.background = 'var(--cyber-accent-soft)'
+                e.currentTarget.style.color = 'var(--cyber-accent)'
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* ID no canto superior esquerdo */}
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              marginBottom: '12px',
+              fontFamily: "'Courier New', monospace",
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+              color: 'var(--cyber-accent-light)'
+            }}>
+              ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
             </div>
 
-            {/* Divisor */}
-            <div className="cyber-divider" style={{ position: 'relative', zIndex: 1 }}></div>
-
-            {/* Área da imagem */}
-            <div className="cyber-modal-image-wrap" style={{ position: 'relative', zIndex: 1 }}>
-              <div className="cyber-frame-corner-tl" style={{ width: '16px', height: '16px', top: '4px', left: '4px', borderTop: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', position: 'absolute', zIndex: 2 }}></div>
-              <div className="cyber-frame-corner-br" style={{ width: '16px', height: '16px', bottom: '4px', right: '4px', borderBottom: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', position: 'absolute', zIndex: 2 }}></div>
+            {/* MOLDURA DA IMAGEM */}
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '280px',
+              aspectRatio: '1 / 1',
+              margin: '0 auto 14px',
+              border: '2px solid var(--cyber-border)',
+              background: '#04090f',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '12px',
+              overflow: 'hidden',
+              zIndex: 1
+            }}>
+              {/* Cantos internos brancos */}
+              <div style={{
+                position: 'absolute',
+                top: '8px',
+                left: '8px',
+                width: '14px',
+                height: '14px',
+                borderTop: '1px solid #ffffff',
+                borderLeft: '1px solid #ffffff',
+                zIndex: 2
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '8px',
+                right: '8px',
+                width: '14px',
+                height: '14px',
+                borderBottom: '1px solid #ffffff',
+                borderRight: '1px solid #ffffff',
+                zIndex: 2
+              }}></div>
               <img
                 src={tampinhaZoom.foto_url || '/placeholder.png'}
                 alt={tampinhaZoom.nome}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  transition: 'transform 0.4s ease'
+                }}
               />
             </div>
 
-            {/* Divisor pontos */}
-            <div className="cyber-divider-dots" style={{ position: 'relative', zIndex: 1, margin: '12px 0' }}>
-              <span className="dot" style={{ width: '4px', height: '4px', background: 'var(--cyber-accent)', borderRadius: '50%', flexShrink: 0 }}></span>
-              <span className="line" style={{ flex: 1, height: '1px', background: 'var(--cyber-border)' }}></span>
-              <span className="dot" style={{ width: '4px', height: '4px', background: 'var(--cyber-accent)', borderRadius: '50%', flexShrink: 0 }}></span>
-              <span className="line" style={{ flex: 1, height: '1px', background: 'var(--cyber-border)' }}></span>
-              <span className="dot" style={{ width: '4px', height: '4px', background: 'var(--cyber-accent)', borderRadius: '50%', flexShrink: 0 }}></span>
-            </div>
-
-            {/* Nome da cerveja */}
+            {/* NOME DA CERVEJA */}
             <h2 style={{
-              textAlign: 'center',
-              fontFamily: 'var(--font-chakra)',
-              fontSize: '22px',
-              fontWeight: 800,
-              letterSpacing: '0.1em',
+              fontSize: '18px',
+              fontWeight: 700,
               textTransform: 'uppercase',
               color: '#ffffff',
-              marginBottom: '16px',
+              letterSpacing: '0.12em',
+              margin: '0 0 8px 0',
+              textAlign: 'center',
               position: 'relative',
               zIndex: 1
             }}>
               {String(tampinhaZoom.nome || '').toUpperCase()}
             </h2>
 
-            {/* Pills: País + Origem */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              marginBottom: '12px',
-              position: 'relative',
-              zIndex: 1,
-              flexWrap: 'wrap'
-            }}>
-              <div className="cyber-modal-pill accent">
-                {tampinhaZoom.bandeira_url && (
-                  <img src={tampinhaZoom.bandeira_url} alt={tampinhaZoom.pais} />
-                )}
-                <span>{String(tampinhaZoom.pais || '').toUpperCase()}</span>
-              </div>
-              <div className="cyber-modal-pill">
-                <span style={{ color: 'var(--cyber-muted)' }}>
-                  {tampinhaZoom.origem_formatada}
-                </span>
-              </div>
-            </div>
-
-            {/* Cidade */}
-            <p style={{
-              textAlign: 'center',
-              fontFamily: "'Courier New', monospace",
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              color: 'var(--cyber-muted)',
-              textTransform: 'uppercase',
-              marginBottom: '16px',
-              position: 'relative',
-              zIndex: 1
-            }}>
-              {tampinhaZoom.cidade ? String(tampinhaZoom.cidade).toUpperCase() : 'ORIGEM NÃO INFORMADA'}
-            </p>
-
-            {/* Divisor */}
-            <div className="cyber-divider" style={{ position: 'relative', zIndex: 1 }}></div>
-
-            {/* Código de barras no modal */}
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <span className="cyber-label">CÓDIGO</span>
-                <span style={{
-                  fontSize: '10px',
-                  color: 'var(--cyber-accent-light)',
-                  fontFamily: "'Courier New', monospace"
-                }}>*{String(tampinhaZoom.id || '0000').padStart(4, '0')}*</span>
-              </div>
-              <div className="cyber-barcode-wrap">
-                {/* Reutiliza o mesmo padrão de barcode */}
-                <BarcodeModalSVG id={tampinhaZoom.id} />
-                <div className="cyber-barcode-text" title={String(tampinhaZoom.nome || '').toUpperCase()}>
-                  {String(tampinhaZoom.nome || '').toUpperCase()}
+            {/* BANDEIRA */}
+            {tampinhaZoom.bandeira_url && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '100%',
+                position: 'relative',
+                zIndex: 1,
+                marginBottom: '10px'
+              }}>
+                <div style={{
+                  width: '140px',
+                  padding: '4px 10px',
+                  border: '2px solid var(--cyber-accent-soft)',
+                  borderRadius: '4px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <img
+                    src={tampinhaZoom.bandeira_url}
+                    alt={tampinhaZoom.pais}
+                    style={{
+                      height: '16px',
+                      width: '22px',
+                      borderRadius: '2px',
+                      objectFit: 'cover'
+                    }}
+                  />
+                  <span style={{
+                    fontSize: '12px',
+                    color: 'var(--cyber-accent-light)',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.10em'
+                  }}>
+                    {tampinhaZoom.origem_formatada}
+                  </span>
                 </div>
               </div>
+            )}
+
+            {/* NOME DO PAÍS */}
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              marginBottom: '8px',
+              textAlign: 'center'
+            }}>
+              <span style={{
+                fontSize: '18px',
+                color: '#ffffff',
+                fontWeight: 700,
+                letterSpacing: '0.1em'
+              }}>
+                ::
+              </span>
+              <span style={{
+                fontSize: '18px',
+                color: 'var(--cyber-accent)',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.10em',
+                margin: '0 10px'
+              }}>
+                {String(tampinhaZoom.pais || '').toUpperCase()}
+              </span>
+              <span style={{
+                fontSize: '18px',
+                color: '#ffffff',
+                fontWeight: 700,
+                letterSpacing: '0.1em'
+              }}>
+                ::
+              </span>
             </div>
 
-            {/* Rodapé */}
-            <div className="cyber-footer-code" style={{ position: 'relative', zIndex: 1 }}>
-              <span>VCR: 1.0</span>
-              <span>STAT: Active</span>
+            {/* Linha pontilhada */}
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              height: '1px',
+              backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 2px)',
+              backgroundSize: '5px 2px',
+              marginBottom: '8px'
+            }}></div>
+
+            {/* CIDADE */}
+            <div style={{
+              position: 'relative',
+              zIndex: 1,
+              marginBottom: '4px',
+              textAlign: 'center'
+            }}>
+              <span style={{
+                fontSize: '14px',
+                color: '#ffff55',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.10em'
+              }}>
+                {tampinhaZoom.cidade ? String(tampinhaZoom.cidade).toUpperCase() : 'ORIGEM NÃO INFORMADA'}
+              </span>
             </div>
           </div>
         </div>

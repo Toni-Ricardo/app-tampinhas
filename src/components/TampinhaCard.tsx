@@ -133,7 +133,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         }}>
           {/* Célula da bandeira — com LARGURA FIXA e CENTRALIZADA */}
           <div style={{
-            width: '150px',             // ✅ AJUSTE A LARGURA AQUI (60px, 80px, 100px...)
+            width: '120px',             // ✅ AJUSTE A LARGURA AQUI (60px, 80px, 100px...)
             padding: '4px 10px',
             border: '2px solid var(--cyber-accent-soft)',
             borderRadius: '4px',

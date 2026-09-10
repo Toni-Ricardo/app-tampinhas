@@ -17,8 +17,33 @@ function arquivoImagemValido(file: File): boolean {
 
 function SecaoLabel({ numero, titulo }: { numero: string; titulo: string }) {
   return (
-    <div className="cyber-section-label">
-      <span className="num">{numero}</span>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      marginBottom: '8px',
+      fontSize: '10px',
+      fontWeight: 600,
+      letterSpacing: '0.15em',
+      textTransform: 'uppercase',
+      color: 'var(--cyber-accent)'
+    }}>
+      <span style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '18px',
+        height: '18px',
+        border: '1px solid var(--cyber-accent)',
+        background: 'var(--cyber-accent-soft)',
+        fontFamily: "'Courier New', monospace",
+        fontSize: '10px',
+        fontWeight: 700,
+        color: 'var(--cyber-accent-light)',
+        borderRadius: '4px' /* ✅ Cantos arredondados */
+      }}>
+        {numero}
+      </span>
       <span>{titulo}</span>
     </div>
   )
@@ -37,9 +62,48 @@ function BotaoOrigem({
     <button
       type="button"
       onClick={onClick}
-      className={`cyber-origem-btn ${ativo ? 'active' : ''}`}
+      style={{
+        position: 'relative',
+        display: 'flex',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        height: '40px',
+        border: `1px solid ${ativo ? 'var(--cyber-accent)' : 'var(--cyber-border)'}`,
+        background: ativo ? 'var(--cyber-accent-soft)' : 'rgba(0, 0, 0, 0.3)',
+        fontFamily: 'var(--font-chakra)',
+        fontSize: '12px',
+        fontWeight: 600,
+        letterSpacing: '0.08em',
+        color: ativo ? 'var(--cyber-accent-light)' : 'var(--cyber-muted)',
+        cursor: 'pointer',
+        transition: 'all 0.25s ease',
+        borderRadius: '8px', /* ✅ Cantos arredondados */
+        clipPath: 'none' /* ✅ Remove cantos recortados */
+      }}
+      onMouseEnter={(e) => {
+        if (!ativo) {
+          e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
+          e.currentTarget.style.color = 'var(--cyber-text)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!ativo) {
+          e.currentTarget.style.borderColor = 'var(--cyber-border)'
+          e.currentTarget.style.color = 'var(--cyber-muted)'
+        }
+      }}
     >
-      <span className="dot-indicator" />
+      <span style={{
+        width: '10px',
+        height: '10px',
+        borderRadius: '50%',
+        border: `2px solid ${ativo ? 'var(--cyber-accent)' : 'var(--cyber-muted)'}`,
+        background: ativo ? 'var(--cyber-accent)' : 'transparent',
+        transition: 'all 0.25s ease',
+        boxShadow: ativo ? '0 0 8px var(--cyber-accent)' : 'none'
+      }} />
       {label}
     </button>
   )
@@ -101,7 +165,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   function aplicarArquivo(file: File | undefined | null) {
     if (!file) return
     if (!arquivoImagemValido(file)) {
-      setErro('Selecione uma imagem PNG (ou JPG/WebP).')
+      setErro('Selecione uma imagem PNG.')
       return
     }
     setErro(null)
@@ -155,45 +219,140 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   }
 
   return (
-    <div className="cyber-cadastro-overlay">
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 50,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '12px',
+      background: 'rgba(5, 8, 14, 0.88)',
+      backdropFilter: 'blur(6px)'
+    }}>
       <button 
         type="button" 
         aria-label="Fechar" 
-        className="absolute inset-0 bg-black/40" 
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'rgba(0,0,0,0.4)',
+          border: 'none',
+          cursor: 'pointer'
+        }}
         onClick={onClose} 
       />
       
-      <div className="cyber-cadastro-container">
-        {/* Cantos em L */}
-        <div className="cyber-corner-tl"></div>
-        <div className="cyber-corner-br"></div>
+      <div style={{
+        position: 'relative',
+        zIndex: 10,
+        display: 'flex',
+        maxHeight: 'min(92vh, 920px)',
+        width: '100%',
+        maxWidth: '56rem',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        background: 'var(--cyber-card)',
+        border: '1px solid var(--cyber-accent)',
+        borderRadius: '16px',
+        fontFamily: "'Cuprum', sans-serif",
+        color: 'var(--cyber-text)'
+      }}>
+        {/* Padrão de pontos sutil no fundo */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 1px)',
+          backgroundSize: '12px 12px',
+          opacity: 0.04,
+          pointerEvents: 'none',
+          borderRadius: '16px',
+          zIndex: 0
+        }}></div>
 
-        {/* Cabeçalho */}
-        <div className="cyber-cadastro-header">
-          <div className="cyber-logo-frame h-10 w-10 flex-shrink-0">
+        {/* CABEÇALHO */}
+        <div style={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '14px',
+          padding: '16px 20px',
+          borderBottom: '1px solid var(--cyber-border)'
+        }}>
+          <div style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '40px',
+            height: '40px',
+            flexShrink: 0,
+            border: '1px solid var(--cyber-border-light)',
+            background: 'rgba(0, 0, 0, 0.4)',
+            borderRadius: '8px', /* ✅ Cantos arredondados */
+            overflow: 'hidden'
+          }}>
             <img 
               src="/logo.png" 
               alt="Logo" 
-              className="h-full w-full object-contain brightness-110 relative z-10"
+              style={{
+                height: '75%',
+                width: '75%',
+                objectFit: 'contain',
+                brightness: '1.1'
+              }}
               onError={(e) => {
                 e.currentTarget.style.display = 'none'
               }}
             />
           </div>
-          <div className="flex-1">
-            <h2 className="cyber-cadastro-title">Nova Tampinha</h2>
-            <p className="cyber-cadastro-subtitle">
-              Cadastre à esquerda e veja a carta publicada à direita.
+          <div style={{ flex: 1 }}>
+            <h2 style={{
+              fontFamily: 'var(--font-chakra)',
+              fontSize: '15px',
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'var(--cyber-accent-light)',
+              margin: 0
+            }}>
+              Nova Tampinha
+            </h2>
+            <p style={{
+              fontSize: '10px',
+              color: 'var(--cyber-muted)',
+              letterSpacing: '0.05em',
+              marginTop: '2px',
+              marginBottom: 0
+            }}>
+              Cadastre para inserir um novo item.
             </p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="cyber-cadastro-grid">
+        <form onSubmit={handleSubmit} style={{
+          position: 'relative',
+          zIndex: 1,
+          display: 'grid',
+          minHeight: 0,
+          flex: 1,
+          overflowY: 'auto',
+          gridTemplateColumns: '1fr'
+        }}
+        className="md:grid-cols-2 md:overflow-hidden">
+          
           {/* COLUNA ESQUERDA: FORMULÁRIO */}
-          <div className="cyber-cadastro-form">
-            {/* Seção 1: Foto */}
-            <section className="cyber-section">
-              <SecaoLabel numero="1" titulo="Foto da Tampinha (PNG)" />
+          <div style={{
+            padding: '18px 20px',
+            overflowY: 'auto',
+            borderBottom: '1px solid var(--cyber-border)'
+          }}
+          className="md:border-b-0 md:border-r md:border-b-0">
+            
+            {/* ✅ Seção 1: Foto — ÁREA DE UPLOAD ARREDONDADA */}
+            <section style={{ marginBottom: '18px' }}>
+              <SecaoLabel numero="1" titulo="Foto da Tampinha" />
               <button
                 type="button"
                 onClick={() => inputFotoRef.current?.click()}
@@ -207,17 +366,53 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 }}
                 onDragLeave={() => setArrastando(false)}
                 onDrop={handleDrop}
-                className={`cyber-upload w-full ${arrastando ? 'dragging' : ''}`}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  width: '100%',
+                  minHeight: '130px',
+                  padding: '18px 14px',
+                  border: `1px ${arrastando ? 'solid' : 'dashed'} var(--cyber-${arrastando ? 'accent-light' : 'border'})`,
+                  background: arrastando ? 'var(--cyber-accent-soft)' : 'rgba(0, 0, 0, 0.25)',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease',
+                  borderRadius: '10px', /* ✅ Cantos arredondados */
+                  clipPath: 'none' /* ✅ Remove cantos recortados */
+                }}
               >
                 {preview ? (
-                  <img src={preview} alt="Preview" />
+                  <img 
+                    src={preview} 
+                    alt="Preview" 
+                    style={{
+                      maxHeight: '90px',
+                      width: 'auto',
+                      maxWidth: '100%',
+                      borderRadius: '4px',
+                      objectFit: 'contain'
+                    }}
+                  />
                 ) : (
                   <>
-                    <span className="cyber-upload-text">
-                      Arraste o PNG aqui ou clique para enviar
+                    <span style={{
+                      fontSize: '10px',
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      color: arrastando ? 'var(--cyber-accent-light)' : 'var(--cyber-muted)',
+                      textAlign: 'center'
+                    }}>
+                      Clique aqui
                     </span>
-                    <span className="cyber-upload-hint">
-                      Upload para o Storage ao salvar
+                    <span style={{
+                      fontSize: '9px',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(100, 116, 139, 0.6)'
+                    }}>
+                      Inserir uma foto da tampinha .png
                     </span>
                   </>
                 )}
@@ -226,54 +421,117 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 ref={inputFotoRef}
                 type="file"
                 accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp"
-                className="hidden"
+                style={{ display: 'none' }}
                 onChange={(e) => aplicarArquivo(e.target.files?.[0] ?? null)}
               />
             </section>
 
-            {/* Seção 2: Nome */}
-            <section className="cyber-section">
+            {/* ✅ Seção 2: Nome — INPUT ARREDONDADO */}
+            <section style={{ marginBottom: '18px' }}>
               <SecaoLabel numero="2" titulo="Nome da Cerveja / Tampinha" />
               <input
                 id="nome"
                 type="text"
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
-                className="cyber-input"
                 placeholder="Ex.: Brahma"
+                style={{
+                  width: '100%',
+                  height: '42px',
+                  padding: '0 14px',
+                  border: '1px solid var(--cyber-border)',
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  color: 'var(--cyber-text)',
+                  fontFamily: 'var(--font-chakra)',
+                  fontSize: '12px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  outline: 'none',
+                  transition: 'border-color 0.25s ease',
+                  borderRadius: '8px', /* ✅ Cantos arredondados */
+                  clipPath: 'none' /* ✅ Remove cantos recortados */
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-border)'
+                }}
               />
             </section>
 
-            {/* Seção 3: País */}
-            <section className="cyber-section">
+            {/* ✅ Seção 3: País — INPUT ARREDONDADO */}
+            <section style={{ marginBottom: '18px' }}>
               <SecaoLabel numero="3" titulo="País" />
               <input
                 id="pais"
                 type="text"
                 value={pais}
                 onChange={(e) => setPais(e.target.value)}
-                className="cyber-input"
                 placeholder="Ex.: Brasil"
+                style={{
+                  width: '100%',
+                  height: '42px',
+                  padding: '0 14px',
+                  border: '1px solid var(--cyber-border)',
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  color: 'var(--cyber-text)',
+                  fontFamily: 'var(--font-chakra)',
+                  fontSize: '12px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  outline: 'none',
+                  transition: 'border-color 0.25s ease',
+                  borderRadius: '8px', /* ✅ Cantos arredondados */
+                  clipPath: 'none'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-border)'
+                }}
               />
             </section>
 
-            {/* Seção 4: Cidade */}
-            <section className="cyber-section">
+            {/* ✅ Seção 4: Cidade — INPUT ARREDONDADO */}
+            <section style={{ marginBottom: '18px' }}>
               <SecaoLabel numero="4" titulo="Cidade" />
               <input
                 id="cidade"
                 type="text"
                 value={cidade}
                 onChange={(e) => setCidade(e.target.value)}
-                className="cyber-input"
                 placeholder="Ex.: São Paulo"
+                style={{
+                  width: '100%',
+                  height: '42px',
+                  padding: '0 14px',
+                  border: '1px solid var(--cyber-border)',
+                  background: 'rgba(0, 0, 0, 0.35)',
+                  color: 'var(--cyber-text)',
+                  fontFamily: 'var(--font-chakra)',
+                  fontSize: '12px',
+                  letterSpacing: '0.05em',
+                  textTransform: 'uppercase',
+                  outline: 'none',
+                  transition: 'border-color 0.25s ease',
+                  borderRadius: '8px', /* ✅ Cantos arredondados */
+                  clipPath: 'none'
+                }}
+                onFocus={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                }}
+                onBlur={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-border)'
+                }}
               />
             </section>
 
-            {/* Seção 5: Categoria */}
-            <section className="cyber-section">
+            {/* ✅ Seção 5: Categoria — BOTÕES ARREDONDADOS */}
+            <section style={{ marginBottom: '18px' }}>
               <SecaoLabel numero="5" titulo="Categoria" />
-              <div className="flex gap-3">
+              <div style={{ display: 'flex', gap: '12px' }}>
                 <BotaoOrigem 
                   label="Nacional" 
                   ativo={origem === 'Nacional'} 
@@ -287,39 +545,143 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               </div>
             </section>
 
-            {/* Erro */}
+            {/* ✅ Mensagem de ERRO ARREDONDADA */}
             {erro && (
-              <div className="cyber-error mb-4">
+              <div style={{
+                padding: '10px 14px',
+                border: '1px solid rgba(239, 68, 68, 0.4)',
+                background: 'rgba(127, 29, 29, 0.25)',
+                color: 'rgba(252, 165, 165, 0.95)',
+                fontSize: '11px',
+                letterSpacing: '0.03em',
+                borderRadius: '8px', /* ✅ Cantos arredondados */
+                marginBottom: '16px'
+              }}>
                 {erro}
               </div>
             )}
           </div>
 
           {/* COLUNA DIREITA: PREVIEW */}
-          <div className="cyber-cadastro-preview">
-            <span className="cyber-preview-label">Preview da Carta</span>
+          <div style={{
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            gap: '12px',
+            background: 'rgba(0, 0, 0, 0.15)',
+            overflowY: 'auto'
+          }}>
+            <span style={{
+              fontSize: '10px',
+              fontWeight: 600,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: 'var(--cyber-accent)'
+            }}>
+              Preview da Carta
+            </span>
             <div style={{ width: '100%', maxWidth: '260px' }}>
               <TampinhaCard tampinha={tampinhaPreview} />
             </div>
-            <p className="cyber-preview-hint">
+            <p style={{
+              maxWidth: '240px',
+              textAlign: 'center',
+              fontSize: '10px',
+              color: 'var(--cyber-muted)',
+              lineHeight: 1.5,
+              margin: 0
+            }}>
               Atualiza em tempo real. O arquivo PNG só vai para o bucket ao gravar.
             </p>
           </div>
 
-          {/* BARRA DE AÇÕES */}
-          <div className="cyber-action-bar col-span-full">
+          {/* ✅ BARRA DE AÇÕES — BOTÕES ARREDONDADOS */}
+          <div style={{
+            position: 'relative',
+            zIndex: 1,
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '12px',
+            padding: '14px 20px',
+            borderTop: '1px solid var(--cyber-border)',
+            gridColumn: '1 / -1'
+          }}>
             <button
               type="button"
               onClick={onClose}
               disabled={enviando}
-              className="cyber-btn"
+              style={{
+                height: '42px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0 16px',
+                border: '1px solid var(--cyber-border)',
+                background: 'rgba(0, 0, 0, 0.3)',
+                fontFamily: 'var(--font-chakra)',
+                fontSize: '11px',
+                fontWeight: 600,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: enviando ? 'rgba(100, 116, 139, 0.5)' : 'var(--cyber-muted)',
+                cursor: enviando ? 'not-allowed' : 'pointer',
+                transition: 'all 0.25s ease',
+                borderRadius: '8px', /* ✅ Cantos arredondados */
+                opacity: enviando ? 0.5 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (!enviando) {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
+                  e.currentTarget.style.color = 'var(--cyber-text)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!enviando) {
+                  e.currentTarget.style.borderColor = 'var(--cyber-border)'
+                  e.currentTarget.style.color = 'var(--cyber-muted)'
+                }
+              }}
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={enviando}
-              className="cyber-btn primary"
+              style={{
+                height: '42px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0 16px',
+                border: '1px solid var(--cyber-accent)',
+                background: 'var(--cyber-accent-soft)',
+                fontFamily: 'var(--font-chakra)',
+                fontSize: '11px',
+                fontWeight: 600,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: enviando ? 'rgba(255, 154, 60, 0.5)' : 'var(--cyber-accent-light)',
+                cursor: enviando ? 'not-allowed' : 'pointer',
+                transition: 'all 0.25s ease',
+                borderRadius: '8px', /* ✅ Cantos arredondados */
+                opacity: enviando ? 0.5 : 1
+              }}
+              onMouseEnter={(e) => {
+                if (!enviando) {
+                  e.currentTarget.style.background = 'var(--cyber-accent)'
+                  e.currentTarget.style.color = '#0a0e17'
+                  e.currentTarget.style.boxShadow = '0 0 16px rgba(255, 107, 26, 0.3)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!enviando) {
+                  e.currentTarget.style.background = 'var(--cyber-accent-soft)'
+                  e.currentTarget.style.color = 'var(--cyber-accent-light)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }
+              }}
             >
               {enviando ? 'Gravando...' : '+ Salvar'}
             </button>

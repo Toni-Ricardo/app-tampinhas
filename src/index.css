@@ -16,7 +16,7 @@
   --color-tr-neon: #678fcb;
 
   /* --- PALETA CYBERPUNK --- */
-  --cyber-bg: #0a0e17;
+  --cyber-bg: #000000;
   --cyber-card: #0f1520;
   --cyber-text: #e2e8f0;
   --cyber-muted: #64748b;
@@ -1008,5 +1008,22 @@
       100% calc(100% - 5px), calc(100% - 5px) 100%,
       10px 100%, 0 calc(100% - 10px)
     );
+  }
+}
+/* Adicione estas regras no final do seu index.css */
+
+/* Grid responsivo do formulário de cadastro */
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .md\:overflow-hidden {
+    overflow: hidden !important;
+  }
+  .md\:border-b-0 {
+    border-bottom: none !important;
+  }
+  .md\:border-r {
+    border-right: 1px solid var(--cyber-border) !important;
   }
 }

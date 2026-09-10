@@ -10,7 +10,7 @@ export function SearchBar({ value, onChange }: SearchBarProps) {
       type="text"
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="Buscar por nome, país, cidade..."
+      placeholder="Pesquisar..."
       aria-label="Buscar tampinha"
     />
   )
