@@ -155,3 +155,15 @@ export function filtrarTampinhas(
 export function contarPorOrigem(tampinhas: Tampinha[], origem: Origem): number {
   return tampinhas.filter((t) => t.origem === origem).length
 }
+// src/types/tampinha.ts
+export interface Tampinha {
+  id: string
+  nome: string
+  pais: string
+  cidade: string
+  origem: 'Nacional' | 'Internacional'
+  foto_url: string
+  bandeira_url?: string   // ← ADICIONE ESTA LINHA
+  created_at?: string
+  // ... mantenha os outros campos que já existem
+}
