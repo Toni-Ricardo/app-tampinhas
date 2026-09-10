@@ -293,19 +293,19 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
             borderRadius: '8px', /* ✅ Cantos arredondados */
             overflow: 'hidden'
           }}>
-            <img 
-              src="/logo.png" 
-              alt="Logo" 
-              style={{
-                height: '75%',
-                width: '75%',
-                objectFit: 'contain',
-                brightness: '1.1'
-              }}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
+<img 
+  src="/logo.png" 
+  alt="Logo" 
+  style={{
+    height: '75%',
+    width: '75%',
+    objectFit: 'contain',
+    filter: 'brightness(1.1)'
+  }}
+  onError={(e) => {
+    e.currentTarget.style.display = 'none'
+  }}
+/>
           </div>
           <div style={{ flex: 1 }}>
             <h2 style={{

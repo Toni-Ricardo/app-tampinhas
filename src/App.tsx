@@ -279,16 +279,7 @@ export default function App() {
                 padding: '0 14px',
                 borderRadius: '10px',
                 transition: 'border-color 0.25s ease, background 0.25s ease'
-              }}
-              onFocusIn={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.06)'
-              }}
-              onFocusOut={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
-              }}
-              >
+              }}>
                 <svg 
                   style={{
                     color: 'var(--cyber-accent)',
@@ -302,7 +293,6 @@ export default function App() {
                 <SearchBar value={busca} onChange={setBusca} />
               </div>
             </div>
-
             {/* BOTÕES DE FILTRO */}
             <div style={{
               width: '100%',
