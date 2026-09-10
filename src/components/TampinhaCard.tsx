@@ -275,32 +275,30 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </div>
       </div>
 
-      {/* Bandeira do país */}
-      {tampinha.bandeira_url && (
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 1,
-          marginBottom: '8px'
-        }}>
-          <img
-            src={tampinha.bandeira_url}
-            alt={tampinha.pais}
-            style={{
-              height: '18px',
-              width: '26px',
-              borderRadius: '2px',
-              objectFit: 'cover'
-            }}
-            onError={(e) => {
-              e.currentTarget.style.display = 'none'
-            }}
-          />
-        </div>
-      )}
-
-      {/* Nome do país — retângulo borda laranja + fundo preto + fonte aumentada */}
+{/* Bandeira do país */}
+{(tampinha as Tampinha & { bandeira_url?: string }).bandeira_url && (
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+    zIndex: 1,
+    marginBottom: '8px'
+  }}>
+    <img
+      src={(tampinha as Tampinha & { bandeira_url?: string }).bandeira_url}
+      alt={tampinha.pais}
+      style={{
+        height: '18px',
+        width: '26px',
+        borderRadius: '2px',
+        objectFit: 'cover'
+      }}
+      onError={(e) => {
+        e.currentTarget.style.display = 'none'
+      }}
+    />
+  </div>
+)}      {/* Nome do país — retângulo borda laranja + fundo preto + fonte aumentada */}
       <div style={{
         position: 'relative',
         zIndex: 1,
