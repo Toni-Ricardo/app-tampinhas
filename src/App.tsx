@@ -89,7 +89,7 @@ export default function App() {
         background: 'rgba(10, 14, 23, 0.40)', /* ✅ Mais transparência */
         backdropFilter: 'blur(20px) saturate(180%)', /* ✅ Mais desfoque e saturação */
         WebkitBackdropFilter: 'blur(20px) saturate(180%)', /* ✅ Compatibilidade Safari */
-        borderBottom: '1px solid rgba(255, 107, 26, 0.12)', /* ✅ Borda sutil laranja */
+        borderBottom: '1px solid rgba(255, 107, 26, 0.5)', /* ✅ Borda sutil laranja */
         borderBottomLeftRadius: '16px',
         borderBottomRightRadius: '16px',
         boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)' /* ✅ Brilho sutil topo */

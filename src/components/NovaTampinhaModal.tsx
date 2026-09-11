@@ -326,7 +326,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               marginTop: '2px',
               marginBottom: 0
             }}>
-              Cadastre para inserir um novo item.
+              Cadastre uma nova tampinha.
             </p>
           </div>
         </div>

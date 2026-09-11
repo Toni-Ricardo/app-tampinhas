@@ -15,10 +15,10 @@
   --color-tr-accent-hover: #eab308;
   --color-tr-neon: #678fcb;
 
-  /* --- PALETA CYBERPUNK --- */
+  /* --- PALETA CYBERPUNK *** COR DE FUNDO GRID--- */
   --cyber-bg: #000000;
   --cyber-card: #0f1520;
-  --cyber-text: #e2e8f0;
+  --cyber-text: #ff9a3c;
   --cyber-muted: #64748b;
   --cyber-accent: #ff6b1a;
   --cyber-accent-light: #ff9a3c;
@@ -61,19 +61,18 @@
 /* ===================================================== */
 /* ✅ CARD CYBERPUNK — BORDAS ARREDONDADAS               */
 /* ===================================================== */
-
 @layer components {
   .cyber-card {
     position: relative;
     width: 100%;
     background: var(--cyber-card);
-    border: 1px solid var(--cyber-accent); /* ✅ Cor laranja mantida */
-    border-radius: 16px; /* ✅ BORDAS ARREDONDADAS */
+    border: px solid #ff6b1a; /* ✅ ALTERADO: laranja → cinza #94A3B8 */
+    border-radius: 16px;
     padding: 14px 12px 12px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     font-family: var(--font-chakra);
     color: var(--cyber-text);
-    overflow: hidden; /* ✅ Garante que nada ultrapasse as bordas */
+    overflow: hidden;
   }
   
   /* Efeito de padrão de pontos sutil no fundo */
@@ -85,13 +84,13 @@
     background-size: 10px 10px;
     opacity: 0.05;
     pointer-events: none;
-    border-radius: 16px; /* ✅ Mesmo raio do card */
+    border-radius: 16px;
   }
   
-  /* Efeito hover: brilho suave + leve elevação */
+  /* Efeito hover: ajustado para cor cinza */
   .cyber-card:hover {
-    border-color: var(--cyber-accent-light);
-    box-shadow: 0 0 20px rgba(255, 107, 26, 0.18);
+    border-color: #CBD5E1; /* ✅ ALTERADO: cinza mais claro no hover */
+    box-shadow: 0 0 20px rgba(148, 163, 184, 0.15); /* ✅ ALTERADO: sombra cinza suave */
     transform: translateY(-2px);
   }
 
