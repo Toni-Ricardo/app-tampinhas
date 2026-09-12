@@ -74,7 +74,8 @@ export default function App() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'var(--cyber-bg)',
+      /* ✅ REMOVIDO: background: 'var(--cyber-bg)' → cobria a imagem de fundo */
+      background: 'transparent', /* ✅ DEIXA A IMAGEM DO BODY APARECER */
       fontFamily: "'Cuprum', sans-serif",
       color: 'var(--cyber-text)'
     }}>
@@ -86,13 +87,13 @@ export default function App() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: 'rgba(10, 14, 23, 0.40)', /* ✅ Mais transparência */
-        backdropFilter: 'blur(20px) saturate(180%)', /* ✅ Mais desfoque e saturação */
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)', /* ✅ Compatibilidade Safari */
-        borderBottom: '1px solid rgba(255, 107, 26, 0.5)', /* ✅ Borda sutil laranja */
+        background: 'rgba(10, 14, 23, 0.40)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(255, 107, 26, 0.5)',
         borderBottomLeftRadius: '16px',
         borderBottomRightRadius: '16px',
-        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)' /* ✅ Brilho sutil topo */
+        boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
       }}>
         <div style={{
           maxWidth: '64rem',
@@ -243,7 +244,6 @@ export default function App() {
               </svg>
             </button>
           </div>
-
           {/* DIVISOR — GRADIENTE */}
           <div style={{
             width: '100%',
@@ -251,7 +251,6 @@ export default function App() {
             background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)',
             borderRadius: '1px'
           }}></div>
-
           {/* ÁREA DE FILTROS */}
           <div 
             style={{
@@ -504,7 +503,8 @@ export default function App() {
         marginRight: 'auto',
         paddingLeft: '12px',
         paddingRight: '12px',
-        paddingBottom: '64px'
+        paddingBottom: '64px',
+        background: 'transparent' /* ✅ SEM FUNDO — deixa a imagem aparecer */
       }}
       className="sm:mt-[130px] sm:px-6">
         {erro && (
@@ -587,7 +587,6 @@ export default function App() {
               pointerEvents: 'none',
               borderRadius: '16px'
             }}></div>
-
             {/* Botão Fechar */}
             <button
               type="button"
@@ -626,7 +625,6 @@ export default function App() {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-
             {/* ID no canto superior esquerdo */}
             <div style={{
               position: 'relative',
@@ -640,7 +638,6 @@ export default function App() {
             }}>
               ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
             </div>
-
             {/* MOLDURA DA IMAGEM */}
             <div style={{
               position: 'relative',
@@ -689,7 +686,6 @@ export default function App() {
                 }}
               />
             </div>
-
             {/* NOME DA CERVEJA */}
             <h2 style={{
               fontSize: '18px',
@@ -704,7 +700,6 @@ export default function App() {
             }}>
               {String(tampinhaZoom.nome || '').toUpperCase()}
             </h2>
-
             {/* BANDEIRA */}
             {tampinhaZoom.bandeira_url && (
               <div style={{
@@ -747,7 +742,6 @@ export default function App() {
                 </div>
               </div>
             )}
-
             {/* NOME DO PAÍS */}
             <div style={{
               position: 'relative',
@@ -782,7 +776,6 @@ export default function App() {
                 ::
               </span>
             </div>
-
             {/* Linha pontilhada */}
             <div style={{
               position: 'relative',
@@ -793,7 +786,6 @@ export default function App() {
               backgroundSize: '5px 2px',
               marginBottom: '8px'
             }}></div>
-
             {/* CIDADE */}
             <div style={{
               position: 'relative',

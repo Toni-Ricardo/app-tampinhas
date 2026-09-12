@@ -28,36 +28,41 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
       style={{
         fontFamily: '"JetBrains Mono", monospace',
         position: 'relative',
-        background: 'var(--cyber-card)',
-        borderRadius: '8px',
-        padding: '12px 8px 10px',
-        minHeight: '100px',
+        /* ✅ FUNDO TRANSPARENTE → deixa a imagem de fundo aparecer */
+        background: 'rgba(15, 21, 32, 0.1)',
+        backdropFilter: 'blur(8px)', /* ✅ Efeito vidro fosco */
+        borderRadius: '16px',
+        padding: '14px 12px 12px',
+        minHeight: '240px',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         overflow: 'hidden',
-        transition: 'all 0.3s ease'
+        transition: 'all 0.3s ease',
+        border: '1px solid rgba(255, 107, 26, 0.25)'
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = '0 0 24px rgba(255, 107, 26, 0.18)'
+        e.currentTarget.style.borderColor = 'rgba(255, 154, 60, 0.6)'
+        e.currentTarget.style.background = 'rgba(15, 21, 32, 0.8)'
+        e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 107, 26, 0.15)'
       }}
       onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.25)'
+        e.currentTarget.style.background = 'rgba(15, 21, 32, 0.65)'
         e.currentTarget.style.boxShadow = 'none'
       }}
     >
-      {/* TEXTO SUPERIOR — NOME EM BRANCO */}
+      {/* NOME DA CERVEJA — EM BRANCO */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        marginTop: '4px',
-        marginBottom: '0px',
-        zIndex: 5
+        width: '100%',
+        textAlign: 'center',
+        paddingBottom: '8px',
+        borderBottom: '1px solid rgba(255, 107, 26, 0.25)'
       }}>
         <span style={{
-          fontSize: '14px',
+          fontSize: '13px',
           fontWeight: 700,
           textTransform: 'uppercase',
           letterSpacing: '0.10em',
@@ -68,120 +73,121 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         </span>
       </div>
 
-{/* TAMPINHA COM 4 CANTOS EM "L" MAIS PRÓXIMOS DO CENTRO */}
-<div style={{
-  position: 'relative',
-  width: '100%',
-  maxWidth: '180px',
-  aspectRatio: '1 / 1',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginBottom: '2px',
-  zIndex: 2
-}}>
-  {/* CANTO SUPERIOR ESQUERDO — DESLOCADO PARA DENTRO */}
-  <div style={{
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
-    width: '14px',
-    height: '14px',
-    borderTop: '1px solid var(--cyber-accent)',
-    borderLeft: '1px solid var(--cyber-accent)',
-    zIndex: 3
-  }}></div>
-
-  {/* CANTO SUPERIOR DIREITO — DESLOCADO PARA DENTRO */}
-  <div style={{
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
-    width: '14px',
-    height: '14px',
-    borderTop: '1px solid var(--cyber-accent)',
-    borderRight: '1px solid var(--cyber-accent)',
-    zIndex: 3
-  }}></div>
-
-  {/* CANTO INFERIOR ESQUERDO — DESLOCADO PARA DENTRO */}
-  <div style={{
-    position: 'absolute',
-    bottom: '20px',
-    left: '20px',
-    width: '14px',
-    height: '14px',
-    borderBottom: '1px solid var(--cyber-accent)',
-    borderLeft: '1px solid var(--cyber-accent)',
-    zIndex: 3
-  }}></div>
-
-  {/* CANTO INFERIOR DIREITO — DESLOCADO PARA DENTRO */}
-  <div style={{
-    position: 'absolute',
-    bottom: '20px',
-    right: '20px',
-    width: '14px',
-    height: '14px',
-    borderBottom: '1px solid var(--cyber-accent)',
-    borderRight: '1px solid var(--cyber-accent)',
-    zIndex: 3
-  }}></div>
-
-  {tampinha.foto_url ? (
-    <img
-      src={tampinha.foto_url}
-      alt={tampinha.nome}
-      loading="lazy"
-      style={{
+      {/* IMAGEM DA TAMPINHA COM 4 CANTOS EM "L" */}
+      <div style={{
+        position: 'relative',
         width: '100%',
-        height: '100%',
-        objectFit: 'contain',
-        filter: 'drop-shadow(0 16px 10px rgba(0, 0, 0, 0.9))'
-      }}
-      onError={(e) => {
-        e.currentTarget.style.display = 'none'
-      }}
-    />
-  ) : (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      border: '1px dashed var(--cyber-border)',
-      color: 'var(--cyber-muted)',
-      fontSize: '11px',
-      letterSpacing: '0.2em',
-      fontFamily: '"JetBrains Mono", monospace'
-    }}>
-      PNG
-    </div>
-  )}
-</div>
-      {/* TEXTO INFERIOR — PAÍS E CIDADE */}
+        aspectRatio: '1 / 1',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        margin: '10px 0',
+        flexShrink: 0
+      }}>
+        {/* CANTO SUPERIOR ESQUERDO */}
+        <div style={{
+          position: 'absolute',
+          top: '12px',
+          left: '12px',
+          width: '16px',
+          height: '16px',
+          borderTop: '1px solid var(--cyber-accent)',
+          borderLeft: '1px solid var(--cyber-accent)',
+          zIndex: 3
+        }}></div>
+        {/* CANTO SUPERIOR DIREITO */}
+        <div style={{
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          width: '16px',
+          height: '16px',
+          borderTop: '1px solid var(--cyber-accent)',
+          borderRight: '1px solid var(--cyber-accent)',
+          zIndex: 3
+        }}></div>
+        {/* CANTO INFERIOR ESQUERDO */}
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          left: '12px',
+          width: '16px',
+          height: '16px',
+          borderBottom: '1px solid var(--cyber-accent)',
+          borderLeft: '1px solid var(--cyber-accent)',
+          zIndex: 3
+        }}></div>
+        {/* CANTO INFERIOR DIREITO */}
+        <div style={{
+          position: 'absolute',
+          bottom: '12px',
+          right: '12px',
+          width: '16px',
+          height: '16px',
+          borderBottom: '1px solid var(--cyber-accent)',
+          borderRight: '1px solid var(--cyber-accent)',
+          zIndex: 3
+        }}></div>
+
+        {/* IMAGEM */}
+        {tampinha.foto_url ? (
+          <img
+            src={tampinha.foto_url}
+            alt={tampinha.nome}
+            loading="lazy"
+            style={{
+              width: '85%',
+              height: '85%',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 16px 10px rgba(0, 0, 0, 0.9))',
+              position: 'relative',
+              zIndex: 2
+            }}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+        ) : (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '85%',
+            height: '85%',
+            borderRadius: '50%',
+            border: '1px dashed var(--cyber-border)',
+            color: 'var(--cyber-muted)',
+            fontSize: '11px',
+            letterSpacing: '0.2em',
+            fontFamily: '"JetBrains Mono", monospace'
+          }}>
+            SEM IMAGEM
+          </div>
+        )}
+      </div>
+
+      {/* PAÍS + BANDEIRA E CIDADE */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '2px',
-        zIndex: 5
+        gap: '4px',
+        width: '100%',
+        paddingTop: '4px',
+        borderTop: '1px solid rgba(255, 107, 26, 0.15)'
       }}>
-        {/* LINHA DE CIMA: Bandeira + País */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           gap: '6px'
-          }}>
+        }}>
           {bandeira && (
             <img
               src={bandeira}
               alt={tampinha.pais}
               style={{
-                height: '18px',
-                width: '24px',
+                height: '16px',
+                width: '22px',
                 borderRadius: '1px',
                 objectFit: 'cover'
               }}
@@ -191,7 +197,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
             />
           )}
           <span style={{
-            fontSize: '14px',
+            fontSize: '12px',
             fontWeight: 700,
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
@@ -201,20 +207,16 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
             {tampinha.pais}
           </span>
         </div>
-
-        {/* LINHA DE BAIXO: Cidade */}
-        <div>
-          <span style={{
-            fontSize: '11px',
-            fontWeight: 200,
-            textTransform: 'uppercase',
-            letterSpacing: '0.10em',
-            color: 'var(--cyber-accent)',
-            fontFamily: '"JetBrains Mono", monospace'
-          }}>
-            {tampinha.cidade || '—'}
-          </span>
-        </div>
+        <span style={{
+          fontSize: '10px',
+          fontWeight: 400,
+          textTransform: 'uppercase',
+          letterSpacing: '0.10em',
+          color: 'var(--cyber-accent)',
+          fontFamily: '"JetBrains Mono", monospace'
+        }}>
+          {tampinha.cidade || '—'}
+        </span>
       </div>
     </article>
   )

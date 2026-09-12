@@ -28,15 +28,26 @@
 }
 @layer base {
   html, body {
-    background-color: #000000;
+    /* ❌ REMOVA: background-color: #000000; */
     color: #f1f5f9;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     width: 100%;
     overflow-x: hidden;
+
+    /* ✅ IMAGEM DE FUNDO AQUI — prioridade total */
+    min-height: 100vh;
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(0, 0, 0, 0.65); /* escurece a imagem */
+    background-blend-mode: multiply;
   }
 }
+
 @layer components {
   /* ✅ BORDA NEON — SEM BRILHO, SEM HOVER LARANJA */
   .neon-border-cyan {
@@ -66,7 +77,7 @@
     position: relative;
     width: 100%;
     background: var(--cyber-card);
-    border: px solid #ff6b1a; /* ✅ ALTERADO: laranja → cinza #94A3B8 */
+    border: 1px solid #414141; /* ✅ ALTERADO: laranja → cinza #94A3B8 */
     border-radius: 16px;
     padding: 14px 12px 12px;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
