@@ -74,13 +74,12 @@ export default function App() {
   return (
     <div style={{
       minHeight: '100vh',
-      /* ✅ REMOVIDO: background: 'var(--cyber-bg)' → cobria a imagem de fundo */
-      background: 'transparent', /* ✅ DEIXA A IMAGEM DO BODY APARECER */
+      background: 'transparent',
       fontFamily: "'Cuprum', sans-serif",
       color: 'var(--cyber-text)'
     }}>
       
-      {/* ✅ CABEÇALHO — EFEITO GLASS AUMENTADO */}
+      {/* CABEÇALHO */}
       <header style={{
         position: 'fixed',
         top: 0,
@@ -134,7 +133,6 @@ export default function App() {
               }}
               title="Cadastrar nova tampinha"
             >
-              {/* MOLDURA DO LOGO */}
               <div style={{
                 position: 'relative',
                 display: 'flex',
@@ -209,7 +207,6 @@ export default function App() {
               </div>
             </button>
             
-            {/* BOTÃO DO MENU */}
             <button
               onClick={() => setFiltrosAbertos(!filtrosAbertos)}
               style={{
@@ -244,14 +241,14 @@ export default function App() {
               </svg>
             </button>
           </div>
-          {/* DIVISOR — GRADIENTE */}
+          
           <div style={{
             width: '100%',
             height: '1px',
             background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)',
             borderRadius: '1px'
           }}></div>
-          {/* ÁREA DE FILTROS */}
+          
           <div 
             style={{
               width: '100%',
@@ -262,7 +259,6 @@ export default function App() {
               marginTop: filtrosAbertos ? '8px' : '0'
             }}
           >
-            {/* BARRA DE PESQUISA */}
             <div style={{
               width: '100%',
               maxWidth: '42rem',
@@ -292,7 +288,7 @@ export default function App() {
                 <SearchBar value={busca} onChange={setBusca} />
               </div>
             </div>
-            {/* BOTÕES DE FILTRO */}
+            
             <div style={{
               width: '100%',
               maxWidth: '42rem',
@@ -303,7 +299,6 @@ export default function App() {
                 alignItems: 'center',
                 gap: '8px'
               }}>
-                {/* Botão Nacional */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Nacional')}
@@ -372,7 +367,6 @@ export default function App() {
                   opacity: 0.7
                 }}>+</span>
                 
-                {/* Botão Internacional */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Internacional')}
@@ -440,7 +434,6 @@ export default function App() {
                   opacity: 0.7
                 }}>=</span>
                 
-                {/* Botão Todas */}
                 <button
                   type="button"
                   onClick={() => setFiltroAtivo('Todas')}
@@ -495,7 +488,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* MAIN CONTENT */}
       <main style={{
         marginTop: '140px',
         maxWidth: '64rem',
@@ -504,7 +496,7 @@ export default function App() {
         paddingLeft: '12px',
         paddingRight: '12px',
         paddingBottom: '64px',
-        background: 'transparent' /* ✅ SEM FUNDO — deixa a imagem aparecer */
+        background: 'transparent'
       }}
       className="sm:mt-[130px] sm:px-6">
         {erro && (
@@ -564,45 +556,35 @@ export default function App() {
             style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '420px',
-              background: 'var(--cyber-card)',
-              border: '1px solid var(--cyber-accent)',
+              maxWidth: '340px',
+              background: 'rgba(15, 21, 32, 0.75)',
+              backdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255, 107, 26, 0.4)',
               borderRadius: '16px',
-              padding: '20px 16px 16px',
-              fontFamily: "'Cuprum', sans-serif",
-              color: 'var(--cyber-text)',
+              padding: '14px 12px 12px',
+              fontFamily: "'JetBrains Mono', monospace",
+              color: '#FFFFFF',
               maxHeight: '92vh',
               overflowY: 'auto',
               overflowX: 'hidden'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Padrão de pontos sutil no fundo */}
-            <div style={{
-              position: 'absolute',
-              inset: 0,
-              backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 1px)',
-              backgroundSize: '10px 10px',
-              opacity: 0.05,
-              pointerEvents: 'none',
-              borderRadius: '16px'
-            }}></div>
-            {/* Botão Fechar */}
             <button
               type="button"
               onClick={() => setTampinhaZoom(null)}
               aria-label="Fechar"
               style={{
                 position: 'absolute',
-                top: '12px',
-                right: '12px',
+                top: '10px',
+                right: '10px',
                 width: '32px',
                 height: '32px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: '1px solid var(--cyber-border-light)',
-                background: 'var(--cyber-accent-soft)',
+                border: '1px solid rgba(255, 107, 26, 0.4)',
+                background: 'rgba(255, 107, 26, 0.12)',
                 color: 'var(--cyber-accent)',
                 borderRadius: '8px',
                 cursor: 'pointer',
@@ -611,13 +593,11 @@ export default function App() {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'var(--cyber-accent)'
-                e.currentTarget.style.color = 'var(--cyber-bg)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.25)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-border-light)'
-                e.currentTarget.style.background = 'var(--cyber-accent-soft)'
-                e.currentTarget.style.color = 'var(--cyber-accent)'
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.4)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
@@ -625,56 +605,88 @@ export default function App() {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-            {/* ID no canto superior esquerdo */}
+
             <div style={{
-              position: 'relative',
-              zIndex: 1,
-              marginBottom: '12px',
-              fontFamily: "'Courier New', monospace",
+              position: 'absolute',
+              top: '12px',
+              left: '12px',
               fontSize: '11px',
               fontWeight: 700,
               letterSpacing: '0.15em',
-              color: 'var(--cyber-accent-light)'
+              color: 'rgba(255, 107, 26, 0.7)'
             }}>
-              ID #{String(tampinhaZoom.id || '0000').padStart(4, '0')}
+              ID #{String(tampinhaZoom.id || '000').padStart(3, '0')}
             </div>
-            {/* MOLDURA DA IMAGEM */}
+
+            <div style={{
+              width: '100%',
+              textAlign: 'center',
+              paddingBottom: '8px',
+              marginTop: '24px',
+              borderBottom: '1px solid rgba(255, 107, 26, 0.25)'
+            }}>
+              <span style={{
+                fontSize: '20px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.10em',
+                color: '#FFFFFF'
+              }}>
+                {String(tampinhaZoom.nome || '').toUpperCase()}
+              </span>
+            </div>
+
             <div style={{
               position: 'relative',
               width: '100%',
-              maxWidth: '280px',
               aspectRatio: '1 / 1',
-              margin: '0 auto 14px',
-              border: '2px solid var(--cyber-border)',
-              background: '#04090f',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              borderRadius: '12px',
-              overflow: 'hidden',
-              zIndex: 1
+              margin: '10px 0',
+              flexShrink: 0
             }}>
-              {/* Cantos internos brancos */}
               <div style={{
                 position: 'absolute',
-                top: '8px',
-                left: '8px',
-                width: '14px',
-                height: '14px',
-                borderTop: '1px solid #ffffff',
-                borderLeft: '1px solid #ffffff',
-                zIndex: 2
+                top: '40px',
+                left: '40px',
+                width: '16px',
+                height: '16px',
+                borderTop: '1px solid var(--cyber-accent)',
+                borderLeft: '1px solid var(--cyber-accent)',
+                zIndex: 3
               }}></div>
               <div style={{
                 position: 'absolute',
-                bottom: '8px',
-                right: '8px',
-                width: '14px',
-                height: '14px',
-                borderBottom: '1px solid #ffffff',
-                borderRight: '1px solid #ffffff',
-                zIndex: 2
+                top: '40px',
+                right: '40px',
+                width: '16px',
+                height: '16px',
+                borderTop: '1px solid var(--cyber-accent)',
+                borderRight: '1px solid var(--cyber-accent)',
+                zIndex: 3
               }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '40px',
+                left: '40px',
+                width: '16px',
+                height: '16px',
+                borderBottom: '1px solid var(--cyber-accent)',
+                borderLeft: '1px solid var(--cyber-accent)',
+                zIndex: 3
+              }}></div>
+              <div style={{
+                position: 'absolute',
+                bottom: '40px',
+                right: '40px',
+                width: '16px',
+                height: '16px',
+                borderBottom: '1px solid var(--cyber-accent)',
+                borderRight: '1px solid var(--cyber-accent)',
+                zIndex: 3
+              }}></div>
+
               <img
                 src={tampinhaZoom.foto_url || '/placeholder.png'}
                 alt={tampinhaZoom.nome}
@@ -682,125 +694,57 @@ export default function App() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'contain',
-                  transition: 'transform 0.4s ease'
+                  filter: 'drop-shadow(0 16px 10px rgba(0, 0, 0, 0.9))',
+                  position: 'relative',
+                  zIndex: 2
                 }}
               />
             </div>
-            {/* NOME DA CERVEJA */}
-            <h2 style={{
-              fontSize: '18px',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              color: '#ffffff',
-              letterSpacing: '0.12em',
-              margin: '0 0 8px 0',
-              textAlign: 'center',
-              position: 'relative',
-              zIndex: 1
+
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+              width: '100%',
+              paddingTop: '10px',
+              borderTop: '1px solid rgba(255, 107, 26, 0.15)'
             }}>
-              {String(tampinhaZoom.nome || '').toUpperCase()}
-            </h2>
-            {/* BANDEIRA */}
-            {tampinhaZoom.bandeira_url && (
               <div style={{
                 display: 'flex',
-                justifyContent: 'center',
-                width: '100%',
-                position: 'relative',
-                zIndex: 1,
-                marginBottom: '10px'
+                alignItems: 'center',
+                gap: '6px'
               }}>
-                <div style={{
-                  width: '140px',
-                  padding: '4px 10px',
-                  border: '2px solid var(--cyber-accent-soft)',
-                  borderRadius: '4px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  gap: '8px'
-                }}>
+                {tampinhaZoom.bandeira_url && (
                   <img
                     src={tampinhaZoom.bandeira_url}
                     alt={tampinhaZoom.pais}
                     style={{
-                      height: '16px',
-                      width: '22px',
-                      borderRadius: '2px',
+                      height: '24px',
+                      width: '30px',
+                      borderRadius: '1px',
                       objectFit: 'cover'
                     }}
                   />
-                  <span style={{
-                    fontSize: '12px',
-                    color: 'var(--cyber-accent-light)',
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.10em'
-                  }}>
-                    {tampinhaZoom.origem_formatada}
-                  </span>
-                </div>
+                )}
+                <span style={{
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.12em',
+                  color: 'var(--cyber-text)',
+                }}>
+                  {String(tampinhaZoom.pais || '').toUpperCase()}
+                </span>
               </div>
-            )}
-            {/* NOME DO PAÍS */}
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              marginBottom: '8px',
-              textAlign: 'center'
-            }}>
               <span style={{
-                fontSize: '18px',
-                color: '#ffffff',
-                fontWeight: 700,
-                letterSpacing: '0.1em'
-              }}>
-                ::
-              </span>
-              <span style={{
-                fontSize: '18px',
-                color: 'var(--cyber-accent)',
-                fontWeight: 700,
+                fontSize: '16px',
+                fontWeight: 400,
                 textTransform: 'uppercase',
                 letterSpacing: '0.10em',
-                margin: '0 10px'
+                color: 'var(--cyber-accent)'
               }}>
-                {String(tampinhaZoom.pais || '').toUpperCase()}
-              </span>
-              <span style={{
-                fontSize: '18px',
-                color: '#ffffff',
-                fontWeight: 700,
-                letterSpacing: '0.1em'
-              }}>
-                ::
-              </span>
-            </div>
-            {/* Linha pontilhada */}
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              width: '100%',
-              height: '1px',
-              backgroundImage: 'radial-gradient(circle, var(--cyber-border) 1px, transparent 2px)',
-              backgroundSize: '5px 2px',
-              marginBottom: '8px'
-            }}></div>
-            {/* CIDADE */}
-            <div style={{
-              position: 'relative',
-              zIndex: 1,
-              marginBottom: '4px',
-              textAlign: 'center'
-            }}>
-              <span style={{
-                fontSize: '14px',
-                color: '#ffff55',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '0.10em'
-              }}>
-                {tampinhaZoom.cidade ? String(tampinhaZoom.cidade).toUpperCase() : 'ORIGEM NÃO INFORMADA'}
+                {tampinhaZoom.cidade || '—'}
               </span>
             </div>
           </div>
