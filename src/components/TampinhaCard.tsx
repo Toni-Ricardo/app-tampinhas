@@ -67,7 +67,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
           textTransform: 'uppercase',
           letterSpacing: '0.10em',
           color: '#FFFFFF',
-          fontFamily: '"JetBrains Mono", monospace'
+          fontFamily: 'Trebuchet MS'
         }}>
           {tampinha.nome}
         </span>
@@ -173,7 +173,7 @@ export function TampinhaCard({ tampinha, onClick }: TampinhaCardProps) {
         alignItems: 'center',
         gap: '4px',
         width: '100%',
-        paddingTop: '4px',
+        paddingTop: '12px',
         borderTop: '1px solid rgba(255, 107, 26, 0.15)'
       }}>
         <div style={{

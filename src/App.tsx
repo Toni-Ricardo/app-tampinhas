@@ -131,7 +131,7 @@ export default function App() {
                 outline: 'none',
                 padding: 0
               }}
-              title="Cadastrar nova tampinha"
+              title=""
             >
               <div style={{
                 position: 'relative',
@@ -473,7 +473,7 @@ export default function App() {
                     }
                   }}
                 >
-                  <span>TODAS</span>
+                  <span></span>
                   <span style={{
                     fontSize: '12px',
                     fontWeight: 400,
@@ -562,7 +562,7 @@ export default function App() {
               border: '1px solid rgba(255, 107, 26, 0.4)',
               borderRadius: '16px',
               padding: '14px 12px 12px',
-              fontFamily: "'JetBrains Mono', monospace",
+              fontFamily: "Trebuchet MS",
               color: '#FFFFFF',
               maxHeight: '92vh',
               overflowY: 'auto',
@@ -708,7 +708,7 @@ export default function App() {
               gap: '10px',
               width: '100%',
               paddingTop: '10px',
-              borderTop: '1px solid rgba(255, 107, 26, 0.15)'
+              borderTop: '1px solid rgba(255, 107, 26, 0.20)'
             }}>
               <div style={{
                 display: 'flex',
@@ -742,7 +742,9 @@ export default function App() {
                 fontWeight: 400,
                 textTransform: 'uppercase',
                 letterSpacing: '0.10em',
-                color: 'var(--cyber-accent)'
+				color: 'var(--cyber-accent)',
+                fontFamily: '"JetBrains Mono", monospace'
+               
               }}>
                 {tampinhaZoom.cidade || '—'}
               </span>
