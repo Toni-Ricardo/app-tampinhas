@@ -27,12 +27,14 @@ export default function App() {
   const [usuarioLogado, setUsuarioLogado] = useState<string | null>(null)
 
   useEffect(() => {
-    const verificarUsuario = async () => {
-      const resposta = await supabase.auth.getUser()
-      const user = resposta.data?.user
-      setUsuarioLogado(user?.id ?? null)
-    }
-    verificarUsuario()
+  const verificarUsuario = async () => {
+    const resposta = await supabase.auth.getUser()
+    const user = resposta.data?.user
+    setUsuarioLogado(user?.id ?? null)
+    console.log('2b76e073-b168-4668-8e7c-d2d195b44583', user?.id)  // ← COLE ESTA LINHA AQUI!
+  }
+  verificarUsuario()
+  // ...
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setUsuarioLogado(session?.user?.id ?? null)
