@@ -207,39 +207,47 @@ export default function App() {
               </div>
             </button>
             
-            <button
-              onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '44px',
-                height: '44px',
-                border: '1px solid rgba(255, 107, 26, 0.20)',
-                background: 'rgba(0, 0, 0, 0.20)',
-                color: 'var(--cyber-accent)',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
-                e.currentTarget.style.color = 'var(--cyber-accent-light)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
-                e.currentTarget.style.color = 'var(--cyber-accent)'
-              }}
-              title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
-            </button>
+<button
+  onClick={() => setFiltrosAbertos(!filtrosAbertos)}
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '44px',
+    height: '44px',
+    border: '1px solid rgba(255, 107, 26, 0.20)',
+    background: 'rgba(0, 0, 0, 0.20)',
+    color: 'var(--cyber-accent)',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease'
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+    e.currentTarget.style.color = 'var(--cyber-accent-light)'
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+    e.currentTarget.style.color = 'var(--cyber-accent)'
+  }}
+  title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+>
+  {/* ✅ Ícone DINÂMICO: Linhas (fechado) → X (aberto) */}
+  {!filtrosAbertos ? (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  ) : (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  )}
+</button>
           </div>
           
           <div style={{
@@ -259,36 +267,36 @@ export default function App() {
               marginTop: filtrosAbertos ? '8px' : '0'
             }}
           >
-            <div style={{
-              width: '100%',
-              maxWidth: '42rem',
-              margin: '0 auto 12px'
-            }}>
-              <div style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                height: '42px',
-                border: '1px solid rgba(255, 107, 26, 0.18)',
-                background: 'rgba(0, 0, 0, 0.20)',
-                padding: '0 14px',
-                borderRadius: '10px',
-                transition: 'border-color 0.25s ease, background 0.25s ease'
-              }}>
-                <svg 
-                  style={{
-                    color: 'var(--cyber-accent)',
-                    marginRight: '10px',
-                    flexShrink: 0
-                  }} 
-                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8" />
-                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-                <SearchBar value={busca} onChange={setBusca} />
-              </div>
-            </div>
-            
+<div style={{
+  width: '100%',
+  maxWidth: '42rem',
+  margin: '0 auto 12px'
+}}>
+  <div className="cyber-search">
+    {/* Ícone de Pesquisa */}
+    <svg 
+      className="cyber-search-icon"
+      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+
+    {/* Campo de Pesquisa — passa valor e função */}
+    <SearchBar value={busca} onChange={setBusca} />
+
+    {/* ✅ Botão Limpar — aparece só quando há texto */}
+    {busca.trim() !== '' && (
+      <button
+        type="button"
+        className="cyber-search-clear"
+        onClick={() => setBusca('')}
+        aria-label="Limpar pesquisa"
+      >
+        ×
+      </button>
+    )}
+  </div>
+</div>            
             <div style={{
               width: '100%',
               maxWidth: '42rem',

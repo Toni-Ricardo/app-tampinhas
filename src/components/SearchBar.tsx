@@ -1,17 +1,18 @@
-// SearchBar.tsx - ajuste para se integrar ao container cyber-search
+// src/components/SearchBar.tsx
+import type { ChangeEvent } from 'react'
+
 interface SearchBarProps {
   value: string
-  onChange: (value: string) => void
+  onChange: (valor: string) => void
 }
 
 export function SearchBar({ value, onChange }: SearchBarProps) {
   return (
     <input
       type="text"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
       placeholder="Pesquisar..."
-      aria-label="Buscar tampinha"
+      value={value}
+      onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
     />
   )
 }
