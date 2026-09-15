@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { supabase } from './lib/supabase' // ✅ IMPORT CORRETO: COM CHAVES!
 import { NovaTampinhaModal } from './components/NovaTampinhaModal'
 import { SearchBar } from './components/SearchBar'
 import { TampinhaGrid } from './components/TampinhaGrid'
@@ -19,13 +20,31 @@ export default function App() {
   const [filtroAtivo, setFiltroAtivo] = useState<'Inicial' | 'Todas' | 'Nacional' | 'Internacional'>('Inicial')
   const [filtrosAbertos, setFiltrosAbertos] = useState(false)
   
-  const [loading, setLoading] = useState(true)
   const [modalAberto, setModalAberto] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
+  
+  const [usuarioLogado, setUsuarioLogado] = useState<string | null>(null)
+
+  useEffect(() => {
+    const verificarUsuario = async () => {
+      const resposta = await supabase.auth.getUser()
+      const user = resposta.data?.user
+      setUsuarioLogado(user?.id ?? null)
+    }
+    verificarUsuario()
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUsuarioLogado(session?.user?.id ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  const SEU_ID_AUTORIZADO = '2b76e073-b168-4668-8e7c-d2d195b44583'
+  const podeCadastrar = usuarioLogado === SEU_ID_AUTORIZADO
 
   const carregar = useCallback(async () => {
-    setLoading(true)
+
     setErro(null)
     try {
       const dados = await listarTampinhas()
@@ -34,7 +53,7 @@ export default function App() {
       logSupabaseError('App:carregar', err)
       setErro(getSupabaseErrorMessage(err))
     } finally {
-      setLoading(false)
+
     }
   }, [])
 
@@ -67,6 +86,10 @@ export default function App() {
   }, [tampinhasFiltradas])
 
   async function handleCadastro(dados: NovaTampinha) {
+    if (!podeCadastrar) {
+      alert('🔒 Acesso restrito: apenas o administrador pode cadastrar!')
+      return
+    }
     await cadastrarTampinha(dados)
     await carregar()
   }
@@ -79,7 +102,6 @@ export default function App() {
       color: 'var(--cyber-text)'
     }}>
       
-      {/* CABEÇALHO */}
       <header style={{
         position: 'fixed',
         top: 0,
@@ -117,9 +139,11 @@ export default function App() {
             paddingBottom: '12px',
             paddingTop: '4px'
           }}>
+            
             <button
               type="button"
-              onClick={() => setModalAberto(true)}
+              onClick={() => podeCadastrar && setModalAberto(true)}
+              disabled={!podeCadastrar}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -127,11 +151,12 @@ export default function App() {
                 textAlign: 'left',
                 background: 'none',
                 border: 'none',
-                cursor: 'pointer',
+                cursor: podeCadastrar ? 'pointer' : 'not-allowed',
                 outline: 'none',
-                padding: 0
+                padding: 0,
+                opacity: podeCadastrar ? 1 : 0.5
               }}
-              title=""
+              title={podeCadastrar ? "Cadastrar nova tampinha" : "🔒 Acesso restrito"}
             >
               <div style={{
                 position: 'relative',
@@ -148,8 +173,10 @@ export default function App() {
                 transition: 'border-color 0.3s ease, background 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+                if (podeCadastrar) {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                  e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
+                }
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
@@ -207,47 +234,46 @@ export default function App() {
               </div>
             </button>
             
-<button
-  onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-  style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '44px',
-    height: '44px',
-    border: '1px solid rgba(255, 107, 26, 0.20)',
-    background: 'rgba(0, 0, 0, 0.20)',
-    color: 'var(--cyber-accent)',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    transition: 'all 0.25s ease'
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
-    e.currentTarget.style.color = 'var(--cyber-accent-light)'
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
-    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
-    e.currentTarget.style.color = 'var(--cyber-accent)'
-  }}
-  title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
->
-  {/* ✅ Ícone DINÂMICO: Linhas (fechado) → X (aberto) */}
-  {!filtrosAbertos ? (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  ) : (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  )}
-</button>
+            <button
+              onClick={() => setFiltrosAbertos(!filtrosAbertos)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                border: '1px solid rgba(255, 107, 26, 0.20)',
+                background: 'rgba(0, 0, 0, 0.20)',
+                color: 'var(--cyber-accent)',
+                borderRadius: '10px',
+                cursor: 'pointer',
+                transition: 'all 0.25s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+                e.currentTarget.style.color = 'var(--cyber-accent-light)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+                e.currentTarget.style.color = 'var(--cyber-accent)'
+              }}
+              title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+            >
+              {!filtrosAbertos ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              )}
+            </button>
           </div>
           
           <div style={{
@@ -267,36 +293,32 @@ export default function App() {
               marginTop: filtrosAbertos ? '8px' : '0'
             }}
           >
-<div style={{
-  width: '100%',
-  maxWidth: '42rem',
-  margin: '0 auto 12px'
-}}>
-  <div className="cyber-search">
-    {/* Ícone de Pesquisa */}
-    <svg 
-      className="cyber-search-icon"
-      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-
-    {/* Campo de Pesquisa — passa valor e função */}
-    <SearchBar value={busca} onChange={setBusca} />
-
-    {/* ✅ Botão Limpar — aparece só quando há texto */}
-    {busca.trim() !== '' && (
-      <button
-        type="button"
-        className="cyber-search-clear"
-        onClick={() => setBusca('')}
-        aria-label="Limpar pesquisa"
-      >
-        ×
-      </button>
-    )}
-  </div>
-</div>            
+            <div style={{
+              width: '100%',
+              maxWidth: '42rem',
+              margin: '0 auto 12px'
+            }}>
+              <div className="cyber-search">
+                <svg 
+                  className="cyber-search-icon"
+                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <SearchBar value={busca} onChange={setBusca} />
+                {busca.trim() !== '' && (
+                  <button
+                    type="button"
+                    className="cyber-search-clear"
+                    onClick={() => setBusca('')}
+                    aria-label="Limpar pesquisa"
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+            </div>
+            
             <div style={{
               width: '100%',
               maxWidth: '42rem',
@@ -481,7 +503,6 @@ export default function App() {
                     }
                   }}
                 >
-                  <span></span>
                   <span style={{
                     fontSize: '12px',
                     fontWeight: 400,
@@ -495,7 +516,7 @@ export default function App() {
           </div>        
         </div>
       </header>
-
+      
       <main style={{
         marginTop: '140px',
         maxWidth: '64rem',
@@ -535,16 +556,14 @@ export default function App() {
             </button>
           </div>
         )}
-        <TampinhaGrid 
-          tampinhas={tampinhasFormatadasParaExibicao} 
-          loading={loading}
-          onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha as TampinhaFormatada)}
-        />
+<TampinhaGrid 
+  tampinhas={tampinhasFormatadasParaExibicao} 
+  onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha as TampinhaFormatada)}
+/>
       </main>
-
+      
       <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
-
-      {/* MODAL DE ZOOM */}
+      
       {tampinhaZoom && (
         <div 
           style={{
@@ -613,7 +632,6 @@ export default function App() {
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
             </button>
-
             <div style={{
               position: 'absolute',
               top: '12px',
@@ -625,7 +643,6 @@ export default function App() {
             }}>
               ID #{String(tampinhaZoom.id || '000').padStart(3, '0')}
             </div>
-
             <div style={{
               width: '100%',
               textAlign: 'center',
@@ -643,7 +660,6 @@ export default function App() {
                 {String(tampinhaZoom.nome || '').toUpperCase()}
               </span>
             </div>
-
             <div style={{
               position: 'relative',
               width: '100%',
@@ -694,7 +710,6 @@ export default function App() {
                 borderRight: '1px solid var(--cyber-accent)',
                 zIndex: 3
               }}></div>
-
               <img
                 src={tampinhaZoom.foto_url || '/placeholder.png'}
                 alt={tampinhaZoom.nome}
@@ -708,7 +723,6 @@ export default function App() {
                 }}
               />
             </div>
-
             <div style={{
               display: 'flex',
               flexDirection: 'column',
@@ -750,9 +764,8 @@ export default function App() {
                 fontWeight: 400,
                 textTransform: 'uppercase',
                 letterSpacing: '0.10em',
-				color: 'var(--cyber-accent)',
+                color: 'var(--cyber-accent)',
                 fontFamily: '"JetBrains Mono", monospace'
-               
               }}>
                 {tampinhaZoom.cidade || '—'}
               </span>

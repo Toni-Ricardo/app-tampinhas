@@ -1,51 +1,24 @@
 import type { Tampinha } from '../types/tampinha'
 import { TampinhaCard } from './TampinhaCard'
 
-interface TampinhaGridProps {
-  tampinhas: Tampinha[]
-  loading: boolean
-  onSelect?: (tampinha: Tampinha) => void
-  onSelectTampinha?: (tampinha: Tampinha) => void
+type TampinhaFormatada = Tampinha & {
+  bandeira_url: string
+  origem_formatada: string
 }
 
-export function TampinhaGrid({ tampinhas, loading, onSelect, onSelectTampinha }: TampinhaGridProps) {
-  // Unifica qualquer um dos dois nomes de propriedade que o App.tsx usar
-  const handleSelect = onSelect || onSelectTampinha
+interface TampinhaGridProps {
+  tampinhas: TampinhaFormatada[]
+  onSelectTampinha: (tampinha: TampinhaFormatada) => void
+}
 
-  if (loading) {
-    return (
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {Array.from({ length: 10 }).map((_, i) => (
-          <div
-            key={i}
-            className="animate-pulse overflow-hidden rounded-2xl border border-tr-border bg-slate-900/80"
-          >
-            <div className="aspect-square bg-tr-border/40" />
-            <div className="space-y-2 p-3">
-              <div className="h-3 w-3/4 rounded bg-tr-border/40" />
-              <div className="h-2.5 w-1/2 rounded bg-tr-border/40" />
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (tampinhas.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-tr-border py-16 px-4 text-center">
-        <p className="text-sm text-tr-muted">Nenhuma tampinha encontrada</p>
-      </div>
-    )
-  }
-
+export function TampinhaGrid({ tampinhas, onSelectTampinha }: TampinhaGridProps) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {tampinhas.map((tampinha) => (
         <TampinhaCard
           key={tampinha.id}
           tampinha={tampinha}
-          onClick={handleSelect ? () => handleSelect(tampinha) : undefined}
+          onClick={() => onSelectTampinha(tampinha)}
         />
       ))}
     </div>
