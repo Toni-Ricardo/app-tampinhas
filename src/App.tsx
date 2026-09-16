@@ -14,7 +14,7 @@ type TampinhaFormatada = Tampinha & {
   origem_formatada: string
 }
 
-const ID_DONO_AUTORIZADO = '2b76e073-b168-4668-8e7c-d2d195b44583'
+const ID_DONO_AUTORIZADO = '90d17816-4c67-4179-8916-d50e71a7d8b4'
 
 export default function App() {
   // ✅ CONTROLE DE LOGIN
