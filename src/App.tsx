@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { supabase } from './lib/supabase' // ✅ IMPORT CORRETO: COM CHAVES!
 import { NovaTampinhaModal } from './components/NovaTampinhaModal'
 import { SearchBar } from './components/SearchBar'
 import { TampinhaGrid } from './components/TampinhaGrid'
@@ -7,55 +6,71 @@ import { bandeiraUrl } from './lib/bandeiras'
 import { cadastrarTampinha, contarPorOrigem, filtrarTampinhas, listarTampinhas } from './lib/tampinhas'
 import { getSupabaseErrorMessage, logSupabaseError } from './lib/supabaseError'
 import type { NovaTampinha, Origem, Tampinha } from './types/tampinha'
+import { supabase } from './lib/supabase'
 
 type TampinhaFormatada = Tampinha & {
   bandeira_url: string
   origem_formatada: string
 }
 
+// ✅ ID do dono autorizado a cadastrar
+const ID_DONO_AUTORIZADO = '2b76e073-b168-4668-8e7c-d2d195b44583'
+
 export default function App() {
+  // ✅ CONTROLE DE LOGIN
+  const [usuario, setUsuario] = useState<any>(null)
+  const [verificandoLogin, setVerificandoLogin] = useState(true)
+
+  // ✅ ESTADOS — AGORA TODOS SERÃO USADOS!
+  const [carregando, setCarregando] = useState(true)
+  const [contadores, setContadores] = useState({ nacional: 0, internacional: 0 })
+
+  // ✅ RESTO DOS ESTADOS
   const [tampinhas, setTampinhas] = useState<Tampinha[]>([])
-  const [busca, setBusca] = useState('')
-  
-  const [filtroAtivo, setFiltroAtivo] = useState<'Inicial' | 'Todas' | 'Nacional' | 'Internacional'>('Inicial')
-  const [filtrosAbertos, setFiltrosAbertos] = useState(false)
-  
-  const [modalAberto, setModalAberto] = useState(false)
   const [erro, setErro] = useState<string | null>(null)
+  const [busca, setBusca] = useState('')
+  const [modalAberto, setModalAberto] = useState(false)
+  const [filtrosAbertos, setFiltrosAbertos] = useState(false)
+  const [filtroAtivo, setFiltroAtivo] = useState<Origem | 'Todas' | null>(null)
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
   
-  const [usuarioLogado, setUsuarioLogado] = useState<string | null>(null)
+  // ✅ USUÁRIO PODE CADASTRAR?
+  const estaLogado = !!usuario
+  const podeCadastrar = estaLogado && usuario?.id === ID_DONO_AUTORIZADO
 
+  // ✅ DETECTAR LOGIN DO SUPABASE
   useEffect(() => {
-  const verificarUsuario = async () => {
-    const resposta = await supabase.auth.getUser()
-    const user = resposta.data?.user
-    setUsuarioLogado(user?.id ?? null)
-    console.log('2b76e073-b168-4668-8e7c-d2d195b44583', user?.id)  // ← COLE ESTA LINHA AQUI!
-  }
-  verificarUsuario()
-  // ...
-    
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUsuarioLogado(session?.user?.id ?? null)
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('🔑 Sessão encontrada:', session?.user?.email ?? 'NENHUMA')
+      setUsuario(session?.user ?? null)
+      setVerificandoLogin(false)
     })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      console.log('🔄 Login alterado:', session?.user?.email ?? 'Deslogado')
+      setUsuario(session?.user ?? null)
+      setVerificandoLogin(false)
+    })
+
     return () => subscription.unsubscribe()
   }, [])
 
-  const SEU_ID_AUTORIZADO = '2b76e073-b168-4668-8e7c-d2d195b44583'
-  const podeCadastrar = usuarioLogado === SEU_ID_AUTORIZADO
-
+  // ✅ CARREGAR TAMPINHAS
   const carregar = useCallback(async () => {
-
-    setErro(null)
     try {
+      setCarregando(true)
+      setErro(null)
       const dados = await listarTampinhas()
       setTampinhas(dados)
+      setContadores({
+        nacional: contarPorOrigem(dados, 'Nacional'),
+        internacional: contarPorOrigem(dados, 'Internacional')
+      })
     } catch (err) {
-      logSupabaseError('App:carregar', err)
       setErro(getSupabaseErrorMessage(err))
+      logSupabaseError('Falha ao carregar tampinhas', err)
     } finally {
-
+      setCarregando(false)
     }
   }, [])
 
@@ -63,14 +78,16 @@ export default function App() {
     carregar()
   }, [carregar])
 
+  // ✅ FILTROS E FORMATAÇÃO
   const totalTodas = tampinhas.length
-  const totalNacional = useMemo(() => contarPorOrigem(tampinhas, 'Nacional'), [tampinhas])
-  const totalInternacional = useMemo(() => contarPorOrigem(tampinhas, 'Internacional'), [tampinhas])
-  
+  // ✅ OPÇÃO 3: USAR DIRETO DO ESTADO — ELIMINA AVISOS!
+  const totalNacional = contadores.nacional
+  const totalInternacional = contadores.internacional
+
   const colecaoAtivaParaFiltro = useMemo<Origem | null>(() => {
     if (filtroAtivo === 'Nacional') return 'Nacional'
     if (filtroAtivo === 'Internacional') return 'Internacional'
-    return null 
+    return null
   }, [filtroAtivo])
 
   const tampinhasFiltradas = useMemo(() => {
@@ -78,15 +95,14 @@ export default function App() {
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
 
   const tampinhasFormatadasParaExibicao = useMemo<TampinhaFormatada[]>(() => {
-    return tampinhasFiltradas.map((tampinha) => {
-      return {
-        ...tampinha,
-        bandeira_url: bandeiraUrl(tampinha.pais) ?? '',
-        origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
-      }
-    })
+    return tampinhasFiltradas.map((tampinha) => ({
+      ...tampinha,
+      bandeira_url: bandeiraUrl(tampinha.pais) ?? '',
+      origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
+    }))
   }, [tampinhasFiltradas])
 
+  // ✅ FUNÇÃO DE CADASTRO
   async function handleCadastro(dados: NovaTampinha) {
     if (!podeCadastrar) {
       alert('🔒 Acesso restrito: apenas o administrador pode cadastrar!')
@@ -142,6 +158,7 @@ export default function App() {
             paddingTop: '4px'
           }}>
             
+            {/* ✅ BOTÃO LOGO / CADASTRO */}
             <button
               type="button"
               onClick={() => podeCadastrar && setModalAberto(true)}
@@ -156,9 +173,13 @@ export default function App() {
                 cursor: podeCadastrar ? 'pointer' : 'not-allowed',
                 outline: 'none',
                 padding: 0,
-                opacity: podeCadastrar ? 1 : 0.5
+                opacity: verificandoLogin ? 0.5 : (podeCadastrar ? 1 : 0.5),
+                transition: 'opacity 0.25s ease'
               }}
-              title={podeCadastrar ? "Cadastrar nova tampinha" : "🔒 Acesso restrito"}
+              title={
+                verificandoLogin ? "Verificando acesso..." :
+                podeCadastrar ? "Cadastrar nova tampinha" : "🔒 Acesso restrito"
+              }
             >
               <div style={{
                 position: 'relative',
@@ -231,11 +252,13 @@ export default function App() {
                   marginTop: '2px',
                   marginBottom: 0
                 }}>
-                  "A cada tampinha uma história"
+                  {verificandoLogin ? "Verificando acesso..." :
+                   podeCadastrar ? '"A cada tampinha uma história"' : "🔒 Acesso restrito"}
                 </p>
               </div>
             </button>
             
+            {/* BOTÃO MENU */}
             <button
               onClick={() => setFiltrosAbertos(!filtrosAbertos)}
               style={{
@@ -285,6 +308,7 @@ export default function App() {
             borderRadius: '1px'
           }}></div>
           
+          {/* ÁREA DE FILTROS */}
           <div 
             style={{
               width: '100%',
@@ -295,45 +319,25 @@ export default function App() {
               marginTop: filtrosAbertos ? '8px' : '0'
             }}
           >
-            <div style={{
-              width: '100%',
-              maxWidth: '42rem',
-              margin: '0 auto 12px'
-            }}>
+            <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto 12px' }}>
               <div className="cyber-search">
-                <svg 
-                  className="cyber-search-icon"
-                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <svg className="cyber-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
                 <SearchBar value={busca} onChange={setBusca} />
                 {busca.trim() !== '' && (
-                  <button
-                    type="button"
-                    className="cyber-search-clear"
-                    onClick={() => setBusca('')}
-                    aria-label="Limpar pesquisa"
-                  >
-                    ×
-                  </button>
+                  <button type="button" className="cyber-search-clear" onClick={() => setBusca('')} aria-label="Limpar pesquisa">×</button>
                 )}
               </div>
             </div>
             
-            <div style={{
-              width: '100%',
-              maxWidth: '42rem',
-              margin: '0 auto'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
+            <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {/* BOTÃO NACIONAL */}
                 <button
                   type="button"
-                  onClick={() => setFiltroAtivo('Nacional')}
+                  onClick={() => setFiltroAtivo(filtroAtivo === 'Nacional' ? null : 'Nacional')}
                   style={{
                     flex: 1,
                     display: 'flex',
@@ -355,53 +359,18 @@ export default function App() {
                     transition: 'all 0.25s ease',
                     boxShadow: filtroAtivo === 'Nacional' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
                   }}
-                  onMouseEnter={(e) => {
-                    if (filtroAtivo !== 'Nacional') {
-                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
-                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
-                      e.currentTarget.style.color = '#ffffff'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (filtroAtivo !== 'Nacional') {
-                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
-                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
-                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
-                    }
-                  }}
                 >
-                  <img 
-                    src="https://flagcdn.com/w160/br.png" 
-                    alt="Brasil" 
-                    style={{
-                      height: '20px',
-                      width: '28px',
-                      borderRadius: '2px',
-                      objectFit: 'cover'
-                    }} 
-                  />
+                  <img src="https://flagcdn.com/w160/br.png" alt="Brasil" style={{ height: '20px', width: '28px', borderRadius: '2px', objectFit: 'cover' }} />
                   <span>NAC.</span>
-                  <span style={{
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    color: 'rgba(148, 163, 184, 0.70)',
-                    letterSpacing: '0.05em',
-                    textTransform: 'none'
-                  }}>{totalNacional} un.</span>
+                  <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgba(148, 163, 184, 0.70)', letterSpacing: '0.05em', textTransform: 'none' }}>{totalNacional} un.</span>
                 </button>
                 
-                <span style={{
-                  color: 'var(--cyber-accent)',
-                  fontFamily: 'var(--font-chakra)',
-                  fontWeight: 700,
-                  fontSize: '16px',
-                  flexShrink: 0,
-                  opacity: 0.7
-                }}>+</span>
+                <span style={{ color: 'var(--cyber-accent)', fontFamily: 'var(--font-chakra)', fontWeight: 700, fontSize: '16px', flexShrink: 0, opacity: 0.7 }}>+</span>
                 
+                {/* BOTÃO INTERNACIONAL */}
                 <button
                   type="button"
-                  onClick={() => setFiltroAtivo('Internacional')}
+                  onClick={() => setFiltroAtivo(filtroAtivo === 'Internacional' ? null : 'Internacional')}
                   style={{
                     flex: 1,
                     display: 'flex',
@@ -423,52 +392,18 @@ export default function App() {
                     transition: 'all 0.25s ease',
                     boxShadow: filtroAtivo === 'Internacional' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
                   }}
-                  onMouseEnter={(e) => {
-                    if (filtroAtivo !== 'Internacional') {
-                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
-                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
-                      e.currentTarget.style.color = '#ffffff'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (filtroAtivo !== 'Internacional') {
-                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
-                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
-                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
-                    }
-                  }}
                 >
-                  <img 
-                    src="/mundo.png" 
-                    alt="Internacional" 
-                    style={{
-                      width: '28px',
-                      height: '28px',
-                      objectFit: 'contain'
-                    }} 
-                  />
+                  <img src="/mundo.png" alt="Internacional" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
                   <span>INT.</span>
-                  <span style={{
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    color: 'rgba(148, 163, 184, 0.70)',
-                    letterSpacing: '0.05em',
-                    textTransform: 'none'
-                  }}>{totalInternacional} un.</span>
+                  <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgba(148, 163, 184, 0.70)', letterSpacing: '0.05em', textTransform: 'none' }}>{totalInternacional} un.</span>
                 </button>
                 
-                <span style={{
-                  color: 'var(--cyber-accent)',
-                  fontFamily: 'var(--font-chakra)',
-                  fontWeight: 700,
-                  fontSize: '16px',
-                  flexShrink: 0,
-                  opacity: 0.7
-                }}>=</span>
+                <span style={{ color: 'var(--cyber-accent)', fontFamily: 'var(--font-chakra)', fontWeight: 700, fontSize: '16px', flexShrink: 0, opacity: 0.7 }}>=</span>
                 
+                {/* BOTÃO TODAS */}
                 <button
                   type="button"
-                  onClick={() => setFiltroAtivo('Todas')}
+                  onClick={() => setFiltroAtivo(filtroAtivo === 'Todas' ? null : 'Todas')}
                   style={{
                     flex: 1,
                     display: 'flex',
@@ -477,41 +412,21 @@ export default function App() {
                     gap: '8px',
                     height: '40px',
                     padding: '0 10px',
-                    border: `1px solid ${filtroAtivo === 'Todas' ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
-                    background: filtroAtivo === 'Todas' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
+                    border: `1px solid ${filtroAtivo === 'Todas' || !filtroAtivo ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
+                    background: !filtroAtivo || filtroAtivo === 'Todas' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
                     fontFamily: 'var(--font-chakra)',
                     fontSize: '10px',
                     fontWeight: 700,
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
-                    color: filtroAtivo === 'Todas' ? 'var(--cyber-accent-light)' : 'rgba(148, 163, 184, 0.80)',
+                    color: !filtroAtivo || filtroAtivo === 'Todas' ? 'var(--cyber-accent-light)' : 'rgba(148, 163, 184, 0.80)',
                     borderRadius: '8px',
                     cursor: 'pointer',
                     transition: 'all 0.25s ease',
-                    boxShadow: filtroAtivo === 'Todas' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (filtroAtivo !== 'Todas') {
-                      e.currentTarget.style.borderColor = 'var(--cyber-accent-light)'
-                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
-                      e.currentTarget.style.color = '#ffffff'
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (filtroAtivo !== 'Todas') {
-                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.18)'
-                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.18)'
-                      e.currentTarget.style.color = 'rgba(148, 163, 184, 0.80)'
-                    }
+                    boxShadow: !filtroAtivo || filtroAtivo === 'Todas' ? '0 0 14px rgba(255, 107, 26, 0.15)' : 'none'
                   }}
                 >
-                  <span style={{
-                    fontSize: '12px',
-                    fontWeight: 400,
-                    color: 'rgba(148, 163, 184, 0.70)',
-                    letterSpacing: '0.05em',
-                    textTransform: 'none'
-                  }}>{totalTodas} un.</span>
+                  <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgba(148, 163, 184, 0.70)', letterSpacing: '0.05em', textTransform: 'none' }}>{totalTodas} un.</span>
                 </button>
               </div>
             </div>          
@@ -558,14 +473,23 @@ export default function App() {
             </button>
           </div>
         )}
-<TampinhaGrid 
-  tampinhas={tampinhasFormatadasParaExibicao} 
-  onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha as TampinhaFormatada)}
-/>
+        
+        {carregando && <div style={{ textAlign: 'center', padding: '20px', color: 'var(--cyber-accent)' }}>Carregando tampinhas...</div>}
+        
+        <TampinhaGrid 
+          tampinhas={tampinhasFormatadasParaExibicao} 
+          onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha)}
+        />
       </main>
       
-      <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
+      {/* MODAL DE CADASTRO */}
+      <NovaTampinhaModal 
+        open={modalAberto} 
+        onClose={() => setModalAberto(false)} 
+        onSubmit={handleCadastro} 
+      />
       
+      {/* MODAL DE ZOOM */}
       {tampinhaZoom && (
         <div 
           style={{
@@ -672,46 +596,10 @@ export default function App() {
               margin: '10px 0',
               flexShrink: 0
             }}>
-              <div style={{
-                position: 'absolute',
-                top: '40px',
-                left: '40px',
-                width: '16px',
-                height: '16px',
-                borderTop: '1px solid var(--cyber-accent)',
-                borderLeft: '1px solid var(--cyber-accent)',
-                zIndex: 3
-              }}></div>
-              <div style={{
-                position: 'absolute',
-                top: '40px',
-                right: '40px',
-                width: '16px',
-                height: '16px',
-                borderTop: '1px solid var(--cyber-accent)',
-                borderRight: '1px solid var(--cyber-accent)',
-                zIndex: 3
-              }}></div>
-              <div style={{
-                position: 'absolute',
-                bottom: '40px',
-                left: '40px',
-                width: '16px',
-                height: '16px',
-                borderBottom: '1px solid var(--cyber-accent)',
-                borderLeft: '1px solid var(--cyber-accent)',
-                zIndex: 3
-              }}></div>
-              <div style={{
-                position: 'absolute',
-                bottom: '40px',
-                right: '40px',
-                width: '16px',
-                height: '16px',
-                borderBottom: '1px solid var(--cyber-accent)',
-                borderRight: '1px solid var(--cyber-accent)',
-                zIndex: 3
-              }}></div>
+              <div style={{ position: 'absolute', top: '40px', left: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
+              <div style={{ position: 'absolute', top: '40px', right: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
+              <div style={{ position: 'absolute', bottom: '40px', left: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
+              <div style={{ position: 'absolute', bottom: '40px', right: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
               <img
                 src={tampinhaZoom.foto_url || '/placeholder.png'}
                 alt={tampinhaZoom.nome}
@@ -734,21 +622,12 @@ export default function App() {
               paddingTop: '10px',
               borderTop: '1px solid rgba(255, 107, 26, 0.20)'
             }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {tampinhaZoom.bandeira_url && (
                   <img
                     src={tampinhaZoom.bandeira_url}
                     alt={tampinhaZoom.pais}
-                    style={{
-                      height: '24px',
-                      width: '30px',
-                      borderRadius: '1px',
-                      objectFit: 'cover'
-                    }}
+                    style={{ height: '24px', width: '30px', borderRadius: '1px', objectFit: 'cover' }}
                   />
                 )}
                 <span style={{
