@@ -264,7 +264,7 @@ export default function App() {
                   marginBottom: 0
                 }}>
                   {verificandoLogin ? "Verificando acesso..." :
-                   podeCadastrar ? '"A cada tampinha uma história"' : "🔑 Clique para fazer login"}
+                   podeCadastrar ? '"A cada tampinha uma história"' : "A cada tampinha uma história"}
                 </p>
               </div>
             </button>
