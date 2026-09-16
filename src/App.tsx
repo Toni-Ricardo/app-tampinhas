@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { NovaTampinhaModal } from './components/NovaTampinhaModal'
+import { LoginModal } from './components/LoginModal' // ✅ NOVO
 import { SearchBar } from './components/SearchBar'
 import { TampinhaGrid } from './components/TampinhaGrid'
 import { bandeiraUrl } from './lib/bandeiras'
@@ -13,19 +14,17 @@ type TampinhaFormatada = Tampinha & {
   origem_formatada: string
 }
 
-// ✅ ID do dono autorizado a cadastrar
 const ID_DONO_AUTORIZADO = '2b76e073-b168-4668-8e7c-d2d195b44583'
 
 export default function App() {
   // ✅ CONTROLE DE LOGIN
   const [usuario, setUsuario] = useState<any>(null)
   const [verificandoLogin, setVerificandoLogin] = useState(true)
+  const [loginModalAberto, setLoginModalAberto] = useState(false) // ✅ NOVO
 
-  // ✅ ESTADOS — AGORA TODOS SERÃO USADOS!
+  // ✅ ESTADOS
   const [carregando, setCarregando] = useState(true)
   const [contadores, setContadores] = useState({ nacional: 0, internacional: 0 })
-
-  // ✅ RESTO DOS ESTADOS
   const [tampinhas, setTampinhas] = useState<Tampinha[]>([])
   const [erro, setErro] = useState<string | null>(null)
   const [busca, setBusca] = useState('')
@@ -34,11 +33,10 @@ export default function App() {
   const [filtroAtivo, setFiltroAtivo] = useState<Origem | 'Todas' | null>(null)
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
   
-  // ✅ USUÁRIO PODE CADASTRAR?
   const estaLogado = !!usuario
   const podeCadastrar = estaLogado && usuario?.id === ID_DONO_AUTORIZADO
 
-  // ✅ DETECTAR LOGIN DO SUPABASE
+  // ✅ DETECTAR LOGIN
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('🔑 Sessão encontrada:', session?.user?.email ?? 'NENHUMA')
@@ -78,9 +76,8 @@ export default function App() {
     carregar()
   }, [carregar])
 
-  // ✅ FILTROS E FORMATAÇÃO
+  // ✅ FILTROS
   const totalTodas = tampinhas.length
-  // ✅ OPÇÃO 3: USAR DIRETO DO ESTADO — ELIMINA AVISOS!
   const totalNacional = contadores.nacional
   const totalInternacional = contadores.internacional
 
@@ -110,6 +107,22 @@ export default function App() {
     }
     await cadastrarTampinha(dados)
     await carregar()
+  }
+
+  // ✅ NOVO: CLIQUE NO BOTÃO DE CADASTRO
+  function handleCliqueCadastro() {
+    if (verificandoLogin) return
+    if (!podeCadastrar) {
+      setLoginModalAberto(true) // ✅ Abre janela de login!
+    } else {
+      setModalAberto(true) // ✅ Já logado → abre cadastro
+    }
+  }
+
+  // ✅ NOVO: FUNÇÃO DE LOGOUT
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    setUsuario(null)
   }
 
   return (
@@ -158,11 +171,11 @@ export default function App() {
             paddingTop: '4px'
           }}>
             
-            {/* ✅ BOTÃO LOGO / CADASTRO */}
+            {/* ✅ BOTÃO LOGO / CADASTRO — AGORA ABRE LOGIN SE PRECISAR */}
             <button
               type="button"
-              onClick={() => podeCadastrar && setModalAberto(true)}
-              disabled={!podeCadastrar}
+              onClick={handleCliqueCadastro}
+              disabled={verificandoLogin}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -170,15 +183,15 @@ export default function App() {
                 textAlign: 'left',
                 background: 'none',
                 border: 'none',
-                cursor: podeCadastrar ? 'pointer' : 'not-allowed',
+                cursor: verificandoLogin ? 'wait' : 'pointer',
                 outline: 'none',
                 padding: 0,
-                opacity: verificandoLogin ? 0.5 : (podeCadastrar ? 1 : 0.5),
+                opacity: verificandoLogin ? 0.5 : 1,
                 transition: 'opacity 0.25s ease'
               }}
               title={
                 verificandoLogin ? "Verificando acesso..." :
-                podeCadastrar ? "Cadastrar nova tampinha" : "🔒 Acesso restrito"
+                podeCadastrar ? "Cadastrar nova tampinha" : "🔑 Fazer login"
               }
             >
               <div style={{
@@ -196,10 +209,8 @@ export default function App() {
                 transition: 'border-color 0.3s ease, background 0.3s ease'
               }}
               onMouseEnter={(e) => {
-                if (podeCadastrar) {
-                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                  e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
-                }
+                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.08)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
@@ -253,52 +264,91 @@ export default function App() {
                   marginBottom: 0
                 }}>
                   {verificandoLogin ? "Verificando acesso..." :
-                   podeCadastrar ? '"A cada tampinha uma história"' : "🔒 Acesso restrito"}
+                   podeCadastrar ? '"A cada tampinha uma história"' : "🔑 Clique para fazer login"}
                 </p>
               </div>
             </button>
             
-            {/* BOTÃO MENU */}
-            <button
-              onClick={() => setFiltrosAbertos(!filtrosAbertos)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '44px',
-                height: '44px',
-                border: '1px solid rgba(255, 107, 26, 0.20)',
-                background: 'rgba(0, 0, 0, 0.20)',
-                color: 'var(--cyber-accent)',
-                borderRadius: '10px',
-                cursor: 'pointer',
-                transition: 'all 0.25s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
-                e.currentTarget.style.color = 'var(--cyber-accent-light)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
-                e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
-                e.currentTarget.style.color = 'var(--cyber-accent)'
-              }}
-              title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
-            >
-              {!filtrosAbertos ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+            {/* ✅ BOTÕES DE AÇÃO: MENU + LOGOUT */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              
+              {/* ✅ BOTÃO DE LOGOUT (aparece só quando logado) */}
+              {podeCadastrar && (
+                <button
+                  onClick={handleLogout}
+                  title="Sair"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '44px',
+                    height: '44px',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    background: 'rgba(239, 68, 68, 0.08)',
+                    color: 'rgba(248, 113, 113, 0.9)',
+                    borderRadius: '10px',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.7)'
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                  </svg>
+                </button>
               )}
-            </button>
+              
+              {/* BOTÃO MENU */}
+              <button
+                onClick={() => setFiltrosAbertos(!filtrosAbertos)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '44px',
+                  height: '44px',
+                  border: '1px solid rgba(255, 107, 26, 0.20)',
+                  background: 'rgba(0, 0, 0, 0.20)',
+                  color: 'var(--cyber-accent)',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                  e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+                  e.currentTarget.style.color = 'var(--cyber-accent-light)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+                  e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+                  e.currentTarget.style.color = 'var(--cyber-accent)'
+                }}
+                title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+              >
+                {!filtrosAbertos ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                )}
+              </button>
+            </div>
           </div>
           
           <div style={{
@@ -489,6 +539,12 @@ export default function App() {
         onSubmit={handleCadastro} 
       />
       
+      {/* ✅ MODAL DE LOGIN — NOVO! */}
+      <LoginModal 
+        open={loginModalAberto} 
+        onClose={() => setLoginModalAberto(false)}
+      />
+      
       {/* MODAL DE ZOOM */}
       {tampinhaZoom && (
         <div 
@@ -544,19 +600,8 @@ export default function App() {
                 transition: 'all 0.25s ease',
                 zIndex: 10
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--cyber-accent)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.25)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.4)'
-                e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
-              }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              ×
             </button>
             <div style={{
               position: 'absolute',
