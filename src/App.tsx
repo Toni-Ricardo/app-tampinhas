@@ -16,15 +16,13 @@ type TampinhaFormatada = Tampinha & {
   origem_formatada: string
 }
 
-const ID_DONO_AUTORIZADO = '90d17816-4c67-4179-8916-d50e71a7d8b4'
-
 export default function App() {
   // ✅ CONTROLE DE TELA
-  const [paginaContato, setPaginaContato] = useState(false) // ✅ Tela de Contato
-  const [usuario, setUsuario] = useState<any>(null)
+  const [paginaContato, setPaginaContato] = useState(false)
+  const [usuario, setUsuario] = useState<{ id: string; email?: string } | null>(null)
   const [verificandoLogin, setVerificandoLogin] = useState(true)
   const [loginModalAberto, setLoginModalAberto] = useState(false)
-
+  
   // ✅ ESTADOS
   const [carregando, setCarregando] = useState(true)
   const [contadores, setContadores] = useState({ nacional: 0, internacional: 0 })
@@ -36,19 +34,20 @@ export default function App() {
   const [filtroAtivo, setFiltroAtivo] = useState<Origem | 'Todas' | null>(null)
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
   
+  // ✅ SIMPLES: se está logado = pode tentar cadastrar → Supabase decide se permite
   const estaLogado = !!usuario
-  const podeCadastrar = estaLogado && usuario?.id === ID_DONO_AUTORIZADO
+  const podeCadastrar = estaLogado // ✅ Sem ID fixo — o Supabase controla via RLS
 
   // ✅ DETECTAR LOGIN
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log('🔑 Sessão encontrada:', session?.user?.email ?? 'NENHUMA')
-      setUsuario(session?.user ?? null)
+      setUsuario(session?.user ? { id: session.user.id, email: session.user.email } : null)
       setVerificandoLogin(false)
     })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       console.log('🔄 Login alterado:', session?.user?.email ?? 'Deslogado')
-      setUsuario(session?.user ?? null)
+      setUsuario(session?.user ? { id: session.user.id, email: session.user.email } : null)
       setVerificandoLogin(false)
     })
     return () => subscription.unsubscribe()
@@ -81,14 +80,17 @@ export default function App() {
   const totalTodas = tampinhas.length
   const totalNacional = contadores.nacional
   const totalInternacional = contadores.internacional
+
   const colecaoAtivaParaFiltro = useMemo<Origem | null>(() => {
     if (filtroAtivo === 'Nacional') return 'Nacional'
     if (filtroAtivo === 'Internacional') return 'Internacional'
     return null
   }, [filtroAtivo])
+
   const tampinhasFiltradas = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
+
   const tampinhasFormatadasParaExibicao = useMemo<TampinhaFormatada[]>(() => {
     return tampinhasFiltradas.map((tampinha) => ({
       ...tampinha,
@@ -97,14 +99,24 @@ export default function App() {
     }))
   }, [tampinhasFiltradas])
 
-  // ✅ FUNÇÃO DE CADASTRO
+  // ✅ FUNÇÃO DE CADASTRO — validação feita PELO SUPABASE
   async function handleCadastro(dados: NovaTampinha) {
     if (!podeCadastrar) {
-      alert('🔒 Acesso restrito: apenas o administrador pode cadastrar!')
+      alert('🔒 Faça login para cadastrar!')
       return
     }
-    await cadastrarTampinha(dados)
-    await carregar()
+    try {
+      await cadastrarTampinha(dados)
+      await carregar()
+    } catch (err) {
+      const msg = getSupabaseErrorMessage(err)
+      if (msg.includes('permission') || msg.includes('policy') || msg.includes('unauthorized')) {
+        alert('🔒 Acesso restrito: apenas o administrador pode cadastrar!')
+      } else {
+        setErro(msg)
+      }
+      throw err
+    }
   }
 
   // ✅ CLIQUE NO BOTÃO DE CADASTRO
@@ -126,7 +138,7 @@ export default function App() {
   // ✅ SE ESTIVER NA PÁGINA DE CONTATO → MOSTRA ELA
   if (paginaContato) {
     return (
-      <div style={{ minHeight: '100vh', fontFamily: "'Cuprumrum', sans-serif" }}>
+      <div style={{ minHeight: '100vh', fontFamily: "'Cuprum', sans-serif" }}>
         {/* Botão Voltar fixo no topo */}
         <div style={{
           position: 'fixed',
@@ -237,7 +249,7 @@ export default function App() {
               }}
               title={
                 verificandoLogin ? "Verificando acesso..." :
-                podeCadastrar ? "Cadastrar nova tampinha" : "🔑 Fazer login"
+                estaLogado ? "Cadastrar nova tampinha" : "🔑 Fazer login"
               }
             >
               <div style={{
@@ -310,7 +322,7 @@ export default function App() {
                   marginBottom: 0
                 }}>
                   {verificandoLogin ? "Verificando acesso..." :
-                   podeCadastrar ? '"A cada tampinha uma história"' : "A cada tampinha uma história"}
+                   estaLogado ? '"A cada tampinha uma história"' : "A cada tampinha uma história"}
                 </p>
               </div>
             </button>
@@ -319,39 +331,39 @@ export default function App() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               
               {/* ✅ BOTÃO CONTATO */}
-              <button
-                onClick={() => setPaginaContato(true)}
-                title="Contato"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '44px',
-                  height: '44px',
-                  border: '1px solid rgba(74, 222, 128, 0.3)',
-                  background: 'rgba(74, 222, 128, 0.08)',
-                  color: 'rgba(134, 239, 172, 0.9)',
-                  borderRadius: '10px',
-                  cursor: 'pointer',
-                  transition: 'all 0.25s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(74, 222, 128, 0.7)'
-                  e.currentTarget.style.background = 'rgba(74, 222, 128, 0.18)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(74, 222, 128, 0.3)'
-                  e.currentTarget.style.background = 'rgba(74, 222, 128, 0.08)'
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                  <polyline points="22,6 12,13 2,6" />
-                </svg>
-              </button>
-              
+{/* ✅ BOTÃO CONTATO — ESTILO LARANJA SEM BORDA */}
+<button
+  onClick={() => setPaginaContato(true)}
+  title="Contato"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '44px',
+    height: '44px',
+    border: 'none', // ✅ Sem contorno
+    background: 'transparent', // ✅ Fundo transparente
+    color: 'var(--cyber-accent)', // ✅ Cor laranja padrão
+    borderRadius: '10px',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease'
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)' // Fundo laranja suave ao passar
+    e.currentTarget.style.color = 'var(--cyber-accent-light)'
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.background = 'transparent'
+    e.currentTarget.style.color = 'var(--cyber-accent)'
+  }}
+>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+</button>              
               {/* BOTÃO DE LOGOUT (só logado) */}
-              {podeCadastrar && (
+              {estaLogado && (
                 <button
                   onClick={handleLogout}
                   title="Sair"
@@ -538,7 +550,7 @@ export default function App() {
                     gap: '8px',
                     height: '40px',
                     padding: '0 10px',
-                    border: `1px solid ${filtroAtivo === 'Todas' || !filtroAtivo ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
+                    border: `1px solid ${!filtroAtivo || filtroAtivo === 'Todas' ? 'var(--cyber-accent)' : 'rgba(255, 107, 26, 0.18)'}`,
                     background: !filtroAtivo || filtroAtivo === 'Todas' ? 'rgba(255, 107, 26, 0.12)' : 'rgba(0, 0, 0, 0.18)',
                     fontFamily: 'var(--font-chakra)',
                     fontSize: '10px',
