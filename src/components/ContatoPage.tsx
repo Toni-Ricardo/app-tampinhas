@@ -126,7 +126,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                 marginTop: '2px',
                 marginBottom: 0
               }}>
-                "A cada tampinha uma história."
+                "Sugestões, Dúvidas e Elogios."
               </p>
             </div>
           </div>
@@ -186,7 +186,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               textTransform: 'uppercase',
               color: 'var(--cyber-accent)'
             }}>
-              Seu Nome
+              * Seu Nome
             </label>
             <input
               type="text"
@@ -223,7 +223,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               textTransform: 'uppercase',
               color: 'var(--cyber-accent)'
             }}>
-              Seu E-mail
+              * Seu E-mail
             </label>
             <input
               type="email"
@@ -260,7 +260,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               textTransform: 'uppercase',
               color: 'var(--cyber-accent)'
             }}>
-              Assunto
+              * Assunto
             </label>
             <input
               type="text"
@@ -297,7 +297,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               textTransform: 'uppercase',
               color: 'var(--cyber-accent)'
             }}>
-              Mensagem
+              * Mensagem
             </label>
             <textarea
               value={mensagem}
@@ -382,7 +382,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               color: 'var(--cyber-accent)',
               marginBottom: '10px'
             }}>
-              Contato
+              Contatos:
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <p style={{
