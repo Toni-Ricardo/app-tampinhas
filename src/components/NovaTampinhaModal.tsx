@@ -121,6 +121,16 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   const [erro, setErro] = useState<string | null>(null)
   const inputFotoRef = useRef<HTMLInputElement>(null)
 
+  // ✅ Lógica de preenchimento automático do País
+  function handleSelecionarOrigem(tipo: Origem) {
+    setOrigem(tipo)
+    if (tipo === 'Nacional') {
+      setPais('BRASIL') // ✅ Preenche automaticamente
+    } else {
+      setPais('') // ✅ Limpa para digitar
+    }
+  }
+
   useEffect(() => {
     if (!open) {
       setNome('')
@@ -181,6 +191,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setErro(null)
+
     if (!foto) {
       setErro('Selecione uma foto da tampinha.')
       return
@@ -201,6 +212,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
       setErro('Selecione o tipo de coleção.')
       return
     }
+
     setEnviando(true)
     try {
       await onSubmit({
@@ -243,7 +255,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
         onClick={onClose} 
       />
       
-      {/* ✅ CONTAINER PRINCIPAL — ESTRUTURA REFEITA */}
       <div style={{
         position: 'relative',
         zIndex: 10,
@@ -257,9 +268,8 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
         borderRadius: '16px',
         fontFamily: "'Cuprum', sans-serif",
         color: 'var(--cyber-text)',
-        overflow: 'hidden' /* ✅ Apenas o container externo controla overflow */
+        overflow: 'hidden'
       }}>
-        {/* Padrão de pontos sutil no fundo */}
         <div style={{
           position: 'absolute',
           inset: 0,
@@ -271,7 +281,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           zIndex: 0
         }}></div>
 
-        {/* ✅ CABEÇALHO — FIXO */}
         <div style={{
           position: 'relative',
           zIndex: 1,
@@ -280,7 +289,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           gap: '14px',
           padding: '16px 20px',
           borderBottom: '1px solid var(--cyber-border)',
-          flexShrink: 0 /* ✅ Não encolhe */
+          flexShrink: 0
         }}>
           <div style={{
             position: 'relative',
@@ -333,7 +342,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           </div>
         </div>
 
-        {/* ✅ FORMULÁRIO — ENVOLVE TUDO */}
         <form onSubmit={handleSubmit} style={{
           display: 'flex',
           flexDirection: 'column',
@@ -343,24 +351,22 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           zIndex: 1
         }}>
           
-          {/* ✅ ÁREA DE CONTEÚDO ROLÁVEL — UMA ÚNICA BARRA */}
           <div style={{
             flex: 1,
             minHeight: 0,
-            overflowY: 'auto', /* ✅ ÚNICA BARRA DE ROLAGEM */
+            overflowY: 'auto',
             display: 'grid',
             gridTemplateColumns: '1fr'
           }}
           className="md:grid-cols-2">
             
-            {/* COLUNA ESQUERDA: FORMULÁRIO — SEM overflowY */}
             <div style={{
               padding: '18px 20px',
               borderBottom: '1px solid var(--cyber-border)'
             }}
             className="md:border-b-0 md:border-r">
               
-              {/* Seção 1: Foto */}
+              {/* 1 — FOTO DA TAMPINHA */}
               <section style={{ marginBottom: '18px' }}>
                 <SecaoLabel numero="1" titulo="Foto da Tampinha" />
                 <button
@@ -436,7 +442,7 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 />
               </section>
 
-              {/* Seção 2: Nome */}
+              {/* 2 — NOME DA CERVEJA */}
               <section style={{ marginBottom: '18px' }}>
                 <SecaoLabel numero="2" titulo="Nome da Cerveja / Tampinha" />
                 <input
@@ -470,9 +476,26 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 />
               </section>
 
-              {/* Seção 3: País */}
+              {/* ✅ 3 — CATEGORIA (moved up) */}
               <section style={{ marginBottom: '18px' }}>
-                <SecaoLabel numero="3" titulo="País" />
+                <SecaoLabel numero="3" titulo="Categoria" />
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <BotaoOrigem 
+                    label="Nacional" 
+                    ativo={origem === 'Nacional'} 
+                    onClick={() => handleSelecionarOrigem('Nacional')} 
+                  />
+                  <BotaoOrigem 
+                    label="Internacional" 
+                    ativo={origem === 'Internacional'} 
+                    onClick={() => handleSelecionarOrigem('Internacional')} 
+                  />
+                </div>
+              </section>
+
+              {/* ✅ 4 — PAÍS */}
+              <section style={{ marginBottom: '18px' }}>
+                <SecaoLabel numero="4" titulo="País" />
                 <input
                   id="pais"
                   type="text"
@@ -504,9 +527,9 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 />
               </section>
 
-              {/* Seção 4: Cidade */}
+              {/* ✅ 5 — CIDADE */}
               <section style={{ marginBottom: '18px' }}>
-                <SecaoLabel numero="4" titulo="Cidade" />
+                <SecaoLabel numero="5" titulo="Cidade" />
                 <input
                   id="cidade"
                   type="text"
@@ -538,24 +561,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 />
               </section>
 
-              {/* Seção 5: Categoria */}
-              <section style={{ marginBottom: '18px' }}>
-                <SecaoLabel numero="5" titulo="Categoria" />
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <BotaoOrigem 
-                    label="Nacional" 
-                    ativo={origem === 'Nacional'} 
-                    onClick={() => setOrigem('Nacional')} 
-                  />
-                  <BotaoOrigem 
-                    label="Internacional" 
-                    ativo={origem === 'Internacional'} 
-                    onClick={() => setOrigem('Internacional')} 
-                  />
-                </div>
-              </section>
-
-              {/* Mensagem de ERRO */}
               {erro && (
                 <div style={{
                   padding: '10px 14px',
@@ -572,7 +577,6 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               )}
             </div>
 
-            {/* COLUNA DIREITA: PREVIEW — SEM overflowY */}
             <div style={{
               padding: '20px',
               display: 'flex',
@@ -602,12 +606,11 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
                 lineHeight: 1.5,
                 margin: 0
               }}>
-                Atualiza em tempo real. O arquivo PNG só vai para o bucket ao gravar.
+                CARD - ATUALIZADO EM TEMPO REAL.
               </p>
             </div>
           </div>
 
-          {/* ✅ BARRA DE AÇÕES — FIXA NA PARTE INFERIOR */}
           <div style={{
             position: 'relative',
             zIndex: 1,
@@ -616,8 +619,8 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
             gap: '12px',
             padding: '14px 20px',
             borderTop: '1px solid var(--cyber-border)',
-            flexShrink: 0, /* ✅ Não encolhe — fica sempre visível */
-            background: 'var(--cyber-card)' /* ✅ Fundo para não ficar transparente */
+            flexShrink: 0,
+            background: 'var(--cyber-card)'
           }}>
             <button
               type="button"

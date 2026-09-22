@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { NovaTampinhaModal } from './components/NovaTampinhaModal'
-import { LoginModal } from './components/LoginModal' // ✅ NOVO
+import { LoginModal } from './components/LoginModal'
 import { SearchBar } from './components/SearchBar'
 import { TampinhaGrid } from './components/TampinhaGrid'
+// PÁGINA DE CONTATO
+import { ContatoPage } from "./components/ContatoPage";
 import { bandeiraUrl } from './lib/bandeiras'
 import { cadastrarTampinha, contarPorOrigem, filtrarTampinhas, listarTampinhas } from './lib/tampinhas'
 import { getSupabaseErrorMessage, logSupabaseError } from './lib/supabaseError'
@@ -17,10 +19,11 @@ type TampinhaFormatada = Tampinha & {
 const ID_DONO_AUTORIZADO = '90d17816-4c67-4179-8916-d50e71a7d8b4'
 
 export default function App() {
-  // ✅ CONTROLE DE LOGIN
+  // ✅ CONTROLE DE TELA
+  const [paginaContato, setPaginaContato] = useState(false) // ✅ Tela de Contato
   const [usuario, setUsuario] = useState<any>(null)
   const [verificandoLogin, setVerificandoLogin] = useState(true)
-  const [loginModalAberto, setLoginModalAberto] = useState(false) // ✅ NOVO
+  const [loginModalAberto, setLoginModalAberto] = useState(false)
 
   // ✅ ESTADOS
   const [carregando, setCarregando] = useState(true)
@@ -43,13 +46,11 @@ export default function App() {
       setUsuario(session?.user ?? null)
       setVerificandoLogin(false)
     })
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       console.log('🔄 Login alterado:', session?.user?.email ?? 'Deslogado')
       setUsuario(session?.user ?? null)
       setVerificandoLogin(false)
     })
-
     return () => subscription.unsubscribe()
   }, [])
 
@@ -80,17 +81,14 @@ export default function App() {
   const totalTodas = tampinhas.length
   const totalNacional = contadores.nacional
   const totalInternacional = contadores.internacional
-
   const colecaoAtivaParaFiltro = useMemo<Origem | null>(() => {
     if (filtroAtivo === 'Nacional') return 'Nacional'
     if (filtroAtivo === 'Internacional') return 'Internacional'
     return null
   }, [filtroAtivo])
-
   const tampinhasFiltradas = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
-
   const tampinhasFormatadasParaExibicao = useMemo<TampinhaFormatada[]>(() => {
     return tampinhasFiltradas.map((tampinha) => ({
       ...tampinha,
@@ -109,22 +107,70 @@ export default function App() {
     await carregar()
   }
 
-  // ✅ NOVO: CLIQUE NO BOTÃO DE CADASTRO
+  // ✅ CLIQUE NO BOTÃO DE CADASTRO
   function handleCliqueCadastro() {
     if (verificandoLogin) return
     if (!podeCadastrar) {
-      setLoginModalAberto(true) // ✅ Abre janela de login!
+      setLoginModalAberto(true)
     } else {
-      setModalAberto(true) // ✅ Já logado → abre cadastro
+      setModalAberto(true)
     }
   }
 
-  // ✅ NOVO: FUNÇÃO DE LOGOUT
+  // ✅ LOGOUT
   async function handleLogout() {
     await supabase.auth.signOut()
     setUsuario(null)
   }
 
+  // ✅ SE ESTIVER NA PÁGINA DE CONTATO → MOSTRA ELA
+  if (paginaContato) {
+    return (
+      <div style={{ minHeight: '100vh', fontFamily: "'Cuprumrum', sans-serif" }}>
+        {/* Botão Voltar fixo no topo */}
+        <div style={{
+          position: 'fixed',
+          top: '12px',
+          left: '12px',
+          zIndex: 60
+        }}>
+          <button
+            onClick={() => setPaginaContato(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 14px',
+              border: '1px solid var(--cyber-accent)',
+              background: 'var(--cyber-accent-soft)',
+              fontFamily: 'var(--font-chakra)',
+              fontSize: '11px',
+              fontWeight: 700,
+              letterSpacing: '0.12em',
+              textTransform: 'uppercase',
+              color: 'var(--cyber-accent-light)',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.25s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--cyber-accent)'
+              e.currentTarget.style.color = '#0a0e17'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'var(--cyber-accent-soft)'
+              e.currentTarget.style.color = 'var(--cyber-accent-light)'
+            }}
+          >
+            ← Voltar
+          </button>
+        </div>
+        <ContatoPage />
+      </div>
+    )
+  }
+
+  // ✅ PÁGINA PRINCIPAL
   return (
     <div style={{
       minHeight: '100vh',
@@ -171,7 +217,7 @@ export default function App() {
             paddingTop: '4px'
           }}>
             
-            {/* ✅ BOTÃO LOGO / CADASTRO — AGORA ABRE LOGIN SE PRECISAR */}
+            {/* LOGO / CADASTRO */}
             <button
               type="button"
               onClick={handleCliqueCadastro}
@@ -269,10 +315,42 @@ export default function App() {
               </div>
             </button>
             
-            {/* ✅ BOTÕES DE AÇÃO: MENU + LOGOUT */}
+            {/* ✅ BOTÕES DE AÇÃO: CONTATO + MENU + LOGOUT */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               
-              {/* ✅ BOTÃO DE LOGOUT (aparece só quando logado) */}
+              {/* ✅ BOTÃO CONTATO */}
+              <button
+                onClick={() => setPaginaContato(true)}
+                title="Contato"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '44px',
+                  height: '44px',
+                  border: '1px solid rgba(74, 222, 128, 0.3)',
+                  background: 'rgba(74, 222, 128, 0.08)',
+                  color: 'rgba(134, 239, 172, 0.9)',
+                  borderRadius: '10px',
+                  cursor: 'pointer',
+                  transition: 'all 0.25s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(74, 222, 128, 0.7)'
+                  e.currentTarget.style.background = 'rgba(74, 222, 128, 0.18)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'rgba(74, 222, 128, 0.3)'
+                  e.currentTarget.style.background = 'rgba(74, 222, 128, 0.08)'
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+              </button>
+              
+              {/* BOTÃO DE LOGOUT (só logado) */}
               {podeCadastrar && (
                 <button
                   onClick={handleLogout}
@@ -358,7 +436,7 @@ export default function App() {
             borderRadius: '1px'
           }}></div>
           
-          {/* ÁREA DE FILTROS */}
+          {/* FILTROS */}
           <div 
             style={{
               width: '100%',
@@ -411,7 +489,6 @@ export default function App() {
                   }}
                 >
                   <img src="https://flagcdn.com/w160/br.png" alt="Brasil" style={{ height: '20px', width: '28px', borderRadius: '2px', objectFit: 'cover' }} />
-                  <span>NAC.</span>
                   <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgba(148, 163, 184, 0.70)', letterSpacing: '0.05em', textTransform: 'none' }}>{totalNacional} un.</span>
                 </button>
                 
@@ -444,7 +521,6 @@ export default function App() {
                   }}
                 >
                   <img src="/mundo.png" alt="Internacional" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-                  <span>INT.</span>
                   <span style={{ fontSize: '12px', fontWeight: 400, color: 'rgba(148, 163, 184, 0.70)', letterSpacing: '0.05em', textTransform: 'none' }}>{totalInternacional} un.</span>
                 </button>
                 
@@ -539,7 +615,7 @@ export default function App() {
         onSubmit={handleCadastro} 
       />
       
-      {/* ✅ MODAL DE LOGIN — NOVO! */}
+      {/* MODAL DE LOGIN */}
       <LoginModal 
         open={loginModalAberto} 
         onClose={() => setLoginModalAberto(false)}
