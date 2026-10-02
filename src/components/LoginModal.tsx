@@ -1,6 +1,34 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+// ✅ Componente base de ícone SVG
+const Icone = ({ caminho, tamanho = 16, cor = '#ff5500', espessura = 1.5 }: {
+  caminho: string
+  tamanho?: number
+  cor?: string
+  espessura?: number
+}) => (
+  <svg
+    width={tamanho}
+    height={tamanho}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={cor}
+    strokeWidth={espessura}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ filter: `drop-shadow(0 0 3px ${cor})`, display: 'inline-block', verticalAlign: 'middle' }}
+  >
+    <path d={caminho} />
+  </svg>
+)
+
+// ✅ Ícones prontos para uso
+const Icones = {
+  Email: () => <Icone caminho="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" />,
+  Verificado: () => <Icone caminho="M20 6L9 17l-5-5" cor="#22c55e" tamanho={18} />
+}
+
 interface LoginModalProps {
   open: boolean
   onClose: () => void
@@ -25,20 +53,30 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   async function handleLoginComSenha(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim() || !senha.trim()) return
-
-    setProcessando(true)
     resetarMensagens()
 
+    // ✅ Validação MANUAL em PORTUGUÊS
+    if (!email.trim()) {
+      setErro('Por favor, preencha o campo SEU E-MAIL.')
+      return
+    }
+    if (!email.includes('@')) {
+      setErro('Por favor, insira um e-mail válido.')
+      return
+    }
+    if (!senha.trim()) {
+      setErro('Por favor, preencha o campo SUA SENHA.')
+      return
+    }
+
+    setProcessando(true)
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: senha
       })
-
       if (error) throw error
-
-      setMensagem('✅ Login realizado com sucesso!')
+      setMensagem('Login realizado com sucesso!')
       setTimeout(() => {
         onClose()
         setSenha('')
@@ -52,11 +90,19 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   async function handleEnviarLink(e: React.FormEvent) {
     e.preventDefault()
-    if (!email.trim()) return
-
-    setProcessando(true)
     resetarMensagens()
 
+    // ✅ Validação MANUAL em PORTUGUÊS
+    if (!email.trim()) {
+      setErro('Por favor, preencha o campo SEU E-MAIL.')
+      return
+    }
+    if (!email.includes('@')) {
+      setErro('Por favor, insira um e-mail válido.')
+      return
+    }
+
+    setProcessando(true)
     try {
       const { error } = await supabase.auth.signInWithOtp({
         email: email.trim(),
@@ -64,10 +110,8 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           emailRedirectTo: window.location.origin
         }
       })
-
       if (error) throw error
-
-      setMensagem('✅ Link de acesso enviado! Verifique seu e-mail.')
+      setMensagem('Link de acesso enviado! Verifique seu e-mail.')
     } catch (err: any) {
       setErro(err.message || 'Erro ao enviar link. Tente novamente.')
     } finally {
@@ -129,6 +173,9 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           ×
         </button>
 
+        🔐 Acesso Restrito
+
+        {/* ✅ TÍTULO — SEM ÍCONE */}
         <h2 style={{
           fontFamily: 'var(--font-chakra)',
           fontSize: '20px',
@@ -139,8 +186,9 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           marginBottom: '4px',
           marginTop: 0
         }}>
-          🔐 Acesso Administrador
+          Acesso Administrador
         </h2>
+
         <p style={{
           fontSize: '13px',
           color: 'rgba(148, 163, 184, 0.80)',
@@ -149,7 +197,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           Faça login para cadastrar novas tampinhas.
         </p>
 
-        {/* ✅ ABAS: SENHA / LINK */}
+        {/* ✅ ABAS — SEM ÍCONE NA PRIMEIRA */}
         <div style={{
           display: 'flex',
           gap: '4px',
@@ -195,19 +243,23 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
               letterSpacing: '0.1em',
               borderRadius: '7px',
               cursor: 'pointer',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px'
             }}
           >
-            📧 Link mágico
+            <Icones.Email />
+            Link mágico
           </button>
         </div>
 
-        {/* ✅ FORMULÁRIO COM SENHA */}
+        {/* ✅ FORMULÁRIO COM SENHA — noValidate desliga mensagem do navegador */}
         {modo === 'senha' && (
-          <form onSubmit={handleLoginComSenha}>
+          <form onSubmit={handleLoginComSenha} noValidate>
             <input
               type="email"
-              required
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -227,7 +279,6 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             />
             <input
               type="password"
-              required
               placeholder="Sua senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
@@ -261,20 +312,30 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                 letterSpacing: '0.12em',
                 borderRadius: '10px',
                 cursor: processando ? 'not-allowed' : 'pointer',
-                transition: 'all 0.25s ease'
+                transition: 'all 0.25s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
               }}
             >
-              {processando ? 'Entrando...' : '✅ Entrar'}
+              {processando ? (
+                'Entrando...'
+              ) : (
+                <>
+                  <Icones.Verificado />
+                  Entrar
+                </>
+              )}
             </button>
           </form>
         )}
 
-        {/* ✅ FORMULÁRIO LINK MÁGICO */}
+        {/* ✅ FORMULÁRIO LINK MÁGICO — noValidate desliga mensagem do navegador */}
         {modo === 'link' && (
-          <form onSubmit={handleEnviarLink}>
+          <form onSubmit={handleEnviarLink} noValidate>
             <input
               type="email"
-              required
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -308,10 +369,21 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                 letterSpacing: '0.12em',
                 borderRadius: '10px',
                 cursor: processando ? 'not-allowed' : 'pointer',
-                transition: 'all 0.25s ease'
+                transition: 'all 0.25s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
               }}
             >
-              {processando ? 'Enviando...' : '📧 Enviar link'}
+              {processando ? (
+                'Enviando...'
+              ) : (
+                <>
+                  <Icones.Email />
+                  Enviar link
+                </>
+              )}
             </button>
           </form>
         )}
@@ -324,8 +396,12 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             background: 'rgba(34, 197, 94, 0.15)',
             border: '1px solid rgba(34, 197, 94, 0.4)',
             color: 'rgba(134, 239, 172, 0.95)',
-            fontSize: '13px'
+            fontSize: '13px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
           }}>
+            <Icones.Verificado />
             {mensagem}
           </div>
         )}
