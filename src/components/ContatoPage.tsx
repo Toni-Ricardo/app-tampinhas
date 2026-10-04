@@ -15,16 +15,33 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setEnviando(true)
-    await new Promise(resolve => setTimeout(resolve, 1200))
-    setEnviando(false)
-    setEnviado(true)
-    setTimeout(() => {
-      setEnviado(false)
+
+    try {
+      // ⚠️ TROQUE SEU_PROJETO pelo ID do seu Supabase
+      const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
+
+      const resposta = await fetch(SUPABASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email, assunto, mensagem })
+      })
+
+      const dados = await resposta.json()
+
+      if (!resposta.ok) throw new Error(dados.erro || 'Falha no envio')
+
+      setEnviado(true)
       setNome('')
       setEmail('')
       setAssunto('')
       setMensagem('')
-    }, 3000)
+
+      setTimeout(() => setEnviado(false), 3000)
+    } catch (erro) {
+      alert('Erro ao enviar: ' + String(erro))
+    } finally {
+      setEnviando(false)
+    }
   }
 
   return (
@@ -66,7 +83,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
           zIndex: 0
         }}></div>
 
-        {/* === CABEÇALHO COM X DE FECHAR === */}
+        {/* CABEÇALHO */}
         <div style={{
           position: 'relative',
           zIndex: 1,
@@ -78,7 +95,6 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
           borderBottom: '1px solid var(--cyber-border)',
           flexShrink: 0
         }}>
-          {/* Lado esquerdo — Logo + Título */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
             <div style={{
               position: 'relative',
@@ -130,8 +146,6 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               </p>
             </div>
           </div>
-
-          {/* Botão FECHAR (X) — Lado direito */}
           <button
             type="button"
             onClick={onFechar}
@@ -165,7 +179,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
           </button>
         </div>
 
-        {/* === FORMULÁRIO === */}
+        {/* FORMULÁRIO */}
         <form onSubmit={handleSubmit} style={{
           display: 'flex',
           flexDirection: 'column',
@@ -324,13 +338,13 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
             />
           </div>
 
-          {/* === BOTÃO ENVIAR — METADE DO TAMANHO E CENTRALIZADO === */}
+          {/* Botão Enviar */}
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
             <button
               type="submit"
               disabled={enviando}
               style={{
-                width: '50%', // ✅ Metade da largura
+                width: '50%',
                 minWidth: '200px',
                 height: '44px',
                 display: 'inline-flex',
@@ -369,7 +383,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
             </button>
           </div>
 
-          {/* === INFORMAÇÕES DE CONTATO === */}
+          {/* Informações de Contato */}
           <div style={{
             paddingTop: '12px',
             borderTop: '1px solid var(--cyber-border)'
@@ -385,36 +399,15 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               Contatos:
             </h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <p style={{
-                margin: 0,
-                fontSize: '12px',
-                color: 'var(--cyber-muted)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
+              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                 coisadigital@gmail.com
               </p>
-              <p style={{
-                margin: 0,
-                fontSize: '12px',
-                color: 'var(--cyber-muted)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
+              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                 WhatsApp: (16) 98810-5510
               </p>
-              <p style={{
-                margin: 0,
-                fontSize: '12px',
-                color: 'var(--cyber-muted)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
+              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                 Localização: Jardinópolis — SP
               </p>
