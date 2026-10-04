@@ -16,47 +16,48 @@ async function handleSubmit(e: React.FormEvent) {
   e.preventDefault()
   setEnviando(true)
 
+  const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
+
   try {
-    const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
-    
     const resposta = await fetch(SUPABASE_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'cors', // 🔑 Garante permissão entre domínios
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({ nome, email, assunto, mensagem })
     })
 
-    // Tenta ler a resposta com segurança
+    const textoResposta = await resposta.text()
+    console.log('Resposta bruta:', textoResposta) // Ajuda a diagnosticar
+
     let dados
     try {
-      dados = await resposta.json()
+      dados = JSON.parse(textoResposta)
     } catch {
-      dados = {}
+      dados = { sucesso: resposta.ok }
     }
 
     if (!resposta.ok) {
-      throw new Error(dados.erro || `Erro ${resposta.status}`)
+      throw new Error(dados.erro || `Erro ${resposta.status}: ${textoResposta.slice(0, 100)}`)
     }
 
-    if (!dados.sucesso) {
-      throw new Error(dados.erro || 'Resposta inesperada do servidor')
-    }
-
-    // ✅ Deu tudo certo!
+    // ✅ Sucesso!
     setEnviado(true)
     setNome('')
     setEmail('')
     setAssunto('')
     setMensagem('')
     setTimeout(() => setEnviado(false), 3000)
-    
+
   } catch (erro) {
-    // Mostra o erro REAL para identificar
+    console.error('Detalhe do erro:', erro)
     alert('Erro: ' + String(erro))
   } finally {
     setEnviando(false)
   }
-}
-  return (
+}  return (
     <div style={{
       position: 'fixed',
       inset: 0,
