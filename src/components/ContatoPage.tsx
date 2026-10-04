@@ -21,29 +21,20 @@ async function handleSubmit(e: React.FormEvent) {
   try {
     const resposta = await fetch(SUPABASE_URL, {
       method: 'POST',
-      mode: 'cors', // 🔑 Garante permissão entre domínios
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'apikey': 'sb_publishable_XSJyZ5V2V2lS_uyuhJG_gw_EUG4pgxt' // 🔑 Chave pública do projeto
       },
       body: JSON.stringify({ nome, email, assunto, mensagem })
     })
 
-    const textoResposta = await resposta.text()
-    console.log('Resposta bruta:', textoResposta) // Ajuda a diagnosticar
-
-    let dados
-    try {
-      dados = JSON.parse(textoResposta)
-    } catch {
-      dados = { sucesso: resposta.ok }
-    }
+    const dados = await resposta.json()
 
     if (!resposta.ok) {
-      throw new Error(dados.erro || `Erro ${resposta.status}: ${textoResposta.slice(0, 100)}`)
+      throw new Error(dados.erro || `Erro ${resposta.status}`)
     }
 
-    // ✅ Sucesso!
     setEnviado(true)
     setNome('')
     setEmail('')
@@ -52,7 +43,7 @@ async function handleSubmit(e: React.FormEvent) {
     setTimeout(() => setEnviado(false), 3000)
 
   } catch (erro) {
-    console.error('Detalhe do erro:', erro)
+    console.error('Erro:', erro)
     alert('Erro: ' + String(erro))
   } finally {
     setEnviando(false)
