@@ -12,43 +12,49 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
   const [enviando, setEnviando] = useState(false)
   const [enviado, setEnviado] = useState(false)
 
-async function handleSubmit(e: React.FormEvent) {
-  e.preventDefault()
-  setEnviando(true)
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setEnviando(true)
 
-  const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
+    const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
 
-  try {
-    const resposta = await fetch(SUPABASE_URL, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ nome, email, assunto, mensagem })
-    })
+    try {
+      const resposta = await fetch(SUPABASE_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nome, email, assunto, mensagem })
+      })
 
-    const dados = await resposta.json()
+      const dados = await resposta.json()
 
-    if (!resposta.ok) {
-      throw new Error(dados.erro || `Erro ${resposta.status}`)
+      if (!resposta.ok) {
+        throw new Error(dados.erro || `Erro ${resposta.status}`)
+      }
+
+      // ✅ SUCESSO — Mostra mensagem e redireciona
+      setEnviado(true)
+      setNome('')
+      setEmail('')
+      setAssunto('')
+      setMensagem('')
+
+      // ⏳ Espera 3 segundos e vai para a página inicial
+      setTimeout(() => {
+        window.location.href = 'https://www.koiza.com.br'
+      }, 3000)
+
+    } catch (erro) {
+      console.error('Erro:', erro)
+      alert('Erro: ' + String(erro))
+    } finally {
+      setEnviando(false)
     }
-
-    setEnviado(true)
-    setNome('')
-    setEmail('')
-    setAssunto('')
-    setMensagem('')
-    setTimeout(() => setEnviado(false), 3000)
-
-  } catch (erro) {
-    console.error('Erro:', erro)
-    alert('Erro: ' + String(erro))
-  } finally {
-    setEnviando(false)
   }
-}  
-return (
+
+  return (
     <div style={{
       position: 'fixed',
       inset: 0,
@@ -87,337 +93,386 @@ return (
           zIndex: 0
         }}></div>
 
-        {/* CABEÇALHO */}
-        <div style={{
-          position: 'relative',
-          zIndex: 1,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '14px',
-          padding: '12px 20px',
-          borderBottom: '1px solid var(--cyber-border)',
-          flexShrink: 0
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {/* ✅ TELA DE SUCESSO */}
+        {enviado ? (
+          <div style={{
+            padding: '40px 30px',
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 1
+          }}>
+            <div style={{
+              fontSize: '60px',
+              marginBottom: '20px'
+            }}>✅</div>
+            <h2 style={{
+              color: '#4ade80',
+              fontSize: '24px',
+              fontWeight: 700,
+              margin: '0 0 10px 0',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase'
+            }}>
+              Mensagem Enviada!
+            </h2>
+            <p style={{
+              color: '#9ca3af',
+              fontSize: '14px',
+              margin: 0
+            }}>
+              Obrigado pelo contato! Você será redirecionado em alguns instantes...
+            </p>
+            <div style={{
+              marginTop: '25px',
+              width: '100%',
+              height: '4px',
+              background: 'linear-gradient(90deg, #4ade80, #22c55e)',
+              borderRadius: '2px',
+              animation: 'pulse 1.5s ease-in-out infinite'
+            }}></div>
+            <style>{`
+              @keyframes pulse {
+                0% { opacity: 0.6; }
+                50% { opacity: 1; }
+                100% { opacity: 0.6; }
+              }
+            `}</style>
+          </div>
+        ) : (
+          <>
+            {/* CABEÇALHO */}
             <div style={{
               position: 'relative',
+              zIndex: 1,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: '40px',
-              height: '40px',
-              flexShrink: 0,
-              border: '1px solid var(--cyber-border-light)',
-              background: 'rgba(0, 0, 0, 0.4)',
-              borderRadius: '8px',
-              overflow: 'hidden'
+              justifyContent: 'space-between',
+              gap: '14px',
+              padding: '12px 20px',
+              borderBottom: '1px solid var(--cyber-border)',
+              flexShrink: 0
             }}>
-              <img
-                src="/logo.png"
-                alt="Logo"
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div style={{
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '40px',
+                  height: '40px',
+                  flexShrink: 0,
+                  border: '1px solid var(--cyber-border-light)',
+                  background: 'rgba(0, 0, 0, 0.4)',
+                  borderRadius: '8px',
+                  overflow: 'hidden'
+                }}>
+                  <img
+                    src="/logo.png"
+                    alt="Logo"
+                    style={{
+                      height: '75%',
+                      width: '75%',
+                      objectFit: 'contain',
+                      filter: 'brightness(1.1)'
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none'
+                    }}
+                  />
+                </div>
+                <div>
+                  <h2 style={{
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '15px',
+                    fontWeight: 700,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    color: 'var(--cyber-accent-light)',
+                    margin: 0
+                  }}>
+                    Contato
+                  </h2>
+                  <p style={{
+                    fontSize: '10px',
+                    color: 'var(--cyber-muted)',
+                    letterSpacing: '0.05em',
+                    marginTop: '2px',
+                    marginBottom: 0
+                  }}>
+                    "Sugestões, Dúvidas e Elogios."
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={onFechar}
                 style={{
-                  height: '75%',
-                  width: '75%',
-                  objectFit: 'contain',
-                  filter: 'brightness(1.1)'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '36px',
+                  height: '36px',
+                  border: 'none',
+                  background: 'transparent',
+                  color: 'var(--cyber-accent)',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  lineHeight: 1,
+                  transition: 'all 0.25s ease'
                 }}
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-            </div>
-            <div>
-              <h2 style={{
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '15px',
-                fontWeight: 700,
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'var(--cyber-accent-light)',
-                margin: 0
-              }}>
-                Contato
-              </h2>
-              <p style={{
-                fontSize: '10px',
-                color: 'var(--cyber-muted)',
-                letterSpacing: '0.05em',
-                marginTop: '2px',
-                marginBottom: 0
-              }}>
-                "Sugestões, Dúvidas e Elogios."
-              </p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={onFechar}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '36px',
-              height: '36px',
-              border: 'none',
-              background: 'transparent',
-              color: 'var(--cyber-accent)',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: '18px',
-              fontWeight: 'bold',
-              lineHeight: 1,
-              transition: 'all 0.25s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
-              e.currentTarget.style.color = 'var(--cyber-accent-light)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent'
-              e.currentTarget.style.color = 'var(--cyber-accent)'
-            }}
-            title="Fechar"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* FORMULÁRIO */}
-        <form onSubmit={handleSubmit} style={{
-          display: 'flex',
-          flexDirection: 'column',
-          flex: 1,
-          padding: '14px 20px',
-          position: 'relative',
-          zIndex: 1,
-          overflowY: 'auto'
-        }}>
-          {/* Nome */}
-          <div style={{ marginBottom: '10px' }}>
-            <label style={{
-              display: 'block',
-              marginBottom: '4px',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--cyber-accent)'
-            }}>
-              * Seu Nome
-            </label>
-            <input
-              type="text"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                height: '38px',
-                padding: '0 14px',
-                border: '1px solid var(--cyber-border)',
-                background: 'rgba(0, 0, 0, 0.35)',
-                color: 'var(--cyber-text)',
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '12px',
-                letterSpacing: '0.05em',
-                outline: 'none',
-                transition: 'border-color 0.25s ease',
-                borderRadius: '8px'
-              }}
-              onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
-            />
-          </div>
-
-          {/* E-mail */}
-          <div style={{ marginBottom: '10px' }}>
-            <label style={{
-              display: 'block',
-              marginBottom: '4px',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--cyber-accent)'
-            }}>
-              * Seu E-mail
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                height: '38px',
-                padding: '0 14px',
-                border: '1px solid var(--cyber-border)',
-                background: 'rgba(0, 0, 0, 0.35)',
-                color: 'var(--cyber-text)',
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '12px',
-                letterSpacing: '0.05em',
-                outline: 'none',
-                transition: 'border-color 0.25s ease',
-                borderRadius: '8px'
-              }}
-              onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
-            />
-          </div>
-
-          {/* Assunto */}
-          <div style={{ marginBottom: '10px' }}>
-            <label style={{
-              display: 'block',
-              marginBottom: '4px',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--cyber-accent)'
-            }}>
-              * Assunto
-            </label>
-            <input
-              type="text"
-              value={assunto}
-              onChange={(e) => setAssunto(e.target.value)}
-              required
-              style={{
-                width: '100%',
-                height: '38px',
-                padding: '0 14px',
-                border: '1px solid var(--cyber-border)',
-                background: 'rgba(0, 0, 0, 0.35)',
-                color: 'var(--cyber-text)',
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '12px',
-                letterSpacing: '0.05em',
-                outline: 'none',
-                transition: 'border-color 0.25s ease',
-                borderRadius: '8px'
-              }}
-              onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
-            />
-          </div>
-
-          {/* Mensagem */}
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{
-              display: 'block',
-              marginBottom: '4px',
-              fontSize: '10px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--cyber-accent)'
-            }}>
-              * Mensagem
-            </label>
-            <textarea
-              value={mensagem}
-              onChange={(e) => setMensagem(e.target.value)}
-              required
-              rows={4}
-              style={{
-                width: '100%',
-                minHeight: '80px',
-                padding: '12px 14px',
-                border: '1px solid var(--cyber-border)',
-                background: 'rgba(0, 0, 0, 0.35)',
-                color: 'var(--cyber-text)',
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '12px',
-                letterSpacing: '0.05em',
-                outline: 'none',
-                transition: 'border-color 0.25s ease',
-                borderRadius: '8px',
-                resize: 'vertical'
-              }}
-              onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
-              onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
-            />
-          </div>
-
-          {/* Botão Enviar */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-            <button
-              type="submit"
-              disabled={enviando}
-              style={{
-                width: '50%',
-                minWidth: '200px',
-                height: '44px',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0 16px',
-                border: '1px solid var(--cyber-accent)',
-                background: 'var(--cyber-accent-soft)',
-                fontFamily: 'var(--font-chakra)',
-                fontSize: '12px',
-                fontWeight: 700,
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: enviando ? 'rgba(255, 154, 60, 0.5)' : 'var(--cyber-accent-light)',
-                cursor: enviando ? 'not-allowed' : 'pointer',
-                transition: 'all 0.25s ease',
-                borderRadius: '8px',
-                opacity: enviando ? 0.5 : 1
-              }}
-              onMouseEnter={(e) => {
-                if (!enviando) {
-                  e.currentTarget.style.background = 'var(--cyber-accent)'
-                  e.currentTarget.style.color = '#0a0e17'
-                  e.currentTarget.style.boxShadow = '0 0 16px rgba(255, 107, 26, 0.3)'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!enviando) {
-                  e.currentTarget.style.background = 'var(--cyber-accent-soft)'
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
                   e.currentTarget.style.color = 'var(--cyber-accent-light)'
-                  e.currentTarget.style.boxShadow = 'none'
-                }
-              }}
-            >
-              {enviado ? '✓ Enviada!' : enviando ? 'Enviando...' : 'Enviar'}
-            </button>
-          </div>
-
-          {/* Informações de Contato */}
-          <div style={{
-            paddingTop: '12px',
-            borderTop: '1px solid var(--cyber-border)'
-          }}>
-            <h3 style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              color: 'var(--cyber-accent)',
-              marginBottom: '10px'
-            }}>
-              Contatos:
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--cyber-accent)' }}>+</span>
-                coisadigital@gmail.com
-              </p>
-              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--cyber-accent)' }}>+</span>
-                WhatsApp: (16) 98810-5510
-              </p>
-              <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--cyber-accent)' }}>+</span>
-                Localização: Jardinópolis — SP
-              </p>
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                  e.currentTarget.style.color = 'var(--cyber-accent)'
+                }}
+                title="Fechar"
+              >
+                ✕
+              </button>
             </div>
-          </div>
-        </form>
+
+            {/* FORMULÁRIO */}
+            <form onSubmit={handleSubmit} style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 1,
+              padding: '14px 20px',
+              position: 'relative',
+              zIndex: 1,
+              overflowY: 'auto'
+            }}>
+              {/* Nome */}
+              <div style={{ marginBottom: '10px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '4px',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cyber-accent)'
+                }}>
+                  * Seu Nome
+                </label>
+                <input
+                  type="text"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    height: '38px',
+                    padding: '0 14px',
+                    border: '1px solid var(--cyber-border)',
+                    background: 'rgba(0, 0, 0, 0.35)',
+                    color: 'var(--cyber-text)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '12px',
+                    letterSpacing: '0.05em',
+                    outline: 'none',
+                    transition: 'border-color 0.25s ease',
+                    borderRadius: '8px'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
+                />
+              </div>
+
+              {/* E-mail */}
+              <div style={{ marginBottom: '10px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '4px',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cyber-accent)'
+                }}>
+                  * Seu E-mail
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    height: '38px',
+                    padding: '0 14px',
+                    border: '1px solid var(--cyber-border)',
+                    background: 'rgba(0, 0, 0, 0.35)',
+                    color: 'var(--cyber-text)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '12px',
+                    letterSpacing: '0.05em',
+                    outline: 'none',
+                    transition: 'border-color 0.25s ease',
+                    borderRadius: '8px'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
+                />
+              </div>
+
+              {/* Assunto */}
+              <div style={{ marginBottom: '10px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '4px',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cyber-accent)'
+                }}>
+                  * Assunto
+                </label>
+                <input
+                  type="text"
+                  value={assunto}
+                  onChange={(e) => setAssunto(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    height: '38px',
+                    padding: '0 14px',
+                    border: '1px solid var(--cyber-border)',
+                    background: 'rgba(0, 0, 0, 0.35)',
+                    color: 'var(--cyber-text)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '12px',
+                    letterSpacing: '0.05em',
+                    outline: 'none',
+                    transition: 'border-color 0.25s ease',
+                    borderRadius: '8px'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
+                />
+              </div>
+
+              {/* Mensagem */}
+              <div style={{ marginBottom: '20px' }}>
+                <label style={{
+                  display: 'block',
+                  marginBottom: '4px',
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cyber-accent)'
+                }}>
+                  * Mensagem
+                </label>
+                <textarea
+                  value={mensagem}
+                  onChange={(e) => setMensagem(e.target.value)}
+                  required
+                  rows={4}
+                  style={{
+                    width: '100%',
+                    minHeight: '80px',
+                    padding: '12px 14px',
+                    border: '1px solid var(--cyber-border)',
+                    background: 'rgba(0, 0, 0, 0.35)',
+                    color: 'var(--cyber-text)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '12px',
+                    letterSpacing: '0.05em',
+                    outline: 'none',
+                    transition: 'border-color 0.25s ease',
+                    borderRadius: '8px',
+                    resize: 'vertical'
+                  }}
+                  onFocus={(e) => e.currentTarget.style.borderColor = 'var(--cyber-accent)'}
+                  onBlur={(e) => e.currentTarget.style.borderColor = 'var(--cyber-border)'}
+                />
+              </div>
+
+              {/* Botão Enviar */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <button
+                  type="submit"
+                  disabled={enviando}
+                  style={{
+                    width: '50%',
+                    minWidth: '200px',
+                    height: '44px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '0 16px',
+                    border: '1px solid var(--cyber-accent)',
+                    background: 'var(--cyber-accent-soft)',
+                    fontFamily: 'var(--font-chakra)',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    color: enviando ? 'rgba(255, 154, 60, 0.5)' : 'var(--cyber-accent-light)',
+                    cursor: enviando ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.25s ease',
+                    borderRadius: '8px',
+                    opacity: enviando ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!enviando) {
+                      e.currentTarget.style.background = 'var(--cyber-accent)'
+                      e.currentTarget.style.color = '#0a0e17'
+                      e.currentTarget.style.boxShadow = '0 0 16px rgba(255, 107, 26, 0.3)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!enviando) {
+                      e.currentTarget.style.background = 'var(--cyber-accent-soft)'
+                      e.currentTarget.style.color = 'var(--cyber-accent-light)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }
+                  }}
+                >
+                  {enviando ? 'Enviando...' : 'Enviar'}
+                </button>
+              </div>
+
+              {/* Informações de Contato */}
+              <div style={{
+                paddingTop: '12px',
+                borderTop: '1px solid var(--cyber-border)'
+              }}>
+                <h3 style={{
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  color: 'var(--cyber-accent)',
+                  marginBottom: '10px'
+                }}>
+                  Contatos:
+                </h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ color: 'var(--cyber-accent)' }}>+</span>
+                    coisadigital@gmail.com
+                  </p>
+                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ color: 'var(--cyber-accent)' }}>+</span>
+                    WhatsApp: (16) 98810-5510
+                  </p>
+                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ color: 'var(--cyber-accent)' }}>+</span>
+                    Localização: Jardinópolis — SP
+                  </p>
+                </div>
+              </div>
+            </form>
+          </>
+        )}
       </div>
     </div>
   )
