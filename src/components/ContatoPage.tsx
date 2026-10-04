@@ -23,8 +23,7 @@ async function handleSubmit(e: React.FormEvent) {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json',
-        'apikey': 'sb_publishable_XSJyZ5V2V2lS_uyuhJG_gw_EUG4pgxt' // 🔑 Chave pública do projeto
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ nome, email, assunto, mensagem })
     })
@@ -48,7 +47,8 @@ async function handleSubmit(e: React.FormEvent) {
   } finally {
     setEnviando(false)
   }
-}  return (
+}  
+return (
     <div style={{
       position: 'fixed',
       inset: 0,
