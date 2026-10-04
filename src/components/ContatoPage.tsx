@@ -41,10 +41,10 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
       setAssunto('')
       setMensagem('')
 
-      // ⏳ Espera 3 segundos e vai para a página inicial
+      // ⏳ Espera 5 segundos e vai para a página inicial
       setTimeout(() => {
         window.location.href = 'https://www.koiza.com.br'
-      }, 3000)
+      }, 5000)
 
     } catch (erro) {
       console.error('Erro:', erro)
