@@ -12,38 +12,50 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
   const [enviando, setEnviando] = useState(false)
   const [enviado, setEnviado] = useState(false)
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setEnviando(true)
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault()
+  setEnviando(true)
 
+  try {
+    const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
+    
+    const resposta = await fetch(SUPABASE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email, assunto, mensagem })
+    })
+
+    // Tenta ler a resposta com segurança
+    let dados
     try {
-      // ⚠️ ID do seu Supabase
-      const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
-
-      const resposta = await fetch(SUPABASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, email, assunto, mensagem })
-      })
-
-      const dados = await resposta.json()
-
-      if (!resposta.ok) throw new Error(dados.erro || 'Falha no envio')
-
-      setEnviado(true)
-      setNome('')
-      setEmail('')
-      setAssunto('')
-      setMensagem('')
-
-      setTimeout(() => setEnviado(false), 3000)
-    } catch (erro) {
-      alert('Erro ao enviar: ' + String(erro))
-    } finally {
-      setEnviando(false)
+      dados = await resposta.json()
+    } catch {
+      dados = {}
     }
-  }
 
+    if (!resposta.ok) {
+      throw new Error(dados.erro || `Erro ${resposta.status}`)
+    }
+
+    if (!dados.sucesso) {
+      throw new Error(dados.erro || 'Resposta inesperada do servidor')
+    }
+
+    // ✅ Deu tudo certo!
+    setEnviado(true)
+    setNome('')
+    setEmail('')
+    setAssunto('')
+    setMensagem('')
+    setTimeout(() => setEnviado(false), 3000)
+    
+  } catch (erro) {
+    // Mostra o erro REAL para identificar
+    alert('Erro: ' + String(erro))
+  } finally {
+    setEnviando(false)
+  }
+}
   return (
     <div style={{
       position: 'fixed',
