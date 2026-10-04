@@ -17,7 +17,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
     setEnviando(true)
 
     try {
-      // ⚠️ TROQUE SEU_PROJETO pelo ID do seu Supabase
+      // ⚠️ ID do seu Supabase
       const SUPABASE_URL = 'https://pmxbbypxxmxpeatkxlwr.supabase.co/functions/v1/enviar-contato'
 
       const resposta = await fetch(SUPABASE_URL, {
