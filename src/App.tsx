@@ -300,7 +300,7 @@ export default function App() {
         marginTop: '4px', 
         marginBottom: 0 
       }}>
-        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '"A cada tampinha uma história"' : ""}
+        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '"Adm logado"' : ""}
       </p>
     </div>
   </div>
