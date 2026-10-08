@@ -300,7 +300,7 @@ export default function App() {
         marginTop: '4px', 
         marginBottom: 0 
       }}>
-        {verificandoLogin ? "Verificando acesso..." : estaLogado ? 'Modo Alien Ativado!' : ""}
+        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✅ Modo Alien Ativado!' : ""}
       </p>
     </div>
   </div>

@@ -102,11 +102,11 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
             zIndex: 1
           }}>
             <div style={{
-              fontSize: '60px',
-              marginBottom: '20px'
+              fontSize: '30px',
+              marginBottom: '10px'
             }}>✅</div>
             <h2 style={{
-              color: '#4ade80',
+              color: '#ff6b1a',
               fontSize: '24px',
               fontWeight: 700,
               margin: '0 0 10px 0',
@@ -120,7 +120,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               fontSize: '14px',
               margin: 0
             }}>
-              Obrigado pelo contato! Você será redirecionado em alguns instantes...
+              Obrigado pelo contato!
             </p>
             <div style={{
               marginTop: '25px',
