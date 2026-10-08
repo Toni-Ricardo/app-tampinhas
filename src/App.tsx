@@ -295,12 +295,12 @@ export default function App() {
         fontFamily: 'var(--font-chakra)', 
         fontSize: '10px', 
         letterSpacing: '0.15em', 
-        color: 'rgba(148, 163, 184, 0.80)', 
+        color: 'rgba(45, 235, 140, 0.95)', 
         fontStyle: 'italic', 
         marginTop: '4px', 
         marginBottom: 0 
       }}>
-        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✅ Modo Alien Ativado!' : ""}
+        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo Alien Ativado!' : ""}
       </p>
     </div>
   </div>
