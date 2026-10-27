@@ -264,8 +264,8 @@ export default function App() {
           src="/logo.png" 
           alt="Logo" 
           style={{ 
-            height: '75%', 
-            width: '75%', 
+            height: '85%', 
+            width: '85%', 
             objectFit: 'contain', 
             filter: 'brightness(1.1)', 
             position: 'relative', 
