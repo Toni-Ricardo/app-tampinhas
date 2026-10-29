@@ -217,112 +217,99 @@ export default function App() {
           boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
         }}>
           <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
-<div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
-  
-  {/* ✅ SÓ O ALIENÍGENA É CLICÁVEL */}
-  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-    <button
-      type="button"
-      onClick={handleCliqueCadastro}
-      disabled={verificandoLogin}
-      style={{ 
-        margin: 0,
-        padding: 0,
-        border: 'none',
-        background: 'transparent',
-        cursor: verificandoLogin ? 'wait' : 'pointer',
-        outline: 'none',
-        opacity: verificandoLogin ? 0.5 : 1,
-        transition: 'opacity 0.25s ease'
-      }}
-      title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
-    >
-      <div style={{ 
-        position: 'relative', 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        width: '56px', 
-        height: '56px', 
-        flexShrink: 0, 
-        border: '1px solid rgba(255, 107, 26, 0.20)', 
-        background: 'rgba(0, 0, 0, 0.25)', 
-        borderRadius: '12px', 
-        overflow: 'hidden', 
-        transition: 'border-color 0.3s ease, background 0.3s ease' 
-      }}
-        onMouseEnter={(e) => { 
-          e.currentTarget.style.borderColor = 'var(--cyber-accent)'; 
-          e.currentTarget.style.background = 'rgba(255, 85, 0, 0.08)';
-        }}
-        onMouseLeave={(e) => { 
-          e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'; 
-          e.currentTarget.style.background = 'rgba(0, 0, 0, 0.25)';
-        }}
-      >
-        <img 
-          src="/logo.png" 
-          alt="Logo" 
-          style={{ 
-            height: '85%', 
-            width: '85%', 
-            objectFit: 'contain', 
-            filter: 'brightness(1.1)', 
-            position: 'relative', 
-            zIndex: 10 
-          }}
-          onError={(e) => { e.currentTarget.style.display = 'none' }}
-        />
-      </div>
-    </button>
+            <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
+              
+              {/* ✅ LOGOTIPO + SEPARADOR + TEXTO — Sem borda, com barra laranja */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                {/* Logo clicável — SEM borda, sem caixa */}
+                <button
+                  type="button"
+                  onClick={handleCliqueCadastro}
+                  disabled={verificandoLogin}
+                  style={{ 
+                    margin: 0,
+                    padding: 0,
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: verificandoLogin ? 'wait' : 'pointer',
+                    outline: 'none',
+                    opacity: verificandoLogin ? 0.5 : 1,
+                    transition: 'opacity 0.25s ease',
+                    flexShrink: 0
+                  }}
+                  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
+                >
+                  <img 
+                    src="/logo.png" 
+                    alt="Logo" 
+                    style={{ 
+                      height: '56px', 
+                      width: '56px', 
+                      objectFit: 'contain', 
+                      filter: 'brightness(1.1)', 
+                      display: 'block'
+                    }}
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
+                </button>
 
-    {/* ✅ IMAGEM DO NOME — SEM LINK, APENAS VISUAL */}
-    <div>
-      <img 
-        src="/tr_tampinhas.png" 
-        alt="TR Tampinhas" 
-        style={{ 
-          height: '45px', 
-          width: 'auto', 
-          objectFit: 'contain',
-          filter: 'brightness(1.1)',
-          display: 'block',
-          pointerEvents: 'none'
-        }}
-        onError={(e) => { e.currentTarget.style.display = 'none' }}
-      />
-      <p style={{ 
-        fontFamily: 'var(--font-chakra)', 
-        fontSize: '10px', 
-        letterSpacing: '0.15em', 
-        color: 'rgba(45, 235, 140, 0.95)', 
-        fontStyle: 'italic', 
-        marginTop: '4px', 
-        marginBottom: 0 
-      }}>
-        {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo Alien Ativado!' : ""}
-      </p>
-    </div>
-  </div>
+                {/* Barra separadora laranja | */}
+                <span style={{
+                  width: '2px',
+                  height: '40px',
+                  background: '#ff6b1a',
+                  flexShrink: 0,
+                  borderRadius: '1px',
+                  boxShadow: '0 0 6px rgba(255, 107, 26, 0.5)'
+                }} />
 
-  {/* ─── LADO DIREITO: botões de contato, sair e menu ─── */}
-  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-    <button 
-      onClick={() => setPaginaContato(true)} 
-      title="Contato" 
-      style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        width: '44px', 
-        height: '44px', 
-        border: 'none', 
-        background: 'transparent', 
-        color: 'var(--cyber-accent)', 
-        borderRadius: '10px', 
-        cursor: 'pointer', 
-        transition: 'all 0.25s ease' 
-      }}
+                {/* Nome + slogan — imagens mantidas */}
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <img 
+                    src="/tr_tampinhas.png" 
+                    alt="TR Tampinhas" 
+                    style={{ 
+                      height: '40px', 
+                      width: 'auto', 
+                      objectFit: 'contain',
+                      filter: 'brightness(1.1)',
+                      display: 'block',
+                      pointerEvents: 'none'
+                    }}
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
+                  <p style={{ 
+                    fontFamily: 'var(--font-chakra)', 
+                    fontSize: '10px', 
+                    letterSpacing: '0.15em', 
+                    color: 'rgba(45, 235, 140, 0.95)', 
+                    fontStyle: 'italic', 
+                    marginTop: '2px', 
+                    marginBottom: 0 
+                  }}>
+                    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo Alien Ativado!' : ""}
+                  </p>
+                </div>
+              </div>
+
+              {/* ─── LADO DIREITO: botões de contato, sair e menu ─── */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button 
+                  onClick={() => setPaginaContato(true)} 
+                  title="Contato" 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    width: '44px', 
+                    height: '44px', 
+                    border: 'none', 
+                    background: 'transparent', 
+                    color: 'var(--cyber-accent)', 
+                    borderRadius: '10px', 
+                    cursor: 'pointer', 
+                    transition: 'all 0.25s ease' 
+                  }}
       onMouseEnter={(e) => { 
         e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
         e.currentTarget.style.color = 'var(--cyber-accent-light)';
