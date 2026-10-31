@@ -15,10 +15,8 @@ type TampinhaFormatada = Tampinha & {
   origem_formatada: string
 }
 
-// ✅ Fonte Share Tech Mono
 const FONTE_SHARE_TECH_BASE64 = `data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAlMABAAAAAAL3AAAAj6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGh4GYACCQhEICo0AjEwBNgIkAxwLGAQgBYUnBzAbpA7IBlE2Zf9xA8beHUiEwS4T1SgqY8T3V9679/6YGR7BqNAGoXNfK/3R48E6627bO8XvTfHwD+fGgHOnFkQxURSRREwVf7AOf9ZpTIn+A0mC8A9S8T/6b3MDoKogbN0A6A4iFzN+oJb/bXWfE81vbeoP6G/CshgqgT4wK3pB5i2gTqZ3gq6L0L0B3REe9+XGvH8O8L0/P68iS2l8M/C2mD4eK6FfV5Yp6xW0gG2Kst75Zf22X9Tf9Mv4G/mO8P6fXfWv6pXwK9B9An6m1r/G793Y/IEmEESvRExEnZgP4bH93U27t09P96pM6mF/w1r4hXUAvD/Gv98f79f29zb0N+oP6A/gD/6vU6v7/c7qvt+p7u/W9g+u0Bf2X/7fP0e2/98T2z/wN+uX9Uv7pfw6S96X/w54tX7zXv+B8p7vW3Dvv4f9C99v7f9q/A/A7Z/B/9Uof7XKf6u6gGbyAnS9BPS0Wv6Zev46/XwGgM8C0O6YIFrEChALwL87Vv/m6v7dqf6t6f1Xo+8E0Nf0EaAlKEDg9U+AtL6AEvgCUv8CSuLzT6DkvwAl/TfD/9u+q/5T9S/+U7VvD7f6T1X/4v8Z/7f1f9O+UvVvtX9V9W9VfWv96zGfL9Z3Xm+m74K+8/rW7dvQ99pXvG9D34F9W/0H9B/Yt/Yv/bH9V63/df0X9N/Tf8u+HfuSffntS/bX379g/73679g+Yvv+7N9u+wDbn2v7n7Zfsv9Z+1dsn7R9CtsXbYvYVrGN2E5iLWIvset0XfG913Xp9376W75SvvSveI6f9O84D7rO2+b4WfN3/b39ff7+6b7hZ9TfV/w/8H8/9+v2j/YV++89mK788uDKD8F7uPezX4Yf9jM+xof9mE98h8/4N/zK7/x36P9pS5v9b0v6LyzxT1m9pZ669E/91H+1p65W0X/tU66kf6XfO0v/8f+U3f6Rre9O2v3uod3fXdr+0S7tn+7S/uUufRorX7GvWvYVWXlV6q967Y6sP89b+yL9ed7ZF9f687yv8E8X/r7gP07mD8F/mMwfgn/YpxP7f8v+u29pP9Z+9S9Tf2v9NfW31t9Tf6X9zL40O6/U7kvtS7NLs0uzS7NLs/tI+8D9lH3w2v64/e3wD67Sg7uU8g9+NvyDn/FhN37Zg7vG8pW/fWv6p2/pn75N/dP7N/8y6v9G/ZXRf2UUX6mZfylYv9S86vj6Nce3reN76/He+mP7yv9W8/8w1b8g+9b7V82/oPrW86/6v6C9X6f/u6n/u6n/bWrvN6m9Nal936S6WlNXu6nd26m7u1Pbt1Mbd9Ibe6k9vVf9Mnt7b/ptU/v7Xfqvbdr3TeofHqX37NLbHdL+XWrvf3j37u/e8BDe/eEhvPshvOfDffgPHuHDv/8Id6M77kZ3vBve8W54F/fCj3fHj3eHj3cvjvXEvXgXf8TdeBe+h/vwHz/ChfvwN7wb3vFu5F7kXniX7pW78L30K87FXVw8d2MubtwN74Z3XHfiu9Adf2w37idw3D/P99LfeE8dZ8vV9L9T5Z/76X/95Z6X66f/fTbe6zS9H9L0PqDpvT7V999Y8T6bK/fPZ98f09/Y/8A39j/4hv4Hv6H/oS9tf6r6C2s//O7BFR+C93Dvd797uM/u9v6D+/6bO/vvVvxPxf9E/Of6T967Gf67+X/G/8X6v2vftK89bK/v/N7M3g199/Wd33vT97nvfr4b+/bt27Dv6Wf9v89u66e8D/nZcK99y896++N7gfeP98feX9hP4P8P86f3UfOfpPpPR/un/Uj/tM9vL7S/o/7O+gf97gIvv+D+F3r8An89+D6866bZ/Wv87ofdf7v/gft/Yv9Tf28ftB+eXfnhd1f6vSvd3qXun+9Sn8pXfO9n/2XfN7TfGdrvjd/WbybftO0GfdfN7D8yS9+l+k/5m+k3k2+6pL1P9Z+1fcr2SdtXbD/V9hHbL9s+0fZptm9iW6n/b/v2C997XfcC34YvfM0v`
 
-// ✅ Componente de ícone SVG padrão
 const Icone = ({ caminho, tamanho = 18, cor = '#ff5500', espessura = 1.5 }: {
   caminho: string
   tamanho?: number
@@ -34,19 +32,18 @@ const Icone = ({ caminho, tamanho = 18, cor = '#ff5500', espessura = 1.5 }: {
     strokeWidth={espessura}
     strokeLinecap="round"
     strokeLinejoin="round"
-    style={{ filter: `drop-shadow(0 0 3px ${cor})` }}
+    style={{ filter: `drop-shadow(0 0 1px ${cor})` }}
   >
     <path d={caminho} />
   </svg>
 )
 
-// ✅ Ícones prontos para uso
 const Icones = {
   Lupa: () => <Icone caminho="M11 3a8 8 0 1 0 0 16 8 8 0 0 0 0-16zM21 21l-4.35-4.35" />,
   Localizacao: () => <Icone caminho="M12 2C7.5 2 4 5.5 4 10c0 5.25 8 12 8 12s8-6.75 8-12c0-4.5-3.5-8-8-8zM12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />,
   Globo: () => <Icone caminho="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />,
   Lista: () => <Icone caminho="M5 9h14M5 15h14" />,
-  Menu: () => <Icone caminho="M3 6h18M3 12h18M3 18h18" />,
+  Menu: () => <Icone caminho="M3 6.5h18M3 12h18M3 17.5h18" />,
   Fechar: () => <Icone caminho="M6 6l12 12M18 6L6 18" />,
   Email: () => <Icone caminho="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" />,
   Sair: () => <Icone caminho="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
@@ -119,12 +116,14 @@ export default function App() {
     return null
   }, [filtroAtivo])
 
-  const tampinhasFiltradas = useMemo(() => {
+  // ✅ CORRIGIDO: sem referência a si mesmo nas dependências
+  const tampinhasFiltradas: Tampinha[] = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
 
-  const tampinhasFormatadasParaExibicao = useMemo(() => {
-    return tampinhasFiltradas.map((tampinha) => ({
+  // ✅ CORRIGIDO: tipo explícito no parâmetro
+  const tampinhasFormatadasParaExibicao: TampinhaFormatada[] = useMemo(() => {
+    return tampinhasFiltradas.map((tampinha: Tampinha) => ({
       ...tampinha,
       bandeira_url: bandeiraUrl(tampinha.pais) ?? '',
       origem_formatada: tampinha.origem?.toLowerCase().trim() === 'nacional' ? 'NAC.' : 'INT.'
@@ -219,9 +218,7 @@ export default function App() {
           <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
-              {/* ✅ LOGOTIPO + SEPARADOR + TEXTO — Sem borda, com barra laranja */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                {/* Logo clicável — SEM borda, sem caixa */}
                 <button
                   type="button"
                   onClick={handleCliqueCadastro}
@@ -253,9 +250,8 @@ export default function App() {
                   />
                 </button>
 
-                {/* Barra separadora laranja | */}
                 <span style={{
-                  width: '2px',
+                  width: '1px',
                   height: '40px',
                   background: '#ff6b1a',
                   flexShrink: 0,
@@ -263,21 +259,37 @@ export default function App() {
                   boxShadow: '0 0 6px rgba(255, 107, 26, 0.5)'
                 }} />
 
-                {/* Nome + slogan — imagens mantidas */}
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <img 
-                    src="/tr_tampinhas.png" 
-                    alt="TR Tampinhas" 
-                    style={{ 
-                      height: '40px', 
-                      width: 'auto', 
-                      objectFit: 'contain',
-                      filter: 'brightness(1.1)',
-                      display: 'block',
-                      pointerEvents: 'none'
-                    }}
-                    onError={(e) => { e.currentTarget.style.display = 'none' }}
-                  />
+<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+  <div style={{
+    fontFamily: 'Tahoma, sans-serif',
+    fontWeight: 'bold',
+    fontSize: '24px',
+    lineHeight: '40px',
+    display: 'flex',
+    alignItems: 'center',
+    letterSpacing: '1.5px',
+    textRendering: 'optimizeLegibility',
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale'
+  }}>
+    <span style={{ color: '#ffffff' }}>TR</span>
+    <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
+  </div>
+
+                  <div style={{
+                    fontFamily: 'Cuprum, sans-serif',
+                    color: '#ffffff',
+                    fontSize: '14px',
+                    lineHeight: '18px',
+                    marginTop: '2px',
+                    letterSpacing: '1px',
+                    textRendering: 'optimizeLegibility',
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale'
+                  }}>
+                    A CADA TAMPINHA UMA HISTÓRIA
+                  </div>
+
                   <p style={{ 
                     fontFamily: 'var(--font-chakra)', 
                     fontSize: '10px', 
