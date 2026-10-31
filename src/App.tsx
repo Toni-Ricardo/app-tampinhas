@@ -263,7 +263,7 @@ export default function App() {
   <div style={{
     fontFamily: 'Tahoma, sans-serif',
     fontWeight: 'bold',
-    fontSize: '24px',
+    fontSize: '20px',
     lineHeight: '40px',
     display: 'flex',
     alignItems: 'center',
@@ -279,7 +279,7 @@ export default function App() {
                   <div style={{
                     fontFamily: 'Cuprum, sans-serif',
                     color: '#ffffff',
-                    fontSize: '14px',
+                    fontSize: '12px',
                     lineHeight: '18px',
                     marginTop: '2px',
                     letterSpacing: '1px',
