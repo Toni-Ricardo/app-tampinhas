@@ -218,7 +218,7 @@ export default function App() {
           <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button
                   type="button"
                   onClick={handleCliqueCadastro}
@@ -263,7 +263,7 @@ export default function App() {
   <div style={{
     fontFamily: 'Tahoma, sans-serif',
     fontWeight: 'bold',
-    fontSize: '20px',
+    fontSize: '18px',
     lineHeight: '40px',
     display: 'flex',
     alignItems: 'center',
@@ -279,7 +279,7 @@ export default function App() {
                   <div style={{
                     fontFamily: 'Cuprum, sans-serif',
                     color: '#ffffff',
-                    fontSize: '12px',
+                    fontSize: '11px',
                     lineHeight: '18px',
                     marginTop: '2px',
                     letterSpacing: '1px',
