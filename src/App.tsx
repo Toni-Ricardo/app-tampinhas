@@ -252,7 +252,7 @@ export default function App() {
 
                 <span style={{
                   width: '1px',
-                  height: '40px',
+                  height: '48px',
                   background: '#ff6b1a',
                   flexShrink: 0,
                   borderRadius: '1px',
@@ -263,7 +263,7 @@ export default function App() {
   <div style={{
     fontFamily: 'Tahoma, sans-serif',
     fontWeight: 'bold',
-    fontSize: '18px',
+    fontSize: '19px',
     lineHeight: '40px',
     display: 'flex',
     alignItems: 'center',
