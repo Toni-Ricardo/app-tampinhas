@@ -167,11 +167,11 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                   overflow: 'hidden'
                 }}>
                   <img
-                    src="/logo1.svg"
+                    src="/logotipo.png"
                     alt="Logo"
                     style={{
-                      height: '75%',
-                      width: '75%',
+                      height: '85%',
+                      width: '85%',
                       objectFit: 'contain',
                       filter: 'brightness(1.1)'
                     }}
