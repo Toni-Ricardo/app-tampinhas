@@ -237,7 +237,7 @@ export default function App() {
                   title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
                 >
                   <img 
-                    src="/logotipo.svg" 
+                    src="/logo.svg" 
                     alt="Logo" 
                     style={{ 
                       height: '56px', 

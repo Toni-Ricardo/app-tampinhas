@@ -167,7 +167,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                   overflow: 'hidden'
                 }}>
                   <img
-                    src="/logo.png"
+                    src="/logo1.svg"
                     alt="Logo"
                     style={{
                       height: '75%',
