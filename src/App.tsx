@@ -218,38 +218,90 @@ export default function App() {
           <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <button
-                  type="button"
-                  onClick={handleCliqueCadastro}
-                  disabled={verificandoLogin}
-                  style={{ 
-                    margin: 0,
-                    padding: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: verificandoLogin ? 'wait' : 'pointer',
-                    outline: 'none',
-                    opacity: verificandoLogin ? 0.5 : 1,
-                    transition: 'opacity 0.25s ease',
-                    flexShrink: 0
-                  }}
-                  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
-                >
-                  <img 
-                    src="/logotipo.png" 
-                    alt="Logo" 
-                    style={{ 
-                      height: '56px', 
-                      width: '56px', 
-                      objectFit: 'contain', 
-                      filter: 'brightness(1.1)', 
-                      display: 'block'
-                    }}
-                    onError={(e) => { e.currentTarget.style.display = 'none' }}
-                  />
-                </button>
+<div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+<button
+  type="button"
+  onClick={handleCliqueCadastro}
+  disabled={verificandoLogin}
+  style={{ 
+    margin: 0,
+    padding: 0,
+    border: 'none',
+    background: 'transparent',
+    cursor: verificandoLogin ? 'wait' : 'pointer',
+    outline: 'none',
+    opacity: verificandoLogin ? 0.5 : 1,
+    transition: 'opacity 0.25s ease',
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
+  aria-label="Logo"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 56 56"
+    width="56"
+    height="56"
+    shapeRendering="geometricPrecision"
+    style={{ display: 'block' }}
+  >
+    {/* Elemento T (Laranja) - Nativo 56x56 */}
+    <path
+      d="M 2.45 16.62
+         L 20.12 16.62
+         L 20.12 41.82
+         L 15.84 37.54
+         L 15.84 20.91
+         L 6.04 20.91
+         A 22.75 22.75 0 0 0 33.34 50.14
+         L 37.10 53.90
+         A 27.65 27.65 0 0 1 2.45 16.62
+         Z"
+      fill="none"
+      stroke="#FF6B1A"
+      strokeWidth="1.1"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    />
 
+    {/* Elementos em Branco */}
+    <g
+      fill="none"
+      stroke="#FFFFFF"
+      strokeWidth="1.1"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      {/* Arco externo do círculo */}
+      <path
+        d="M 13.04 4.99
+           A 27.65 27.65 0 0 1 45.41 49.61
+           L 41.91 46.11
+           A 22.75 22.75 0 0 0 16.62 8.57
+           Z"
+      />
+      {/* Letra R interna */}
+      <path
+        d="M 24.50 16.62
+           L 40.03 16.62
+           A 7.61 7.61 0 0 1 40.03 31.85
+           L 35.88 31.85
+           L 42.88 41.56
+           L 37.71 41.56
+           L 30.71 31.85
+           L 24.50 31.85
+           L 24.50 27.56
+           L 39.72 27.56
+           A 3.32 3.32 0 0 0 39.72 20.91
+           L 24.50 20.91
+           Z"
+      />
+    </g>
+  </svg>
+</button>
                 <span style={{
                   width: '1px',
                   height: '48px',
@@ -299,7 +351,7 @@ export default function App() {
                     marginTop: '2px', 
                     marginBottom: 0 
                   }}>
-                    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo Alien Ativado!' : ""}
+                    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo TR Ativado!' : ""}
                   </p>
                 </div>
               </div>
