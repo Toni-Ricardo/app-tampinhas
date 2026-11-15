@@ -116,12 +116,10 @@ export default function App() {
     return null
   }, [filtroAtivo])
 
-  // ✅ CORRIGIDO: sem referência a si mesmo nas dependências
   const tampinhasFiltradas: Tampinha[] = useMemo(() => {
     return filtrarTampinhas(tampinhas, busca, colecaoAtivaParaFiltro)
   }, [tampinhas, busca, colecaoAtivaParaFiltro])
 
-  // ✅ CORRIGIDO: tipo explícito no parâmetro
   const tampinhasFormatadasParaExibicao: TampinhaFormatada[] = useMemo(() => {
     return tampinhasFiltradas.map((tampinha: Tampinha) => ({
       ...tampinha,
@@ -218,90 +216,51 @@ export default function App() {
           <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
-<div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-<button
-  type="button"
-  onClick={handleCliqueCadastro}
-  disabled={verificandoLogin}
-  style={{ 
-    margin: 0,
-    padding: 0,
-    border: 'none',
-    background: 'transparent',
-    cursor: verificandoLogin ? 'wait' : 'pointer',
-    outline: 'none',
-    opacity: verificandoLogin ? 0.5 : 1,
-    transition: 'opacity 0.25s ease',
-    flexShrink: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }}
-  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
-  aria-label="Logo"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 56 56"
-    width="56"
-    height="56"
-    shapeRendering="geometricPrecision"
-    style={{ display: 'block' }}
-  >
-    {/* Elemento T (Laranja) - Nativo 56x56 */}
-    <path
-      d="M 2.45 16.62
-         L 20.12 16.62
-         L 20.12 41.82
-         L 15.84 37.54
-         L 15.84 20.91
-         L 6.04 20.91
-         A 22.75 22.75 0 0 0 33.34 50.14
-         L 37.10 53.90
-         A 27.65 27.65 0 0 1 2.45 16.62
-         Z"
-      fill="none"
-      stroke="#FF6B1A"
-      strokeWidth="1.1"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-    />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={handleCliqueCadastro}
+                  disabled={verificandoLogin}
+                  style={{ 
+                    margin: 0,
+                    padding: 0,
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: verificandoLogin ? 'wait' : 'pointer',
+                    outline: 'none',
+                    opacity: verificandoLogin ? 0.5 : 1,
+                    transition: 'opacity 0.25s ease',
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
+                  aria-label="Logo"
+                >
+                  {/* SVG em Alta Definição (viewBox 224x224) que elimina totalmente o serrilhado */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 224 224"
+                    width="56"
+                    height="56"
+                    style={{ display: 'block', shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision' }}
+                  >
+                    <path
+                      d="M 9.8 64.5 L 80.5 64.5 L 80.5 162.9 L 63.4 145.8 L 63.4 81.6 L 24.2 81.6 A 91.0 91.0 0 0 0 133.4 200.6 L 148.4 215.6 A 110.6 110.6 0 0 1 9.8 64.5 Z"
+                      fill="none"
+                      stroke="#FF6B1A"
+                      strokeWidth="4.2"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                    />
+                    <g fill="none" stroke="#FFFFFF" strokeWidth="4.2" strokeLinejoin="round" strokeLinecap="round">
+                      <path d="M 52.2 19.4 A 110.6 110.6 0 0 1 181.6 198.4 L 167.6 184.4 A 91.0 91.0 0 0 0 66.5 34.3 Z" />
+                      <path d="M 98.0 64.5 L 160.1 64.5 A 30.4 30.4 0 0 1 160.1 125.4 L 143.5 125.4 L 171.5 164.2 L 150.8 164.2 L 122.8 125.4 L 98.0 125.4 L 98.0 108.2 L 158.9 108.2 A 13.3 13.3 0 0 0 158.9 81.6 L 98.0 81.6 Z" />
+                    </g>
+                  </svg>
+                </button>
 
-    {/* Elementos em Branco */}
-    <g
-      fill="none"
-      stroke="#FFFFFF"
-      strokeWidth="1.1"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-    >
-      {/* Arco externo do círculo */}
-      <path
-        d="M 13.04 4.99
-           A 27.65 27.65 0 0 1 45.41 49.61
-           L 41.91 46.11
-           A 22.75 22.75 0 0 0 16.62 8.57
-           Z"
-      />
-      {/* Letra R interna */}
-      <path
-        d="M 24.50 16.62
-           L 40.03 16.62
-           A 7.61 7.61 0 0 1 40.03 31.85
-           L 35.88 31.85
-           L 42.88 41.56
-           L 37.71 41.56
-           L 30.71 31.85
-           L 24.50 31.85
-           L 24.50 27.56
-           L 39.72 27.56
-           A 3.32 3.32 0 0 0 39.72 20.91
-           L 24.50 20.91
-           Z"
-      />
-    </g>
-  </svg>
-</button>
                 <span style={{
                   width: '1px',
                   height: '48px',
@@ -311,22 +270,22 @@ export default function App() {
                   boxShadow: '0 0 6px rgba(255, 107, 26, 0.5)'
                 }} />
 
-<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-  <div style={{
-    fontFamily: 'Tahoma, sans-serif',
-    fontWeight: 'bold',
-    fontSize: '19px',
-    lineHeight: '40px',
-    display: 'flex',
-    alignItems: 'center',
-    letterSpacing: '1.5px',
-    textRendering: 'optimizeLegibility',
-    WebkitFontSmoothing: 'antialiased',
-    MozOsxFontSmoothing: 'grayscale'
-  }}>
-    <span style={{ color: '#ffffff' }}>TR</span>
-    <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
-  </div>
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div style={{
+                    fontFamily: 'Tahoma, sans-serif',
+                    fontWeight: 'bold',
+                    fontSize: '19px',
+                    lineHeight: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    letterSpacing: '1.5px',
+                    textRendering: 'optimizeLegibility',
+                    WebkitFontSmoothing: 'antialiased',
+                    MozOsxFontSmoothing: 'grayscale'
+                  }}>
+                    <span style={{ color: '#ffffff' }}>TR</span>
+                    <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
+                  </div>
 
                   <div style={{
                     fontFamily: 'Cuprum, sans-serif',
@@ -374,77 +333,78 @@ export default function App() {
                     cursor: 'pointer', 
                     transition: 'all 0.25s ease' 
                   }}
-      onMouseEnter={(e) => { 
-        e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
-        e.currentTarget.style.color = 'var(--cyber-accent-light)';
-      }}
-      onMouseLeave={(e) => { 
-        e.currentTarget.style.background = 'transparent'; 
-        e.currentTarget.style.color = 'var(--cyber-accent)';
-      }}
-    >
-      <Icones.Email />
-    </button>
-    {estaLogado && (
-      <button 
-        onClick={handleLogout} 
-        title="Sair" 
-        style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          width: '44px', 
-          height: '44px', 
-          border: '1px solid rgba(239, 68, 68, 0.3)', 
-          background: 'rgba(239, 68, 68, 0.08)', 
-          color: 'rgba(248, 113, 113, 0.9)', 
-          borderRadius: '10px', 
-          cursor: 'pointer', 
-          transition: 'all 0.25s ease' 
-        }}
-        onMouseEnter={(e) => { 
-          e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.7)'; 
-          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)';
-        }}
-        onMouseLeave={(e) => { 
-          e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'; 
-          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
-        }}
-      >
-        <Icones.Sair />
-      </button>
-    )}
-    <button 
-      onClick={() => setFiltrosAbertos(!filtrosAbertos)} 
-      style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        width: '44px', 
-        height: '44px', 
-        border: '1px solid rgba(255, 107, 26, 0.20)', 
-        background: 'rgba(0, 0, 0, 0.20)', 
-        color: 'var(--cyber-accent)', 
-        borderRadius: '10px', 
-        cursor: 'pointer', 
-        transition: 'all 0.25s ease' 
-      }}
-      onMouseEnter={(e) => { 
-        e.currentTarget.style.borderColor = 'var(--cyber-accent)'; 
-        e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
-        e.currentTarget.style.color = 'var(--cyber-accent-light)';
-      }}
-      onMouseLeave={(e) => { 
-        e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'; 
-        e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'; 
-        e.currentTarget.style.color = 'var(--cyber-accent)';
-      }}
-      title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
-    >
-      {filtrosAbertos ? <Icones.Fechar /> : <Icones.Menu />}
-    </button>
-  </div>
-</div>
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
+                    e.currentTarget.style.color = 'var(--cyber-accent-light)';
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.background = 'transparent'; 
+                    e.currentTarget.style.color = 'var(--cyber-accent)';
+                  }}
+                >
+                  <Icones.Email />
+                </button>
+                {estaLogado && (
+                  <button 
+                    onClick={handleLogout} 
+                    title="Sair" 
+                    style={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center', 
+                      width: '44px', 
+                      height: '44px', 
+                      border: '1px solid rgba(239, 68, 68, 0.3)', 
+                      background: 'rgba(239, 68, 68, 0.08)', 
+                      color: 'rgba(248, 113, 113, 0.9)', 
+                      borderRadius: '10px', 
+                      cursor: 'pointer', 
+                      transition: 'all 0.25s ease' 
+                    }}
+                    onMouseEnter={(e) => { 
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.7)'; 
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)';
+                    }}
+                    onMouseLeave={(e) => { 
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'; 
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                    }}
+                  >
+                    <Icones.Sair />
+                  </button>
+                )}
+                <button 
+                  onClick={() => setFiltrosAbertos(!filtrosAbertos)} 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    width: '44px', 
+                    height: '44px', 
+                    border: '1px solid rgba(255, 107, 26, 0.20)', 
+                    background: 'rgba(0, 0, 0, 0.20)', 
+                    color: 'var(--cyber-accent)', 
+                    borderRadius: '10px', 
+                    cursor: 'pointer', 
+                    transition: 'all 0.25s ease' 
+                  }}
+                  onMouseEnter={(e) => { 
+                    e.currentTarget.style.borderColor = 'var(--cyber-accent)'; 
+                    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
+                    e.currentTarget.style.color = 'var(--cyber-accent-light)';
+                  }}
+                  onMouseLeave={(e) => { 
+                    e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'; 
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'; 
+                    e.currentTarget.style.color = 'var(--cyber-accent)';
+                  }}
+                  title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+                >
+                  {filtrosAbertos ? <Icones.Fechar /> : <Icones.Menu />}
+                </button>
+              </div>
+            </div>
+
             <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)', borderRadius: '1px' }}></div>
 
             <div style={{ width: '100%', overflow: 'hidden', transition: 'all 0.3s ease-in-out', maxHeight: filtrosAbertos ? '220px' : '0', opacity: filtrosAbertos ? 1 : 0, marginTop: filtrosAbertos ? '8px' : '0' }}>

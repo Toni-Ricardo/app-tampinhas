@@ -311,22 +311,20 @@
     );
   }
 
-  .cyber-logo-frame {
+.cyber-logo-frame {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid var(--cyber-border-light);
     background: rgba(0, 0, 0, 0.4);
-    clip-path: polygon(
-      0 6px, 6px 0,
-      calc(100% - 10px) 0, 100% 10px,
-      100% calc(100% - 6px), calc(100% - 6px) 100%,
-      10px 100%, 0 calc(100% - 10px)
-    );
+    /* Remova o clip-path nesta moldura se estiver cortando as bordinhas do SVG */
     overflow: hidden;
+    transform: translateZ(0); /* Força aceleração de hardware GPU para suavizar o antialiasing */
+    backface-visibility: hidden;
     transition: border-color 0.3s ease;
   }
+  
   .cyber-logo-frame:hover {
     border-color: var(--cyber-accent);
   }
