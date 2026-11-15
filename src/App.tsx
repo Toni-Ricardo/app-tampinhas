@@ -217,49 +217,89 @@ export default function App() {
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <button
-                  type="button"
-                  onClick={handleCliqueCadastro}
-                  disabled={verificandoLogin}
-                  style={{ 
-                    margin: 0,
-                    padding: 0,
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: verificandoLogin ? 'wait' : 'pointer',
-                    outline: 'none',
-                    opacity: verificandoLogin ? 0.5 : 1,
-                    transition: 'opacity 0.25s ease',
-                    flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
-                  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
-                  aria-label="Logo"
-                >
-                  {/* SVG em Alta Definição (viewBox 224x224) que elimina totalmente o serrilhado */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 224 224"
-                    width="56"
-                    height="56"
-                    style={{ display: 'block', shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision' }}
-                  >
-                    <path
-                      d="M 9.8 64.5 L 80.5 64.5 L 80.5 162.9 L 63.4 145.8 L 63.4 81.6 L 24.2 81.6 A 91.0 91.0 0 0 0 133.4 200.6 L 148.4 215.6 A 110.6 110.6 0 0 1 9.8 64.5 Z"
-                      fill="none"
-                      stroke="#FF6B1A"
-                      strokeWidth="4.2"
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                    />
-                    <g fill="none" stroke="#FFFFFF" strokeWidth="4.2" strokeLinejoin="round" strokeLinecap="round">
-                      <path d="M 52.2 19.4 A 110.6 110.6 0 0 1 181.6 198.4 L 167.6 184.4 A 91.0 91.0 0 0 0 66.5 34.3 Z" />
-                      <path d="M 98.0 64.5 L 160.1 64.5 A 30.4 30.4 0 0 1 160.1 125.4 L 143.5 125.4 L 171.5 164.2 L 150.8 164.2 L 122.8 125.4 L 98.0 125.4 L 98.0 108.2 L 158.9 108.2 A 13.3 13.3 0 0 0 158.9 81.6 L 98.0 81.6 Z" />
-                    </g>
-                  </svg>
-                </button>
+<button
+  type="button"
+  onClick={handleCliqueCadastro}
+  disabled={verificandoLogin}
+  style={{ 
+    margin: 0,
+    padding: 0,
+    border: 'none',
+    background: 'transparent',
+    cursor: verificandoLogin ? 'wait' : 'pointer',
+    outline: 'none',
+    opacity: verificandoLogin ? 0.5 : 1,
+    transition: 'opacity 0.25s ease',
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
+  aria-label="Logo"
+>
+  {/* ViewBox -10 -10 148 148 centraliza o desenho original de 128x128 com folga perfeita nas bordas */}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="-10 -10 148 148"
+    width="56"
+    height="56"
+    style={{ display: 'block', shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision' }}
+  >
+    {/* Elemento T (Laranja) - Proporções originais exatas */}
+    <path
+      d="M 5.6 38.0
+         L 51.6 38.0
+         L 51.6 97.2
+         L 41.4 87.0
+         L 41.4 48.2
+         L 13.8 48.2
+         A 52.0 52.0 0 0 0 76.2 114.6
+         L 84.8 123.2
+         A 63.2 63.2 0 0 1 5.6 38.0
+         Z"
+      fill="none"
+      stroke="#FF6B1A"
+      strokeWidth="2.0"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    />
+
+    {/* Elementos em Branco (Arco e Letra R original) */}
+    <g
+      fill="none"
+      stroke="#FFFFFF"
+      strokeWidth="2.0"
+      strokeLinejoin="round"
+      strokeLinecap="round"
+    >
+      {/* Arco externo do círculo (perfeitamente alinhado) */}
+      <path
+        d="M 29.8 11.4
+           A 63.2 63.2 0 0 1 103.8 113.4
+           L 95.8 105.4
+           A 52.0 52.0 0 0 0 38.0 19.6
+           Z"
+      />
+      {/* Letra R interna - Desenho original restaurado com precisão */}
+      <path
+        d="M 64.4 37.8
+           L 94.0 37.8
+           A 18.0 18.0 0 0 1 94.0 73.8
+           L 78.6 73.8
+           L 94.6 97.6
+           L 82.8 97.6
+           L 66.8 73.8
+           L 64.4 73.8
+           L 64.4 63.6
+           L 93.4 63.6
+           A 7.8 7.8 0 0 0 93.4 48.0
+           L 64.4 48.0
+           Z"
+      />
+    </g>
+  </svg>
+</button>
 
                 <span style={{
                   width: '1px',
