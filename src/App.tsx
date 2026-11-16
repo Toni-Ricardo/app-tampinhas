@@ -240,10 +240,25 @@ export default function App() {
   title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
   aria-label="Logo"
 >
-  {/* ✅ Apenas o componente, sem bloco de função aqui! */}
-  <LogoTR />
+  {/* ✅ Correto: container para renderização em 2x */}
+  <div style={{ 
+    width: 56, 
+    height: 56, 
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}>
+    <div style={{ 
+      transform: 'scale(2)', 
+      transformOrigin: 'center',
+      width: 28, 
+      height: 28 
+    }}>
+      <LogoTR />
+    </div>
+  </div>
 </button>
-
 
                 <span style={{
                   width: '1px',

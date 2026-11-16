@@ -5,7 +5,18 @@ export default function LogoTR() {
       viewBox="0 0 743 743"
       width="56"
       height="56"
-      style={{ display: 'block', shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision' }}
+      shapeRendering="geometricPrecision"
+      textRendering="geometricPrecision"
+      imageRendering="pixelated"
+      style={{
+        display: 'block',
+        width: '56px',
+        height: '56px',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
+      }}
     >
       <g>
         {/* Primeiro path removido (era o fundo preto) */}
