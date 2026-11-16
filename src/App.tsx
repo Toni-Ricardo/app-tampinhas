@@ -9,6 +9,7 @@ import { cadastrarTampinha, contarPorOrigem, filtrarTampinhas, listarTampinhas }
 import { getSupabaseErrorMessage, logSupabaseError } from './lib/supabaseError'
 import type { NovaTampinha, Origem, Tampinha } from './types/tampinha'
 import { supabase } from './lib/supabase'
+import LogoTR from './components/LogoTR'
 
 type TampinhaFormatada = Tampinha & {
   bandeira_url: string
@@ -217,6 +218,7 @@ export default function App() {
             <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+			  
 <button
   type="button"
   onClick={handleCliqueCadastro}
@@ -238,68 +240,10 @@ export default function App() {
   title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
   aria-label="Logo"
 >
-  {/* ViewBox -10 -10 148 148 centraliza o desenho original de 128x128 com folga perfeita nas bordas */}
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="-10 -10 148 148"
-    width="56"
-    height="56"
-    style={{ display: 'block', shapeRendering: 'geometricPrecision', textRendering: 'geometricPrecision' }}
-  >
-    {/* Elemento T (Laranja) - Proporções originais exatas */}
-    <path
-      d="M 5.6 38.0
-         L 51.6 38.0
-         L 51.6 97.2
-         L 41.4 87.0
-         L 41.4 48.2
-         L 13.8 48.2
-         A 52.0 52.0 0 0 0 76.2 114.6
-         L 84.8 123.2
-         A 63.2 63.2 0 0 1 5.6 38.0
-         Z"
-      fill="none"
-      stroke="#FF6B1A"
-      strokeWidth="2.0"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-    />
-
-    {/* Elementos em Branco (Arco e Letra R original) */}
-    <g
-      fill="none"
-      stroke="#FFFFFF"
-      strokeWidth="2.0"
-      strokeLinejoin="round"
-      strokeLinecap="round"
-    >
-      {/* Arco externo do círculo (perfeitamente alinhado) */}
-      <path
-        d="M 29.8 11.4
-           A 63.2 63.2 0 0 1 103.8 113.4
-           L 95.8 105.4
-           A 52.0 52.0 0 0 0 38.0 19.6
-           Z"
-      />
-      {/* Letra R interna - Desenho original restaurado com precisão */}
-      <path
-        d="M 64.4 37.8
-           L 94.0 37.8
-           A 18.0 18.0 0 0 1 94.0 73.8
-           L 78.6 73.8
-           L 94.6 97.6
-           L 82.8 97.6
-           L 66.8 73.8
-           L 64.4 73.8
-           L 64.4 63.6
-           L 93.4 63.6
-           A 7.8 7.8 0 0 0 93.4 48.0
-           L 64.4 48.0
-           Z"
-      />
-    </g>
-  </svg>
+  {/* ✅ Apenas o componente, sem bloco de função aqui! */}
+  <LogoTR />
 </button>
+
 
                 <span style={{
                   width: '1px',
