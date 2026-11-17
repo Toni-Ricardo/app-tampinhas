@@ -16,7 +16,7 @@ type TampinhaFormatada = Tampinha & {
   origem_formatada: string
 }
 
-const FONTE_SHARE_TECH_BASE64 = `data:font/woff2;charset=utf-8;base64,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`
+const FONTE_SHARE_TECH_BASE64 = `data:font/woff2;charset=utf-8;base64,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`
 
 const Icone = ({ caminho, tamanho = 18, cor = '#ff5500', espessura = 1.5 }: {
   caminho: string
@@ -48,44 +48,45 @@ const Icones = {
   Fechar: () => <Icone caminho="M6 6l12 12M18 6L6 18" />,
   Email: () => <Icone caminho="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" />,
   Sair: () => <Icone caminho="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
+  Casa: () => <Icone caminho="M3 10.5L12 3l9 7.5M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" />,
   Cadeado: () => <Icone caminho="M19 7H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM12 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />,
   CadeadoAberto: () => <Icone caminho="M7 11V7a5 5 0 0 1 10 0M3 11h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9Z" />,
   Chave: () => <Icone caminho="M21 2l-7 7M13 3l8 8-1.5 1.5-11-11L13 3zM13 13l-4 4H6v3H3v-3l8-8" />,
   Verificado: () => <Icone caminho="M20 6L9 17l-5-5" cor="#22c55e" />,
   Administrador: () => (
-    <svg 
-      fill="none" 
-      height="23" 
-      width="23" 
+    <svg
+      fill="none"
+      height="23"
+      width="23"
       viewBox="0 0 30 30"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
     >
       <g opacity="0.05">
-        <animate 
-          repeatCount="indefinite" 
-          attributeName="opacity" 
-          dur="1.833s" 
-          begin="0s" 
-          fill="freeze" 
-          values="0.05; 0.35; 0; 0" 
-          keyTimes="0; 0.318182; 0.636364; 1" 
-          keySplines="0.167 0.167 0.667 1; 0.167 0.167 0.667 1; 0 0 1 1" 
-          calcMode="spline" 
+        <animate
+          repeatCount="indefinite"
+          attributeName="opacity"
+          dur="1.833s"
+          begin="0s"
+          fill="freeze"
+          values="0.05; 0.35; 0; 0"
+          keyTimes="0; 0.318182; 0.636364; 1"
+          keySplines="0.167 0.167 0.667 1; 0.167 0.167 0.667 1; 0 0 1 1"
+          calcMode="spline"
         />
         <g transform="translate(15,15)">
           <g transform="scale(0.6,0.6)">
-            <animateTransform 
-              repeatCount="indefinite" 
-              type="scale" 
-              attributeName="transform" 
-              dur="1.833s" 
-              begin="0s" 
-              calcMode="spline" 
-              values="0.6 0.6; 1.5 1.5; 1.5 1.5" 
-              keyTimes="0; 0.636364; 1" 
-              keySplines="0.167 0.167 0.667 1; 0 0 1 1" 
-              fill="freeze" 
+            <animateTransform
+              repeatCount="indefinite"
+              type="scale"
+              attributeName="transform"
+              dur="1.833s"
+              begin="0s"
+              calcMode="spline"
+              values="0.6 0.6; 1.5 1.5; 1.5 1.5"
+              keyTimes="0; 0.636364; 1"
+              keySplines="0.167 0.167 0.667 1; 0 0 1 1"
+              fill="freeze"
             />
             <g transform="translate(0,0)">
               <rect ry="18" rx="18" height="18" width="18" y="-9" x="-9" fill="#e87526" />
@@ -96,17 +97,17 @@ const Icones = {
       <g>
         <g transform="translate(15,15)">
           <g transform="scale(0.8,0.8)">
-            <animateTransform 
-              repeatCount="indefinite" 
-              type="scale" 
-              attributeName="transform" 
-              dur="1.833s" 
-              begin="0s" 
-              calcMode="spline" 
-              values="0.8 0.8; 1.1 1.1; 1 1; 1 1" 
-              keyTimes="0; 0.236364; 0.781818; 1" 
-              keySplines="0.167 0.167 0.667 1; 0 0 1 1; 0 0 1 1" 
-              fill="freeze" 
+            <animateTransform
+              repeatCount="indefinite"
+              type="scale"
+              attributeName="transform"
+              dur="1.833s"
+              begin="0s"
+              calcMode="spline"
+              values="0.8 0.8; 1.1 1.1; 1 1; 1 1"
+              keyTimes="0; 0.236364; 0.781818; 1"
+              keySplines="0.167 0.167 0.667 1; 0 0 1 1; 0 0 1 1"
+              fill="freeze"
             />
             <g transform="translate(0,0)">
               <rect ry="11.25" rx="11.25" height="11.25" width="11.25" y="-5.625" x="-5.625" fill="#e87526" />
@@ -117,8 +118,6 @@ const Icones = {
     </svg>
   ),
 }
-
-
 
 function formatarContador(num: number): string {
   return String(num).padStart(3, '0')
@@ -139,8 +138,19 @@ export default function App() {
   const [filtroAtivo, setFiltroAtivo] = useState<Origem | 'Todas' | null>(null)
   const [tampinhaZoom, setTampinhaZoom] = useState<TampinhaFormatada | null>(null)
 
+  // Nova navegação: aba ativa (início | pesquisa) e barra inferior ao rolar
+  const [abaAtiva, setAbaAtiva] = useState<'home' | 'pesquisa'>('home')
+  const [rolado, setRolado] = useState(false)
+
   const estaLogado = !!usuario
   const podeCadastrar = estaLogado
+
+  useEffect(() => {
+    const aoRolar = () => setRolado(window.scrollY > 60)
+    window.addEventListener('scroll', aoRolar, { passive: true })
+    aoRolar()
+    return () => window.removeEventListener('scroll', aoRolar)
+  }, [])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -218,6 +228,23 @@ export default function App() {
 
   async function handleLogout() { await supabase.auth.signOut(); setUsuario(null) }
 
+  // Ações da barra de navegação inferior
+  function irParaHome() {
+    setAbaAtiva('home')
+    setFiltrosAbertos(false)
+    setBusca('')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  function irParaPesquisa() {
+    setAbaAtiva('pesquisa')
+    setFiltrosAbertos(false)
+    setFiltroAtivo(null)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+  function irParaContato() {
+    setPaginaContato(true)
+  }
+
   if (paginaContato) {
     return <div style={{ minHeight: '100vh', fontFamily: "'Cuprum', sans-serif" }}><ContatoPage onFechar={() => setPaginaContato(false)} /></div>
   }
@@ -261,6 +288,27 @@ export default function App() {
     textShadow: '0 0 1px rgba(255, 85, 0, 0.6)'
   }
 
+  // Botões da barra inferior (estilo pílula centralizada)
+  const estiloNavBotao = (ativo: boolean): React.CSSProperties => ({
+    width: '40px',
+    height: '40px',
+    borderRadius: '20%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: ativo ? '1px solid rgba(255, 107, 26, 0.6)' : '1px solid transparent',
+    background: ativo ? 'rgba(255, 107, 26, 0.18)' : 'transparent',
+    color: ativo ? '#ff6b1a' : 'rgba(255, 255, 255, 0.55)',
+    cursor: 'pointer',
+    transition: 'all 0.25s ease',
+    boxShadow: ativo ? '0 0 14px rgba(255, 107, 26, 0.35)' : 'none',
+    outline: 'none',
+    padding: 0
+  })
+
+  // Barra inferior aparece ao rolar ou quando a aba de pesquisa está ativa
+  const mostrarNav = rolado || abaAtiva === 'pesquisa'
+
   return (
     <>
       <style>{`
@@ -274,273 +322,287 @@ export default function App() {
       `}</style>
 
       <div style={{ minHeight: '100vh', background: 'transparent', fontFamily: "'Cuprum', sans-serif", color: 'var(--cyber-text)' }}>
-        <header style={{
-          position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-          background: 'rgba(10, 14, 23, 0.40)', backdropFilter: 'blur(20px) saturate(180%)',
-          borderBottom: '1px solid rgba(255, 107, 26, 0.5)',
-          borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px',
-          boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
-        }}>
-          <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
-            <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
-              
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-			  
-<button
-  type="button"
-  onClick={handleCliqueCadastro}
-  disabled={verificandoLogin}
-  style={{ 
-    margin: 0,
-    padding: 0,
-    border: 'none',
-    background: 'transparent',
-    cursor: verificandoLogin ? 'wait' : 'pointer',
-    outline: 'none',
-    opacity: verificandoLogin ? 0.5 : 1,
-    transition: 'opacity 0.25s ease',
-    flexShrink: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 56,
-    height: 56
-  }}
-  title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
-  aria-label="Logo"
->
-  <LogoTR />
-</button>
 
+        {/* ══════════ ABA INÍCIO: header completo (logo + contato + menu) ══════════ */}
+        {abaAtiva === 'home' && (
+          <header style={{
+            position: 'sticky', top: 0, left: 0, right: 0, zIndex: 50,
+            background: 'rgba(10, 14, 23, 0.40)', backdropFilter: 'blur(20px) saturate(180%)',
+            borderBottom: '1px solid rgba(255, 107, 26, 0.5)',
+            borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)'
+          }}>
+            <div style={{ maxWidth: '64rem', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', padding: '12px', position: 'relative' }} className="sm:px-4 sm:py-4">
+              <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between', gap: '12px', paddingBottom: '12px', paddingTop: '4px' }}>
 
-                <span style={{
-                  width: '1px',
-                  height: '48px',
-                  background: '#ff6b1a',
-                  flexShrink: 0,
-                  borderRadius: '1px',
-                  boxShadow: '0 0 6px rgba(255, 107, 26, 0.5)'
-                }} />
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <button
+                    type="button"
+                    onClick={handleCliqueCadastro}
+                    disabled={verificandoLogin}
+                    style={{
+                      margin: 0,
+                      padding: 0,
+                      border: 'none',
+                      background: 'transparent',
+                      cursor: verificandoLogin ? 'wait' : 'pointer',
+                      outline: 'none',
+                      opacity: verificandoLogin ? 0.5 : 1,
+                      transition: 'opacity 0.25s ease',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 56,
+                      height: 56
+                    }}
+                    title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
+                    aria-label="Logo"
+                  >
+                    <LogoTR />
+                  </button>
 
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{
-                    fontFamily: 'Tahoma, sans-serif',
-                    fontWeight: 'bold',
-                    fontSize: '19px',
-                    lineHeight: '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    letterSpacing: '1.5px',
-                    textRendering: 'optimizeLegibility',
-                    WebkitFontSmoothing: 'antialiased',
-                    MozOsxFontSmoothing: 'grayscale'
-                  }}>
-                    <span style={{ color: '#ffffff' }}>TR</span>
-                    <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
+                  <span style={{
+                    width: '1px',
+                    height: '48px',
+                    background: '#ff6b1a',
+                    flexShrink: 0,
+                    borderRadius: '1px',
+                    boxShadow: '0 0 6px rgba(255, 107, 26, 0.5)'
+                  }} />
+
+                  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div style={{
+                      fontFamily: 'Tahoma, sans-serif',
+                      fontWeight: 'bold',
+                      fontSize: '19px',
+                      lineHeight: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      letterSpacing: '1.5px',
+                      textRendering: 'optimizeLegibility',
+                      WebkitFontSmoothing: 'antialiased',
+                      MozOsxFontSmoothing: 'grayscale'
+                    }}>
+                      <span style={{ color: '#ffffff' }}>TR</span>
+                      <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
+                    </div>
+
+                    <div style={{
+                      fontFamily: 'Cuprum, sans-serif',
+                      color: '#ffffff',
+                      fontSize: '11px',
+                      lineHeight: '18px',
+                      marginTop: '2px',
+                      letterSpacing: '1px',
+                      textRendering: 'optimizeLegibility',
+                      WebkitFontSmoothing: 'antialiased',
+                      MozOsxFontSmoothing: 'grayscale'
+                    }}>
+                      A CADA TAMPINHA UMA HISTÓRIA
+                    </div>
+
+                    {/* Ícone animado + texto na mesma linha */}
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      marginTop: '2px'
+                    }}>
+                      {verificandoLogin ? (
+                        <>
+                          <Icones.Administrador />
+                          <p style={{
+                            fontFamily: 'var(--font-chakra)',
+                            fontSize: '10px',
+                            letterSpacing: '0.15em',
+                            color: 'rgba(255, 107, 26, 255)',
+                            margin: 0
+                          }}>
+                            Verificando acesso...
+                          </p>
+                        </>
+                      ) : estaLogado ? (
+                        <>
+                          <Icones.Administrador />
+                          <p style={{
+                            fontFamily: 'var(--font-chakra)',
+                            fontSize: '10px',
+                            letterSpacing: '0.15em',
+                            color: 'rgba(255, 107, 26, 255)',
+                            margin: 0
+                          }}>
+                            Administrador
+                          </p>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
-
-<div style={{
-  fontFamily: 'Cuprum, sans-serif',
-  color: '#ffffff',
-  fontSize: '11px',
-  lineHeight: '18px',
-  marginTop: '2px',
-  letterSpacing: '1px',
-  textRendering: 'optimizeLegibility',
-  WebkitFontSmoothing: 'antialiased',
-  MozOsxFontSmoothing: 'grayscale'
-}}>
-  A CADA TAMPINHA UMA HISTÓRIA 
-</div>
-
-{/* ✅ Ícone animado + texto na mesma linha */}
-<div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '6px',
-  marginTop: '2px'
-}}>
-  {verificandoLogin ? (
-    <>
-      <Icones.Administrador />
-      <p style={{
-        fontFamily: 'var(--font-chakra)',
-        fontSize: '10px',
-        letterSpacing: '0.15em',
-        color: 'rgba(255, 107, 26, 255)',
-        margin: 0
-      }}>
-        Verificando acesso...
-      </p>
-    </>
-  ) : estaLogado ? (
-    <>
-      <Icones.Administrador />
-      <p style={{
-        fontFamily: 'var(--font-chakra)',
-        fontSize: '10px',
-        letterSpacing: '0.15em',
-        color: 'rgba(255, 107, 26, 255)',
-        margin: 0
-      }}>
-        Administrador
-      </p>
-    </>
-  ) : null}
-</div>
-
-
                 </div>
-              </div>
 
-              {/* ─── LADO DIREITO: botões de contato, sair e menu ─── */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <button 
-                  onClick={() => setPaginaContato(true)} 
-                  title="Contato" 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    width: '44px', 
-                    height: '44px', 
-                    border: 'none', 
-                    background: 'transparent', 
-                    color: 'var(--cyber-accent)', 
-                    borderRadius: '10px', 
-                    cursor: 'pointer', 
-                    transition: 'all 0.25s ease' 
-                  }}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
-                    e.currentTarget.style.color = 'var(--cyber-accent-light)';
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.background = 'transparent'; 
-                    e.currentTarget.style.color = 'var(--cyber-accent)';
-                  }}
-                >
-                  <Icones.Email />
-                </button>
-                {estaLogado && (
-                  <button 
-                    onClick={handleLogout} 
-                    title="Sair" 
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      width: '44px', 
-                      height: '44px', 
-                      border: '1px solid rgba(239, 68, 68, 0.3)', 
-                      background: 'rgba(239, 68, 68, 0.08)', 
-                      color: 'rgba(248, 113, 113, 0.9)', 
-                      borderRadius: '10px', 
-                      cursor: 'pointer', 
-                      transition: 'all 0.25s ease' 
+                {/* LADO DIREITO: botões de contato, sair e menu */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button
+                    onClick={() => setPaginaContato(true)}
+                    title="Contato"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '44px',
+                      height: '44px',
+                      border: 'none',
+                      background: 'transparent',
+                      color: 'var(--cyber-accent)',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      transition: 'all 0.25s ease'
                     }}
-                    onMouseEnter={(e) => { 
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.7)'; 
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)';
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+                      e.currentTarget.style.color = 'var(--cyber-accent-light)'
                     }}
-                    onMouseLeave={(e) => { 
-                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'; 
-                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)';
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = 'var(--cyber-accent)'
                     }}
                   >
-                    <Icones.Sair />
+                    <Icones.Email />
                   </button>
-                )}
-                <button 
-                  onClick={() => setFiltrosAbertos(!filtrosAbertos)} 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    width: '44px', 
-                    height: '44px', 
-                    border: '1px solid rgba(255, 107, 26, 0.20)', 
-                    background: 'rgba(0, 0, 0, 0.20)', 
-                    color: 'var(--cyber-accent)', 
-                    borderRadius: '10px', 
-                    cursor: 'pointer', 
-                    transition: 'all 0.25s ease' 
-                  }}
-                  onMouseEnter={(e) => { 
-                    e.currentTarget.style.borderColor = 'var(--cyber-accent)'; 
-                    e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'; 
-                    e.currentTarget.style.color = 'var(--cyber-accent-light)';
-                  }}
-                  onMouseLeave={(e) => { 
-                    e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'; 
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'; 
-                    e.currentTarget.style.color = 'var(--cyber-accent)';
-                  }}
-                  title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
-                >
-                  {filtrosAbertos ? <Icones.Fechar /> : <Icones.Menu />}
-                </button>
-              </div>
-            </div>
-
-            <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)', borderRadius: '1px' }}></div>
-
-            <div style={{ width: '100%', overflow: 'hidden', transition: 'all 0.3s ease-in-out', maxHeight: filtrosAbertos ? '220px' : '0', opacity: filtrosAbertos ? 1 : 0, marginTop: filtrosAbertos ? '8px' : '0' }}>
-              <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto 12px' }}>
-                <div className="cyber-search">
-                  <span className="cyber-search-icon"><Icones.Lupa /></span>
-                  <SearchBar value={busca} onChange={setBusca} />
-                  {busca.trim() !== '' && (
-                    <button type="button" className="cyber-search-clear" onClick={() => setBusca('')} aria-label="Limpar pesquisa">×</button>
+                  {estaLogado && (
+                    <button
+                      onClick={handleLogout}
+                      title="Sair"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '44px',
+                        height: '44px',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        background: 'rgba(239, 68, 68, 0.08)',
+                        color: 'rgba(248, 113, 113, 0.9)',
+                        borderRadius: '10px',
+                        cursor: 'pointer',
+                        transition: 'all 0.25s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.7)'
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.18)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.08)'
+                      }}
+                    >
+                      <Icones.Sair />
+                    </button>
                   )}
+                  <button
+                    onClick={() => setFiltrosAbertos(!filtrosAbertos)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '44px',
+                      height: '44px',
+                      border: '1px solid rgba(255, 107, 26, 0.20)',
+                      background: 'rgba(0, 0, 0, 0.20)',
+                      color: 'var(--cyber-accent)',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      transition: 'all 0.25s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'var(--cyber-accent)'
+                      e.currentTarget.style.background = 'rgba(255, 107, 26, 0.12)'
+                      e.currentTarget.style.color = 'var(--cyber-accent-light)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(255, 107, 26, 0.20)'
+                      e.currentTarget.style.background = 'rgba(0, 0, 0, 0.20)'
+                      e.currentTarget.style.color = 'var(--cyber-accent)'
+                    }}
+                    title={filtrosAbertos ? "Fechar menu" : "Abrir menu"}
+                  >
+                    {filtrosAbertos ? <Icones.Fechar /> : <Icones.Menu />}
+                  </button>
                 </div>
               </div>
 
-              <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <button
-                    type="button"
-                    onClick={() => setFiltroAtivo(filtroAtivo === 'Nacional' ? null : 'Nacional')}
-                    style={estiloBotaoBase(filtroAtivo === 'Nacional')}
-                    onMouseEnter={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' }}}
-                    onMouseLeave={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' }}}
-                  >
-                    <Icones.Localizacao />
-                    <span style={estiloContador}>{formatarContador(totalNacional)}</span>
-                  </button>
+              <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)', borderRadius: '1px' }} />
 
-                  <span style={estiloSeparador}>+</span>
+              {/* Menu expandido: SOMENTE os contadores (barra de pesquisa removida) */}
+              <div style={{ width: '100%', overflow: 'hidden', transition: 'all 0.3s ease-in-out', maxHeight: filtrosAbertos ? '96px' : '0', opacity: filtrosAbertos ? 1 : 0, marginTop: filtrosAbertos ? '8px' : '0' }}>
+                <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <button
+                      type="button"
+                      onClick={() => setFiltroAtivo(filtroAtivo === 'Nacional' ? null : 'Nacional')}
+                      style={estiloBotaoBase(filtroAtivo === 'Nacional')}
+                      onMouseEnter={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                    >
+                      <Icones.Localizacao />
+                      <span style={estiloContador}>{formatarContador(totalNacional)}</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setFiltroAtivo(filtroAtivo === 'Internacional' ? null : 'Internacional')}
-                    style={estiloBotaoBase(filtroAtivo === 'Internacional')}
-                    onMouseEnter={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' }}}
-                    onMouseLeave={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' }}}
-                  >
-                    <Icones.Globo />
-                    <span style={estiloContador}>{formatarContador(totalInternacional)}</span>
-                  </button>
+                    <span style={estiloSeparador}>+</span>
 
-                  <span style={estiloSeparador}>=</span>
+                    <button
+                      type="button"
+                      onClick={() => setFiltroAtivo(filtroAtivo === 'Internacional' ? null : 'Internacional')}
+                      style={estiloBotaoBase(filtroAtivo === 'Internacional')}
+                      onMouseEnter={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                    >
+                      <Icones.Globo />
+                      <span style={estiloContador}>{formatarContador(totalInternacional)}</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setFiltroAtivo(filtroAtivo === 'Todas' ? null : 'Todas')}
-                    style={estiloBotaoBase(!filtroAtivo || filtroAtivo === 'Todas')}
-                    onMouseEnter={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' }}}
-                    onMouseLeave={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' }}}
-                  >
-                    <Icones.Lista />
-                    <span style={estiloContador}>{formatarContador(totalTodas)}</span>
-                  </button>
+                    <span style={estiloSeparador}>=</span>
+
+                    <button
+                      type="button"
+                      onClick={() => setFiltroAtivo(filtroAtivo === 'Todas' ? null : 'Todas')}
+                      style={estiloBotaoBase(!filtroAtivo || filtroAtivo === 'Todas')}
+                      onMouseEnter={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                    >
+                      <Icones.Lista />
+                      <span style={estiloContador}>{formatarContador(totalTodas)}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </header>
+          </header>
+        )}
 
-        <main style={{ marginTop: '140px', maxWidth: '64rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '12px', paddingRight: '12px', paddingBottom: '64px', background: 'transparent' }} className="sm:mt-[130px] sm:px-6">
+        {/* ══════════ ABA PESQUISA: somente a barra de pesquisa no topo ══════════ */}
+        {abaAtiva === 'pesquisa' && (
+          <header style={{
+            position: 'sticky', top: 0, left: 0, right: 0, zIndex: 50,
+            background: 'rgba(10, 14, 23, 0.40)', backdropFilter: 'blur(20px) saturate(180%)',
+            borderBottom: '1px solid rgba(255, 107, 26, 0.5)',
+            borderBottomLeftRadius: '16px', borderBottomRightRadius: '16px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+            padding: '12px'
+          }}>
+            <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
+              <div className="cyber-search">
+                <span className="cyber-search-icon"><Icones.Lupa /></span>
+                <SearchBar value={busca} onChange={setBusca} />
+                {busca.trim() !== '' && (
+                  <button type="button" className="cyber-search-clear" onClick={() => setBusca('')} aria-label="Limpar pesquisa">×</button>
+                )}
+              </div>
+            </div>
+          </header>
+        )}
+
+        {/* ══════════ CONTEÚDO: grid de tampinhas (compartilhado pelas abas) ══════════ */}
+        <main style={{ marginTop: '12px', maxWidth: '64rem', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '12px', paddingRight: '12px', paddingBottom: '96px', background: 'transparent' }} className="sm:px-6">
           {erro && (
             <div style={{ marginBottom: '24px', padding: '12px 16px', borderRadius: '12px', border: '1px solid rgba(239, 68, 68, 0.4)', background: 'rgba(127, 29, 29, 0.25)', fontSize: '13px', color: 'rgba(252, 165, 165, 0.95)' }}>
               {erro}
@@ -550,6 +612,56 @@ export default function App() {
           {carregando && <div style={{ textAlign: 'center', padding: '20px', color: 'var(--cyber-accent)' }}>Carregando tampinhas...</div>}
           <TampinhaGrid tampinhas={tampinhasFormatadasParaExibicao} onSelectTampinha={(tampinha) => setTampinhaZoom(tampinha)} />
         </main>
+
+        {/* ══════════ BARRA DE NAVEGAÇÃO INFERIOR (3 ícones centralizados) ══════════ */}
+        <nav style={{
+          position: 'fixed', bottom: '16px', left: 0, right: 0, zIndex: 60,
+          display: 'flex', justifyContent: 'center',
+          pointerEvents: mostrarNav ? 'auto' : 'none',
+          transition: 'transform 0.3s ease, opacity 0.3s ease',
+          transform: mostrarNav ? 'translateY(0)' : 'translateY(140%)',
+          opacity: mostrarNav ? 1 : 0
+        }}>
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            background: 'rgba(15, 21, 32, 0.85)',
+            backdropFilter: 'blur(16px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+            border: '1px solid rgba(255, 107, 26, 0.25)',
+            borderRadius: '18px',
+            padding: '8px 12px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)'
+          }}>
+            <button
+              type="button"
+              onClick={irParaHome}
+              title="Página inicial"
+              aria-label="Página inicial"
+              style={estiloNavBotao(abaAtiva === 'home')}
+            >
+              <Icones.Casa />
+            </button>
+            <button
+              type="button"
+              onClick={irParaPesquisa}
+              title="Pesquisa"
+              aria-label="Pesquisa"
+              style={estiloNavBotao(abaAtiva === 'pesquisa')}
+            >
+              <Icones.Lupa />
+            </button>
+            <button
+              type="button"
+              onClick={irParaContato}
+              title="Contato"
+              aria-label="Contato"
+              style={estiloNavBotao(false)}
+            >
+              <Icones.Email />
+            </button>
+          </div>
+        </nav>
 
         <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />
         <LoginModal open={loginModalAberto} onClose={() => setLoginModalAberto(false)} />
@@ -569,10 +681,10 @@ export default function App() {
                 </span>
               </div>
               <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0', flexShrink: 0 }}>
-                <div style={{ position: 'absolute', top: '40px', left: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
-                <div style={{ position: 'absolute', top: '40px', right: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
-                <div style={{ position: 'absolute', bottom: '40px', left: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
-                <div style={{ position: 'absolute', bottom: '40px', right: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }}></div>
+                <div style={{ position: 'absolute', top: '40px', left: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }} />
+                <div style={{ position: 'absolute', top: '40px', right: '40px', width: '16px', height: '16px', borderTop: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }} />
+                <div style={{ position: 'absolute', bottom: '40px', left: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderLeft: '1px solid var(--cyber-accent)', zIndex: 3 }} />
+                <div style={{ position: 'absolute', bottom: '40px', right: '40px', width: '16px', height: '16px', borderBottom: '1px solid var(--cyber-accent)', borderRight: '1px solid var(--cyber-accent)', zIndex: 3 }} />
                 <img src={tampinhaZoom.foto_url || '/placeholder.png'} alt={tampinhaZoom.nome} style={{ width: '100%', height: '100%', objectFit: 'contain', filter: 'drop-shadow(0 16px 10px rgba(0, 0, 0, 0.9))', position: 'relative', zIndex: 2 }} />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', width: '100%', paddingTop: '10px', borderTop: '1px solid rgba(255, 107, 26, 0.20)' }}>
