@@ -1,4 +1,10 @@
 import { useState } from 'react'
+import LogoTR from './LogoTR'
+
+interface ContatoPageProps {
+  onFechar?: () => void
+}
+
 
 interface ContatoPageProps {
   onFechar?: () => void
@@ -43,7 +49,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
 
       // ⏳ Espera 5 segundos e vai para a página inicial
       setTimeout(() => {
-        window.location.href = 'https://www.koiza.com.br'
+        window.location.href = 'https://apptampinhas.vercel.app/'
       }, 5000)
 
     } catch (erro) {
@@ -113,7 +119,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               letterSpacing: '0.1em',
               textTransform: 'uppercase'
             }}>
-              Mensagem Enviada!
+              Sua mensagem foi enviada!
             </h2>
             <p style={{
               color: '#9ca3af',
@@ -153,33 +159,18 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
               flexShrink: 0
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                <div style={{
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '40px',
-                  height: '40px',
-                  flexShrink: 0,
-                  border: '1px solid var(--cyber-border-light)',
-                  background: 'rgba(0, 0, 0, 0.4)',
-                  borderRadius: '8px',
-                  overflow: 'hidden'
-                }}>
-                  <img
-                    src="/logotipo.png"
-                    alt="Logo"
-                    style={{
-                      height: '85%',
-                      width: '85%',
-                      objectFit: 'contain',
-                      filter: 'brightness(1.1)'
-                    }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none'
-                    }}
-                  />
-                </div>
+<div style={{
+  position: 'relative',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '56px',
+  height: '56px',
+  flexShrink: 0
+}}>
+  <LogoTR />
+</div>
+
                 <div>
                   <h2 style={{
                     fontFamily: 'var(--font-chakra)',
@@ -187,13 +178,13 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                     fontWeight: 700,
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
-                    color: 'var(--cyber-accent-light)',
+                    color: 'var(--cyber-accent)',
                     margin: 0
                   }}>
                     Contato
                   </h2>
                   <p style={{
-                    fontSize: '10px',
+                    fontSize: '14px',
                     color: 'var(--cyber-muted)',
                     letterSpacing: '0.05em',
                     marginTop: '2px',
@@ -401,7 +392,7 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                   type="submit"
                   disabled={enviando}
                   style={{
-                    width: '50%',
+                    width: '20%',
                     minWidth: '200px',
                     height: '44px',
                     display: 'inline-flex',
@@ -450,21 +441,21 @@ export function ContatoPage({ onFechar }: ContatoPageProps) {
                   fontWeight: 600,
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: 'var(--cyber-accent)',
+                  color: 'var(--cyber-muted)',
                   marginBottom: '10px'
                 }}>
-                  Contatos:
+                  Contatos
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                     coisadigital@gmail.com
                   </p>
-                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                     WhatsApp: (16) 98810-5510
                   </p>
-                  <p style={{ margin: 0, fontSize: '12px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--cyber-muted)', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <span style={{ color: 'var(--cyber-accent)' }}>+</span>
                     Localização: Jardinópolis — SP
                   </p>

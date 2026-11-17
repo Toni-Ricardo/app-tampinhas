@@ -33,7 +33,7 @@ const Icone = ({ caminho, tamanho = 18, cor = '#ff5500', espessura = 1.5 }: {
     strokeWidth={espessura}
     strokeLinecap="round"
     strokeLinejoin="round"
-    style={{ filter: `drop-shadow(0 0 1px ${cor})` }}
+    style={{ filter: `drop-shadow(0 0 0px ${cor})` }}
   >
     <path d={caminho} />
   </svg>
@@ -49,9 +49,12 @@ const Icones = {
   Email: () => <Icone caminho="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" />,
   Sair: () => <Icone caminho="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />,
   Cadeado: () => <Icone caminho="M19 7H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM12 14a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />,
+  CadeadoAberto: () => <Icone caminho="M7 11V7a5 5 0 0 1 10 0M3 11h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9Z" />,
   Chave: () => <Icone caminho="M21 2l-7 7M13 3l8 8-1.5 1.5-11-11L13 3zM13 13l-4 4H6v3H3v-3l8-8" />,
-  Verificado: () => <Icone caminho="M20 6L9 17l-5-5" cor="#22c55e" />
-}
+  Verificado: () => <Icone caminho="M20 6L9 17l-5-5" cor="#22c55e" />,
+  Administrador: () => <Icone caminho="M3 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6M9 16a1 1 0 1 0 2 0 1 1 0 0 0-2 0M13 11V7a4 4 0 1 1 8 0v4" />}
+
+
 
 function formatarContador(num: number): string {
   return String(num).padStart(3, '0')
@@ -163,7 +166,7 @@ export default function App() {
     gap: '8px',
     height: '36px',
     padding: '0 12px',
-    border: `1px solid ${ativo ? '#ff5500' : 'rgba(255, 85, 0, 0.35)'}`,
+    border: `1px solid ${ativo ? '#ff5500' : 'rgba(255, 85, 0, 0.5)'}`,
     background: ativo ? 'rgba(255, 85, 0, 0.08)' : '#0a0a0a',
     borderRadius: '4px',
     cursor: 'pointer',
@@ -180,7 +183,7 @@ export default function App() {
     lineHeight: 1,
     letterSpacing: '1px',
     color: '#ff5500',
-    textShadow: '0 0 8px rgba(255, 85, 0, 1), 0 0 2px rgba(255, 85, 0, 0.67)',
+    textShadow: '0 0 8px rgba(255, 85, 0, 1), 0 0 1px rgba(255, 85, 0, 0.67)',
     transition: 'all 0.15s ease'
   }
 
@@ -191,7 +194,7 @@ export default function App() {
     fontSize: '12px',
     flexShrink: 0,
     opacity: 0.8,
-    textShadow: '0 0 6px rgba(255, 85, 0, 0.6)'
+    textShadow: '0 0 1px rgba(255, 85, 0, 0.6)'
   }
 
   return (
@@ -235,30 +238,16 @@ export default function App() {
     flexShrink: 0,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    width: 56,
+    height: 56
   }}
   title={verificandoLogin ? "Verificando acesso..." : estaLogado ? "Logado" : "🔑 Fazer login"}
   aria-label="Logo"
 >
-  {/* ✅ Correto: container para renderização em 2x */}
-  <div style={{ 
-    width: 56, 
-    height: 56, 
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }}>
-    <div style={{ 
-      transform: 'scale(2)', 
-      transformOrigin: 'center',
-      width: 28, 
-      height: 28 
-    }}>
-      <LogoTR />
-    </div>
-  </div>
+  <LogoTR />
 </button>
+
 
                 <span style={{
                   width: '1px',
@@ -286,31 +275,39 @@ export default function App() {
                     <span style={{ color: '#ff6b1a', marginLeft: '8px' }}>TAMPINHAS</span>
                   </div>
 
-                  <div style={{
-                    fontFamily: 'Cuprum, sans-serif',
-                    color: '#ffffff',
-                    fontSize: '11px',
-                    lineHeight: '18px',
-                    marginTop: '2px',
-                    letterSpacing: '1px',
-                    textRendering: 'optimizeLegibility',
-                    WebkitFontSmoothing: 'antialiased',
-                    MozOsxFontSmoothing: 'grayscale'
-                  }}>
-                    A CADA TAMPINHA UMA HISTÓRIA
-                  </div>
+<div style={{
+  fontFamily: 'Cuprum, sans-serif',
+  color: '#ffffff',
+  fontSize: '11px',
+  lineHeight: '18px',
+  marginTop: '2px',
+  letterSpacing: '1px',
+  textRendering: 'optimizeLegibility',
+  WebkitFontSmoothing: 'antialiased',
+  MozOsxFontSmoothing: 'grayscale'
+}}>
+  A CADA TAMPINHA UMA HISTÓRIA 
+</div>
 
-                  <p style={{ 
-                    fontFamily: 'var(--font-chakra)', 
-                    fontSize: '10px', 
-                    letterSpacing: '0.15em', 
-                    color: 'rgba(45, 235, 140, 0.95)', 
-                    fontStyle: 'italic', 
-                    marginTop: '2px', 
-                    marginBottom: 0 
-                  }}>
-                    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '✓ Modo TR Ativado!' : ""}
-                  </p>
+{/* ✅ Ícone + texto na mesma linha */}
+<div style={{
+  display: 'flex',
+  alignItems: 'center',
+  gap: '6px', // espaçamento entre ícone e texto
+  marginTop: '2px'
+}}>
+  
+  <p style={{ 
+    fontFamily: 'var(--font-chakra)', 
+    fontSize: '10px', 
+    letterSpacing: '0.15em', 
+    color: 'rgba(255, 107, 26, 255)', 
+    margin: 0 
+  }}>
+    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '🟢️ Administrador' : ""}
+  </p>
+</div>
+
                 </div>
               </div>
 

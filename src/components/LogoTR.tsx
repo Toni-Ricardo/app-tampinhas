@@ -7,7 +7,7 @@ export default function LogoTR() {
       height="56"
       shapeRendering="geometricPrecision"
       textRendering="geometricPrecision"
-      imageRendering="pixelated"
+      imageRendering="crispEdges"
       style={{
         display: 'block',
         width: '56px',
