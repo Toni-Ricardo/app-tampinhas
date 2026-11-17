@@ -25,7 +25,6 @@ export const MAPA_BANDEIRAS: Record<string, string> = {
   portugal: 'pt',
   espanha: 'es',
   frança: 'fr',
-  franca: 'fr',
   'reino unido': 'gb',
   inglaterra: 'gb',
   bélgica: 'be',

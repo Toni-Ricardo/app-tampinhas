@@ -52,7 +52,71 @@ const Icones = {
   CadeadoAberto: () => <Icone caminho="M7 11V7a5 5 0 0 1 10 0M3 11h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-9Z" />,
   Chave: () => <Icone caminho="M21 2l-7 7M13 3l8 8-1.5 1.5-11-11L13 3zM13 13l-4 4H6v3H3v-3l8-8" />,
   Verificado: () => <Icone caminho="M20 6L9 17l-5-5" cor="#22c55e" />,
-  Administrador: () => <Icone caminho="M3 13a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6M9 16a1 1 0 1 0 2 0 1 1 0 0 0-2 0M13 11V7a4 4 0 1 1 8 0v4" />}
+  Administrador: () => (
+    <svg 
+      fill="none" 
+      height="23" 
+      width="23" 
+      viewBox="0 0 30 30"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+    >
+      <g opacity="0.05">
+        <animate 
+          repeatCount="indefinite" 
+          attributeName="opacity" 
+          dur="1.833s" 
+          begin="0s" 
+          fill="freeze" 
+          values="0.05; 0.35; 0; 0" 
+          keyTimes="0; 0.318182; 0.636364; 1" 
+          keySplines="0.167 0.167 0.667 1; 0.167 0.167 0.667 1; 0 0 1 1" 
+          calcMode="spline" 
+        />
+        <g transform="translate(15,15)">
+          <g transform="scale(0.6,0.6)">
+            <animateTransform 
+              repeatCount="indefinite" 
+              type="scale" 
+              attributeName="transform" 
+              dur="1.833s" 
+              begin="0s" 
+              calcMode="spline" 
+              values="0.6 0.6; 1.5 1.5; 1.5 1.5" 
+              keyTimes="0; 0.636364; 1" 
+              keySplines="0.167 0.167 0.667 1; 0 0 1 1" 
+              fill="freeze" 
+            />
+            <g transform="translate(0,0)">
+              <rect ry="18" rx="18" height="18" width="18" y="-9" x="-9" fill="#e87526" />
+            </g>
+          </g>
+        </g>
+      </g>
+      <g>
+        <g transform="translate(15,15)">
+          <g transform="scale(0.8,0.8)">
+            <animateTransform 
+              repeatCount="indefinite" 
+              type="scale" 
+              attributeName="transform" 
+              dur="1.833s" 
+              begin="0s" 
+              calcMode="spline" 
+              values="0.8 0.8; 1.1 1.1; 1 1; 1 1" 
+              keyTimes="0; 0.236364; 0.781818; 1" 
+              keySplines="0.167 0.167 0.667 1; 0 0 1 1; 0 0 1 1" 
+              fill="freeze" 
+            />
+            <g transform="translate(0,0)">
+              <rect ry="11.25" rx="11.25" height="11.25" width="11.25" y="-5.625" x="-5.625" fill="#e87526" />
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  ),
+}
 
 
 
@@ -289,24 +353,42 @@ export default function App() {
   A CADA TAMPINHA UMA HISTÓRIA 
 </div>
 
-{/* ✅ Ícone + texto na mesma linha */}
+{/* ✅ Ícone animado + texto na mesma linha */}
 <div style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '6px', // espaçamento entre ícone e texto
+  gap: '6px',
   marginTop: '2px'
 }}>
-  
-  <p style={{ 
-    fontFamily: 'var(--font-chakra)', 
-    fontSize: '10px', 
-    letterSpacing: '0.15em', 
-    color: 'rgba(255, 107, 26, 255)', 
-    margin: 0 
-  }}>
-    {verificandoLogin ? "Verificando acesso..." : estaLogado ? '🟢️ Administrador' : ""}
-  </p>
+  {verificandoLogin ? (
+    <>
+      <Icones.Administrador />
+      <p style={{
+        fontFamily: 'var(--font-chakra)',
+        fontSize: '10px',
+        letterSpacing: '0.15em',
+        color: 'rgba(255, 107, 26, 255)',
+        margin: 0
+      }}>
+        Verificando acesso...
+      </p>
+    </>
+  ) : estaLogado ? (
+    <>
+      <Icones.Administrador />
+      <p style={{
+        fontFamily: 'var(--font-chakra)',
+        fontSize: '10px',
+        letterSpacing: '0.15em',
+        color: 'rgba(255, 107, 26, 255)',
+        margin: 0
+      }}>
+        Administrador
+      </p>
+    </>
+  ) : null}
 </div>
+
 
                 </div>
               </div>
