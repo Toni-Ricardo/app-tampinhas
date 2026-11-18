@@ -616,7 +616,7 @@ const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
 
         {/* ══════════ BARRA DE NAVEGAÇÃO INFERIOR (3 ícones centralizados) ══════════ */}
         <nav style={{
-          position: 'fixed', bottom: '16px', left: 0, right: 0, zIndex: 60,
+          position: 'fixed', bottom: '18px', left: 0, right: 0, zIndex: 60,
           display: 'flex', justifyContent: 'center',
           pointerEvents: mostrarNav ? 'auto' : 'none',
           transition: 'transform 0.3s ease, opacity 0.3s ease',
@@ -626,13 +626,13 @@ const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
           <div style={{
             display: 'flex',
             gap: '12px',
-            background: 'rgba(15, 21, 32, 0.85)',
-            backdropFilter: 'blur(1px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(8px) saturate(180%)',
-            border: '1px solid rgba(255, 107, 26, 0.25)',
+            background: 'rgba(15, 21, 32, 0.99)',
+            backdropFilter: 'blur(100px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(80px) saturate(180%)',
+            border: '1px solid rgba(255, 107, 26, 0.40)',
             borderRadius: '10px',
-            padding: '8px 20px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.20)'
+            padding: '8px 18px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 0px 10 rgba(255, 255, 255, 0.20)'
           }}>
             <button
               type="button"
