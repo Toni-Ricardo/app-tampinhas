@@ -249,24 +249,25 @@ export default function App() {
     return <div style={{ minHeight: '100vh', fontFamily: "'Cuprum', sans-serif" }}><ContatoPage onFechar={() => setPaginaContato(false)} /></div>
   }
 
-  const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
-    height: '36px',
-    padding: '0 12px',
-    border: `1px solid ${ativo ? '#ff5500' : 'rgba(255, 85, 0, 0.5)'}`,
-    background: ativo ? 'rgba(255, 85, 0, 0.08)' : '#0a0a0a',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    transition: 'all 0.15s ease',
-    boxShadow: ativo
-      ? '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'
-      : '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)',
-    outline: 'none'
-  })
+const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '8px',
+  height: '36px',
+  padding: '4px 12px', // ✅ Altere de '0 12px' para '4px 12px'
+  border: `1px solid ${ativo ? '#ff5500' : 'rgba(255, 85, 0, 0.5)'}`,
+  background: ativo ? 'rgba(255, 85, 0, 0.08)' : '#0a0a0a',
+  borderRadius: '4px',
+  cursor: 'pointer',
+  transition: 'all 0.15s ease',
+  boxShadow: ativo
+    ? '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'
+    : '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)',
+  outline: 'none',
+  overflow: 'visible' // ✅ Garante que nada seja cortado
+})
 
   const estiloContador: React.CSSProperties = {
     fontFamily: "'Share Tech Mono Local', 'Share Tech Mono', monospace",
@@ -533,15 +534,15 @@ export default function App() {
               <div style={{ width: '100%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 107, 26, 0.18), rgba(255, 107, 26, 0.35), rgba(255, 107, 26, 0.18), transparent)', borderRadius: '1px' }} />
 
               {/* Menu expandido: SOMENTE os contadores (barra de pesquisa removida) */}
-              <div style={{ width: '100%', overflow: 'hidden', transition: 'all 0.3s ease-in-out', maxHeight: filtrosAbertos ? '96px' : '0', opacity: filtrosAbertos ? 1 : 0, marginTop: filtrosAbertos ? '8px' : '0' }}>
-                <div style={{ width: '100%', maxWidth: '42rem', margin: '0 auto' }}>
+              <div style={{ width: '100%', overflow: 'hidden', transition: 'all 0.3s ease-in-out', maxHeight: filtrosAbertos ? '96px' : '0', opacity: filtrosAbertos ? 1 : 0, marginTop: filtrosAbertos ? '6px' : '0' }}>
+                <div style={{ width: '100%', maxWidth: '40rem', margin: '0 auto' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <button
                       type="button"
                       onClick={() => setFiltroAtivo(filtroAtivo === 'Nacional' ? null : 'Nacional')}
                       style={estiloBotaoBase(filtroAtivo === 'Nacional')}
-                      onMouseEnter={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
-                      onMouseLeave={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                      onMouseEnter={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(0px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo !== 'Nacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
                     >
                       <Icones.Localizacao />
                       <span style={estiloContador}>{formatarContador(totalNacional)}</span>
@@ -553,8 +554,8 @@ export default function App() {
                       type="button"
                       onClick={() => setFiltroAtivo(filtroAtivo === 'Internacional' ? null : 'Internacional')}
                       style={estiloBotaoBase(filtroAtivo === 'Internacional')}
-                      onMouseEnter={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
-                      onMouseLeave={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                      onMouseEnter={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(0px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo !== 'Internacional') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
                     >
                       <Icones.Globo />
                       <span style={estiloContador}>{formatarContador(totalInternacional)}</span>
@@ -566,8 +567,8 @@ export default function App() {
                       type="button"
                       onClick={() => setFiltroAtivo(filtroAtivo === 'Todas' ? null : 'Todas')}
                       style={estiloBotaoBase(!filtroAtivo || filtroAtivo === 'Todas')}
-                      onMouseEnter={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 14px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(-2px)' } }}
-                      onMouseLeave={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 8px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
+                      onMouseEnter={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = 'rgba(255, 85, 0, 0.07)'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.55), inset 0 0 6px rgba(255, 85, 0, 0.28)'; e.currentTarget.style.transform = 'translateY(0px)' } }}
+                      onMouseLeave={(e) => { if (filtroAtivo && filtroAtivo !== 'Todas') { e.currentTarget.style.background = '#0a0a0a'; e.currentTarget.style.boxShadow = '0 0 0px rgba(255, 85, 0, 0.27), inset 0 0 4px rgba(255, 85, 0, 0.13)'; e.currentTarget.style.transform = 'translateY(0)' } }}
                     >
                       <Icones.Lista />
                       <span style={estiloContador}>{formatarContador(totalTodas)}</span>
@@ -624,14 +625,14 @@ export default function App() {
         }}>
           <div style={{
             display: 'flex',
-            gap: '8px',
+            gap: '12px',
             background: 'rgba(15, 21, 32, 0.85)',
-            backdropFilter: 'blur(16px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+            backdropFilter: 'blur(1px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(8px) saturate(180%)',
             border: '1px solid rgba(255, 107, 26, 0.25)',
-            borderRadius: '18px',
-            padding: '8px 12px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06)'
+            borderRadius: '10px',
+            padding: '8px 20px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.20)'
           }}>
             <button
               type="button"
