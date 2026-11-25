@@ -585,12 +585,12 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
               <p style={{
                 maxWidth: '240px',
                 textAlign: 'center',
-                fontSize: '10px',
+                fontSize: '12px',
                 color: 'var(--cyber-muted)',
                 lineHeight: 1.5,
                 margin: 0
               }}>
-                CARD - ATUALIZADO EM TEMPO REAL.
+                . : : SIMULAÇÃO : : .
               </p>
             </div>
           </div>
