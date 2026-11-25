@@ -289,23 +289,44 @@ const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
     textShadow: '0 0 1px rgba(255, 85, 0, 0.6)'
   }
 
-  // Botões da barra inferior (estilo pílula centralizada)
+  // Botões da barra inferior — efeito de borda dourada brilhante (3 botões individuais)
+  const brilhoDouradoSuperior =
+    'radial-gradient(circle at 28% 22%, rgba(255, 226, 150, 0.22), rgba(255, 180, 60, 0) 55%)'
+
   const estiloNavBotao = (ativo: boolean): React.CSSProperties => ({
-    width: '40px',
-    height: '40px',
-    borderRadius: '20%',
+    width: '48px',
+    height: '48px',
+    borderRadius: '12px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    border: ativo ? '1px solid rgba(255, 107, 26, 0.6)' : '1px solid transparent',
-    background: ativo ? 'rgba(255, 107, 26, 0.18)' : 'transparent',
-    color: ativo ? '#ff6b1a' : 'rgba(255, 255, 255, 0.55)',
+    border: ativo ? '1px solid rgba(255, 205, 95, 0.95)' : '1px solid rgba(216, 170, 68, 0.45)',
+    background: `${brilhoDouradoSuperior}, linear-gradient(135deg, rgba(40, 32, 16, 0.95), rgba(18, 15, 9, 0.95))`,
     cursor: 'pointer',
     transition: 'all 0.25s ease',
-    boxShadow: ativo ? '0 0 14px rgba(255, 107, 26, 0.35)' : 'none',
+    boxShadow: ativo
+      ? '0 0 18px rgba(255, 190, 60, 0.45), inset 0 0 10px rgba(255, 205, 90, 0.18), inset 0 1px 0 rgba(255, 230, 160, 0.25)'
+      : '0 0 8px rgba(255, 180, 60, 0.15), inset 0 1px 0 rgba(255, 220, 150, 0.12)',
     outline: 'none',
-    padding: 0
+    padding: 0,
+    position: 'relative',
+    overflow: 'hidden'
   })
+
+  // Hover dourado: brilho mais forte + leve aumento do botão
+  const ativarHoverNav = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.borderColor = 'rgba(255, 215, 110, 0.95)'
+    e.currentTarget.style.boxShadow =
+      '0 0 22px rgba(255, 190, 60, 0.55), inset 0 0 12px rgba(255, 205, 90, 0.22), inset 0 1px 0 rgba(255, 230, 160, 0.30)'
+    e.currentTarget.style.transform = 'scale(1.06)'
+  }
+  const desativarHoverNav = (e: React.MouseEvent<HTMLButtonElement>, ativo: boolean) => {
+    e.currentTarget.style.borderColor = ativo ? 'rgba(255, 205, 95, 0.95)' : 'rgba(216, 170, 68, 0.45)'
+    e.currentTarget.style.boxShadow = ativo
+      ? '0 0 18px rgba(255, 190, 60, 0.45), inset 0 0 10px rgba(255, 205, 90, 0.18), inset 0 1px 0 rgba(255, 230, 160, 0.25)'
+      : '0 0 8px rgba(255, 180, 60, 0.15), inset 0 1px 0 rgba(255, 220, 150, 0.12)'
+    e.currentTarget.style.transform = 'scale(1)'
+  }
 
   // Barra inferior aparece ao rolar ou quando a aba de pesquisa está ativa
   const mostrarNav = rolado || abaAtiva === 'pesquisa'
@@ -617,51 +638,45 @@ const estiloBotaoBase = (ativo: boolean): React.CSSProperties => ({
         {/* ══════════ BARRA DE NAVEGAÇÃO INFERIOR (3 ícones centralizados) ══════════ */}
         <nav style={{
           position: 'fixed', bottom: '18px', left: 0, right: 0, zIndex: 60,
-          display: 'flex', justifyContent: 'center',
+          display: 'flex', justifyContent: 'center', gap: '14px',
           pointerEvents: mostrarNav ? 'auto' : 'none',
           transition: 'transform 0.3s ease, opacity 0.3s ease',
           transform: mostrarNav ? 'translateY(0)' : 'translateY(140%)',
           opacity: mostrarNav ? 1 : 0
         }}>
-          <div style={{
-            display: 'flex',
-            gap: '12px',
-            background: 'rgba(15, 21, 32, 0.99)',
-            backdropFilter: 'blur(100px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(80px) saturate(180%)',
-            border: '1px solid rgba(255, 107, 26, 0.40)',
-            borderRadius: '10px',
-            padding: '8px 18px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15), inset 0 0px 10 rgba(255, 255, 255, 0.20)'
-          }}>
-            <button
-              type="button"
-              onClick={irParaHome}
-              title="Página inicial"
-              aria-label="Página inicial"
-              style={estiloNavBotao(abaAtiva === 'home')}
-            >
-              <Icones.Casa />
-            </button>
-            <button
-              type="button"
-              onClick={irParaPesquisa}
-              title="Pesquisa"
-              aria-label="Pesquisa"
-              style={estiloNavBotao(abaAtiva === 'pesquisa')}
-            >
-              <Icones.Lupa />
-            </button>
-            <button
-              type="button"
-              onClick={irParaContato}
-              title="Contato"
-              aria-label="Contato"
-              style={estiloNavBotao(false)}
-            >
-              <Icones.Email />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={irParaHome}
+            title="Página inicial"
+            aria-label="Página inicial"
+            style={estiloNavBotao(abaAtiva === 'home')}
+            onMouseEnter={ativarHoverNav}
+            onMouseLeave={(e) => desativarHoverNav(e, abaAtiva === 'home')}
+          >
+            <Icones.Casa />
+          </button>
+          <button
+            type="button"
+            onClick={irParaPesquisa}
+            title="Pesquisa"
+            aria-label="Pesquisa"
+            style={estiloNavBotao(abaAtiva === 'pesquisa')}
+            onMouseEnter={ativarHoverNav}
+            onMouseLeave={(e) => desativarHoverNav(e, abaAtiva === 'pesquisa')}
+          >
+            <Icones.Lupa />
+          </button>
+          <button
+            type="button"
+            onClick={irParaContato}
+            title="Contato"
+            aria-label="Contato"
+            style={estiloNavBotao(false)}
+            onMouseEnter={ativarHoverNav}
+            onMouseLeave={(e) => desativarHoverNav(e, false)}
+          >
+            <Icones.Email />
+          </button>
         </nav>
 
         <NovaTampinhaModal open={modalAberto} onClose={() => setModalAberto(false)} onSubmit={handleCadastro} />

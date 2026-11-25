@@ -93,6 +93,7 @@ export function bandeiraUrl(codigoPais: string | undefined): string | null {
   if (codigo === 'dk') return '/bandeiras/dinamarca.png'
   if (codigo === 'de') return '/bandeiras/alemanha.png'
   if (codigo === 'nl') return '/bandeiras/paises-baixos.png'
+  if (codigo === 'it') return '/bandeiras/italia.png'
   
   // ⏳ Ainda sem imagem local
   return null

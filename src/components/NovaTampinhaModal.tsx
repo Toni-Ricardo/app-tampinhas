@@ -3,6 +3,7 @@ import { bandeiraUrl } from '../lib/bandeiras'
 import { getSupabaseErrorMessage } from '../lib/supabaseError'
 import type { NovaTampinha, Origem } from '../types/tampinha'
 import { TampinhaCard } from './TampinhaCard'
+import LogoTR from './LogoTR'
 
 interface NovaTampinhaModalProps {
   open: boolean
@@ -292,31 +293,14 @@ export function NovaTampinhaModal({ open, onClose, onSubmit }: NovaTampinhaModal
           flexShrink: 0
         }}>
           <div style={{
-            position: 'relative',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             width: '40px',
             height: '40px',
-            flexShrink: 0,
-            border: '1px solid var(--cyber-border-light)',
-            background: 'rgba(0, 0, 0, 0.4)',
-            borderRadius: '8px',
-            overflow: 'hidden'
+            flexShrink: 0
           }}>
-            <img 
-              src="/logo.png" 
-              alt="Logo" 
-              style={{
-                height: '75%',
-                width: '75%',
-                objectFit: 'contain',
-                filter: 'brightness(1.1)'
-              }}
-              onError={(e) => {
-                e.currentTarget.style.display = 'none'
-              }}
-            />
+            <LogoTR size={38} />
           </div>
           <div style={{ flex: 1 }}>
             <h2 style={{

@@ -1,17 +1,17 @@
-export default function LogoTR() {
+export default function LogoTR({ size = 56 }: { size?: number }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 743 743"
-      width="56"
-      height="56"
+      width={size}
+      height={size}
       shapeRendering="geometricPrecision"
       textRendering="geometricPrecision"
       imageRendering="crispEdges"
       style={{
         display: 'block',
-        width: '56px',
-        height: '56px',
+        width: `${size}px`,
+        height: `${size}px`,
         transform: 'translateZ(0)',
         backfaceVisibility: 'hidden',
         WebkitFontSmoothing: 'antialiased',
